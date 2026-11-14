@@ -20,7 +20,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | Step | What changed | Commit |
 |---|---|---|
 | 0 | Discovery docs: PRD, PARITY, ARCHITECTURE, DATA_MODEL, DECISIONS | df000d1 |
-| 1.1 | Workspace root config (pnpm, TS 6 strict, prettier) + `packages/shared`: money (integer cents), Asia/Colombo dates, plate/phone normalisation, RBAC map; 58 tests | (next) |
+| 1.1 | Workspace root config (pnpm, TS 6 strict, prettier) + `packages/shared`: money (integer cents), Asia/Colombo dates, plate/phone normalisation, RBAC map; 58 tests | 03d5434 |
+| 1.2 | API skeleton: zod env (demo- project guard), AppError codes, validation helper, health route, helmet/CORS/rate limit, pino redaction; 9 tests | (next) |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)
 - Mitts and Power/Water faults never triggered the WhatsApp alert (status string mismatch).

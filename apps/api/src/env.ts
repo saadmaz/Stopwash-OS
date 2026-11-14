@@ -9,6 +9,9 @@ const EnvSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']).default('info'),
   LOG_PRETTY: bool.default(false),
 
+  /** memory (default, dev/tests) or firestore (stub until Firebase is configured). */
+  DATA_BACKEND: z.enum(['memory', 'firestore']).default('memory'),
+
   FIREBASE_PROJECT_ID: z.string().min(1).default('demo-stopwash'),
   /** Set when running against the Emulator Suite, e.g. "127.0.0.1:8081". */
   FIRESTORE_EMULATOR_HOST: z.string().optional(),

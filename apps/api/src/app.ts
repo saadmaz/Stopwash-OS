@@ -5,15 +5,23 @@ import Fastify, { type FastifyInstance } from 'fastify';
 import { randomUUID } from 'node:crypto';
 import { corsOrigins, type Env } from './env';
 import { AppError, isAppError } from './lib/errors';
+import { NotImplementedError } from './lib/not-implemented';
 import { healthRoutes } from './routes/health';
+import { createDataStore, type DataStore } from './repos';
 
 export interface BuildOptions {
   env: Env;
+  /** Storage backend; defaults to the one selected by DATA_BACKEND. */
+  store?: DataStore;
   /** Extra route plugins (tests use this to mount fakes). */
   plugins?: Array<(app: FastifyInstance) => Promise<void>>;
 }
 
-export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<FastifyInstance> {
+export async function buildApp({
+  env,
+  store,
+  plugins = [],
+}: BuildOptions): Promise<FastifyInstance> {
   const app = Fastify({
     logger:
       env.LOG_LEVEL === 'silent'
@@ -38,6 +46,7 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
   });
 
   app.decorate('env', env);
+  app.decorate('store', store ?? createDataStore(env));
 
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cors, {
@@ -69,6 +78,10 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
   });
 
   app.setErrorHandler((err, req, reply) => {
+    if (err instanceof NotImplementedError) {
+      req.log.warn({ err }, err.message);
+      return reply.status(501).send({ error: { code: 'NOT_IMPLEMENTED', message: err.message } });
+    }
     if (isAppError(err)) {
       if (err.statusCode >= 500) req.log.error({ err }, err.message);
       else req.log.info({ code: err.code }, err.message);
@@ -95,5 +108,6 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
 declare module 'fastify' {
   interface FastifyInstance {
     env: Env;
+    store: DataStore;
   }
 }

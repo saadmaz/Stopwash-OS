@@ -1,7 +1,7 @@
 import {
+  denominationTotal,
   formatLKR,
   multiply,
-  sum,
   toRupeesString,
   tryParseRupees,
   type Cents,
@@ -148,12 +148,9 @@ export interface DenominationCount {
   coinsCents: Cents;
 }
 
-export function countTotal(denominations: readonly Cents[], count: DenominationCount): Cents {
-  return sum([
-    ...denominations.map((d) => multiply(d, count.notes[String(d)] ?? 0)),
-    count.coinsCents,
-  ]);
-}
+/** Same maths as the API (shared). */
+export const countTotal = (denominations: readonly Cents[], count: DenominationCount): Cents =>
+  denominationTotal(denominations, count);
 
 export interface DenominationCounterProps {
   denominations: readonly Cents[];

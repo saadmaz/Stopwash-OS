@@ -27,6 +27,7 @@ export interface StaffTile {
   initials: string;
   /** System role, so the counter can offer only managers as approvers. */
   role: string | null;
+  canOpenShift: boolean;
 }
 
 /** Staff who may sign in on this device's location (for the PIN pad). */
@@ -51,6 +52,7 @@ export async function staffForDevice(
       jobTitle: e.jobTitle,
       initials: initials(e.name),
       role: e.systemRole,
+      canOpenShift: e.canOpenShift || e.systemRole === 'manager' || e.systemRole === 'owner',
     }));
 }
 

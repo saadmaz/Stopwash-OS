@@ -24,6 +24,11 @@ const EnvSchema = z.object({
   DEFAULT_BRAND_ID: z.string().default('stopwash'),
 
   /** dev = signed JWT (AUTH_DEV_SECRET); firebase = custom tokens (stub until configured). */
+  /** Seed demo data into the in-memory store on start (development only). */
+  DEV_SEED: bool.default(true),
+  DEV_DEVICE_ID: z.string().default('dev-counter'),
+  DEV_DEVICE_SECRET: z.string().min(16).default('dev-counter-secret-change-me'),
+
   AUTH_ISSUER: z.enum(['dev', 'firebase']).default('dev'),
   AUTH_DEV_SECRET: z.string().min(32).optional(),
 

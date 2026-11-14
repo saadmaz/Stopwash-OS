@@ -3,8 +3,10 @@
 > A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
 ## Current state
-- **Working mode:** small steps (about 300 lines or fewer), one commit + push per step. Plan in the step log below.
-- **Next step:** see the last line of the step log.
+- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config API + settings screens).
+- **Next:** Phase 4, step 4.1 (pricing engine in shared). The last line of the step log is always the latest step.
+- **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
+- **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
 - **Figma:** not connected (checked 2026-11-15: no Figma MCP tools in the session). Check again at Phase F.
 
@@ -40,7 +42,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 3.3 | Audit service: audit() writes inside the caller's transaction (who/what/when/before/after/reason/request/device), secrets redacted, listAudit with filters + paging; request Actor/Ctx types; time-sortable ids; 5 tests | c829217 |
 | 3.5 | RBAC middleware: guard(...permissions) preHandler (bearer verify → request Ctx, shared permission map), ctxOf, assertLocation/resolveLocation; GET /me (actor + permissions); 10 tests incl. role matrix and segregation of duties | 0cd9c6f |
 | 3.7 | PIN sign-in screen: device registration form, staff tiles, PinPad → /auth/pin, translated error codes (EN/SI/TA), tab-scoped session persistence, API client (bearer, idempotency header, ApiError), TanStack Query; app gated on sign-in (dev user removed); 3 tests | bc80b28 |
-| 3.9 | Dev seed for the in-memory backend (dev only): Katubedda location, defaults, counter device, staff for every role with dev PINs, logged on start; smoke-tested health → PIN sign-in → /config over HTTP; 1 test | (next) |
+| 3.9 | Dev seed for the in-memory backend (dev only): Katubedda location, defaults, counter device, staff for every role with dev PINs, logged on start; smoke-tested health → PIN sign-in → /config over HTTP; 1 test | 25ff2a7 |
+| 3.10 | Docs: PARITY statuses for Phase 1–3 work (32 rows), PROGRESS current state with local run instructions and dev credentials, known issues | (next) |
 | 3.8c | Settings screen (part 3): cash category editor (expense/deposit, next E/D code, active toggle) and pre-shift checklist editor (stock/equipment), EN/SI/TA; 1 test | 3406b78 |
 | 3.8b | Settings screen (part 2): Services & prices tab, catalog table grouped by kind, add/edit dialog (names EN/SI/TA, price in rupees → cents, max qty, active toggle; code/kind locked after creation); 2 tests | dfdc132 |
 | 3.8a | Settings screen (part 1): Tabs component, useConfig/useSaveSettings, General form (daily target, variance 500/2000 thresholds, cash-out approval, discount override, receipt footer, WhatsApp numbers normalised to +94) with RHF + Zod, rupees in / cents out, EN/SI/TA; 2 tests | cae54e6 |
@@ -73,4 +76,5 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 - Real logo files and photography (the website itself still uses a text wordmark and placeholder images).
 
 ## Known issues
-- None yet.
+- The web app ships as one large chunk (Vite warns about chunk size). Route-level code splitting is planned for the Phase 9 performance step.
+- Without `AUTH_DEV_SECRET`, the API picks a random signing secret at start, so a restart signs everyone out (a warning is logged).

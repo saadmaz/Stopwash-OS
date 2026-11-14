@@ -11,27 +11,27 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where (old) | New home | Status | Notes |
 |---|---|---|---|---|---|
-| A1 | Three shared 4-digit passcodes decide role: Supervisor 5252 → EMPLOYEE, HR 6225 → HR, Accounts 0706 → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | TODO | CHANGED: shared passcodes are compromised and give no individual accountability. D-004, D-005 |
-| A2 | Role kept in `sessionStorage.swPasscode` across refresh | 3569, 4290 | Firebase Auth session persistence + custom claims | TODO | |
-| A3 | Anonymous Firebase auth; `userId` is a device id | 4283 | Real user identity (uid + employeeId) on every write | TODO | CHANGED: audit log now names the person |
-| A4 | "Switch" user button with confirm, clears role and session id | `logoutUser` 3672 | Header "Switch user" → PIN pad (keeps device registered) | TODO | |
-| A5 | Role-based UI: HR sees analytics, HR menus, quick actions; ACCOUNTS sees only EOD dashboard; EMPLOYEE sees order form + queue | `updateUIVisibilityByRole` 3601 | RBAC permission map in `packages/shared`; nav and routes filtered by permission; API + rules enforce | TODO | Roles map: EMPLOYEE→cashier, HR→owner/manager, ACCOUNTS→accounts. D-006 |
+| A1 | Three shared 4-digit passcodes decide role: Supervisor 5252 → EMPLOYEE, HR 6225 → HR, Accounts 0706 → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | WIP | CHANGED: shared passcodes are compromised and give no individual accountability. D-004, D-005 |
+| A2 | Role kept in `sessionStorage.swPasscode` across refresh | 3569, 4290 | Firebase Auth session persistence + custom claims | DONE | |
+| A3 | Anonymous Firebase auth; `userId` is a device id | 4283 | Real user identity (uid + employeeId) on every write | DONE | CHANGED: audit log now names the person |
+| A4 | "Switch" user button with confirm, clears role and session id | `logoutUser` 3672 | Header "Switch user" → PIN pad (keeps device registered) | DONE | |
+| A5 | Role-based UI: HR sees analytics, HR menus, quick actions; ACCOUNTS sees only EOD dashboard; EMPLOYEE sees order form + queue | `updateUIVisibilityByRole` 3601 | RBAC permission map in `packages/shared`; nav and routes filtered by permission; API + rules enforce | DONE | Roles map: EMPLOYEE→cashier, HR→owner/manager, ACCOUNTS→accounts. D-006 |
 | A6 | `checkHRAuth()` prompts for HR passcode to unlock HR features mid-session | 5710 | "Manager override" dialog: manager PIN re-auth that grants one action (step-up) | TODO | CHANGED: one-time elevation, not session-wide |
 | A7 | Supervisor passcode prompt to edit/delete session history, clear all history | `editSession` 7074, `deleteSession` 7406, `clearAllHistory` 7361 | Manager/owner permission + reason required; corrections as reversing entries | TODO | CHANGED: no delete of financial history. D-008 |
 | A8 | Resume session modal: finds OPEN session (localStorage id first, else newest OPEN) and offers Resume / Start new anyway (warning) | `updateStaffDropdowns` 6420, `resumeExistingSession` 6517, `startNewShiftAnyway` 6547 | Shift context loads the location's open shift from Firestore; only one open shift per location (API enforces); "Resume" is automatic | TODO | CHANGED: "start new anyway" removed because it caused double-open shifts; manager can force-close instead |
 | A9 | Supervisor login goes to stock checker first; HR/ACCOUNTS bypass | 3569 | Cashier with no open shift → Open Shift wizard (checklist → count → start); managers land on dashboard | TODO | |
-| A10 | Employee "can open/close shifts" flag; supervisor list = canOpenShift or role Manager/Supervisor/HR | 6420 | `employees.canOpenShift` + permission `shift.open` | TODO | |
+| A10 | Employee "can open/close shifts" flag; supervisor list = canOpenShift or role Manager/Supervisor/HR | 6420 | `employees.canOpenShift` + permission `shift.open` | WIP | |
 
 ## 2. Pre-shift checklist & stock
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| S1 | Stock items: Shampoo, Tyre Shine, Glass Cleaner, Air Freshener, Wiper Fluid → HIGH ("Have Stock") / LOW ("Running Low") | 3741, 3796 | Configurable `stockItems` list in settings; checklist step 1 | TODO | CHANGED: items configurable |
-| S2 | Equipment: Vacuum (Working/Faulty), Pressure Gun (Working/Faulty), Mitts & Cloths (Clean/Need wash), Power & Water (Stable/Issues) | `selectEquip` 4811 | Configurable `equipmentItems` with ok/fault labels; checklist step 2 | TODO | |
+| S1 | Stock items: Shampoo, Tyre Shine, Glass Cleaner, Air Freshener, Wiper Fluid → HIGH ("Have Stock") / LOW ("Running Low") | 3741, 3796 | Configurable `stockItems` list in settings; checklist step 1 | WIP | CHANGED: items configurable |
+| S2 | Equipment: Vacuum (Working/Faulty), Pressure Gun (Working/Faulty), Mitts & Cloths (Clean/Need wash), Power & Water (Stable/Issues) | `selectEquip` 4811 | Configurable `equipmentItems` with ok/fault labels; checklist step 2 | WIP | |
 | S3 | "Mark all in stock" button | `markAllStockHigh` 4795 | "All good" button on each checklist step | TODO | |
 | S4 | Saves stock levels to `settings/stockLevels` (merge) with lastUpdated | 4875 | `checklists` (append-only) + derived `stockStatus` doc updated by API | TODO | |
-| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | TODO | Hardcoded number removed. D-011 |
-| S6 | Faulty equipment → separate "EQUIPMENT FAILURE ALERT" WhatsApp message | 4875 | Same, config numbers | TODO | BUG FIXED: old code only checked `=== 'FAULTY'`, so Mitts ("LOW") and Utilities ("ISSUE") never triggered the alert |
+| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | WIP | Hardcoded number removed. D-011 |
+| S6 | Faulty equipment → separate "EQUIPMENT FAILURE ALERT" WhatsApp message | 4875 | Same, config numbers | WIP | BUG FIXED: old code only checked `=== 'FAULTY'`, so Mitts ("LOW") and Utilities ("ISSUE") never triggered the alert |
 | S7 | Request-stock mode from nav mid-shift: same modal, sends "STOCK REQUEST" WhatsApp, requires at least one LOW | `showStockChecker('REQUEST')` 3766 | "Request stock" sheet in Inventory | TODO | |
 | S8 | Red "Running low: …" banner on dashboard from live stock doc | `startStockListener` 8322 | Low-stock banner + real-time toast (premium) | TODO | |
 
@@ -40,20 +40,20 @@ Line numbers refer to `SWOMS2.5.html`.
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
 | H1 | Start shift: live clock, select staff (supervisors), carryover notes | `confirmStartShift` 5200 | Open Shift wizard step 3 | TODO | |
-| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | TODO | CHANGED: LKR 2000 note added to defaults (legal tender). D-013 |
-| H3 | Opening total auto-calculated, per-denomination subtotal shown | 4853 | Same, integer cents | TODO | |
+| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | WIP | CHANGED: LKR 2000 note added to defaults (legal tender). D-013 |
+| H3 | Opening total auto-calculated, per-denomination subtotal shown | 4853 | Same, integer cents | WIP | |
 | H4 | Session doc: startTime, openingBalance, staffName, shiftType LIVE, carryoverNotes, status OPEN, denominations | 5200 | `shifts` doc via API `POST /shifts` (transaction, idempotent) | TODO | |
 | H5 | Audit log CREATE/SESSION on open | 5200 | Audit log `shift.open` | TODO | |
-| H6 | Duplicate `calculateOpeningBalance` definitions (second overrides first) | 4853, 5178 | Single tested function in `packages/shared` | TODO | |
+| H6 | Duplicate `calculateOpeningBalance` definitions (second overrides first) | 4853, 5178 | Single tested function in `packages/shared` | DONE | |
 
 ## 4. Orders & queue
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
 | O1 | Plate (required, uppercased), phone, name (optional; stored as 'N/A' when empty) | `addOrder` 8851 | New Order screen; empty → null (not 'N/A') | TODO | |
-| O2 | Vehicle size: BIKE 500 / SMALL 750 / MEDIUM 1000 / LARGE 1250 (hardcoded) | `PRICES` 3381 | Configurable vehicle classes in `catalog` | TODO | Seeded with the same prices |
-| O3 | Add-ons (flat, on/off): Wax 250, Vacuum add-on 250 | `PRICES.addons` | Catalog items `kind: addon`, qty stepper (max 1 by default) | TODO | Old README lists only products; source has both. Both kept |
-| O4 | Products (per unit, qty): Air Freshener 500, Int. Vacuum product 500, Wiper Fluid 250 | `PRICES.products` | Catalog items `kind: product`, steppers | TODO | |
+| O2 | Vehicle size: BIKE 500 / SMALL 750 / MEDIUM 1000 / LARGE 1250 (hardcoded) | `PRICES` 3381 | Configurable vehicle classes in `catalog` | WIP | Seeded with the same prices |
+| O3 | Add-ons (flat, on/off): Wax 250, Vacuum add-on 250 | `PRICES.addons` | Catalog items `kind: addon`, qty stepper (max 1 by default) | WIP | Old README lists only products; source has both. Both kept |
+| O4 | Products (per unit, qty): Air Freshener 500, Int. Vacuum product 500, Wiper Fluid 250 | `PRICES.products` | Catalog items `kind: product`, steppers | WIP | |
 | O5 | Selecting a size opens add-ons modal | `handleSizeSelection` 3975 | Add-ons shown inline beside class tiles (no modal, faster) | TODO | CHANGED for speed |
 | O6 | Order valid if plate + (size or ≥1 product); add-on alone is not enough | `calculateTotal` 4233, `addOrder` | Same rule in shared Zod schema | TODO | |
 | O7 | Price = size + add-ons + Σ product×qty; qty defaults 1 | `calculateTotal`, `calculateBreakdown` 3890 | `priceOrder()` in shared, recomputed on API (client total ignored) | TODO | |
@@ -63,7 +63,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | O11 | Returning-customer badge when plate seen before | README §8.3 | Badge + visit count + last service on plate entry | TODO | |
 | O12 | Live queue: real-time listener of ALL orders, QUEUED first then newest | `startOrderListener` 8252 | Queue scoped to location + business day (+ open older QUEUED), real-time | TODO | CHANGED: no full-collection listener (performance) |
 | O13 | Search across plate, name, phone | `renderOrders` 8350 | Search box (Ctrl/⌘+K and `/`) | TODO | |
-| O14 | Pagination 10/page with numbered pages, ellipsis, "Showing x to y of z" | 8350, 8522–8550 | Paginated table (desktop) / card list (mobile) | TODO | |
+| O14 | Pagination 10/page with numbered pages, ellipsis, "Showing x to y of z" | 8350, 8522–8550 | Paginated table (desktop) / card list (mobile) | WIP | |
 | O15 | Daily target progress (DAILY_TARGET=15), counts COMPLETED orders completed today; bar colour red <5, orange <10, green ≥10 | `renderOrders` | Target progress, target from settings; colour thresholds as % of target | TODO | CHANGED: thresholds scale with target |
 | O16 | Row shows date/time, plate, phone, services string, price, discount note, status badge, payment info, actions | `renderOrders` | Queue card/row | TODO | |
 | O17 | Status values in use: QUEUED, COMPLETED, CANCELLED (filtered in analytics) | various | QUEUED → IN_PROGRESS → READY → COMPLETED; CANCELLED with reason | TODO | CHANGED: richer flow for bay board. D-015 |
@@ -94,7 +94,7 @@ Line numbers refer to `SWOMS2.5.html`.
 |---|---|---|---|---|---|
 | C1 | Requires an active session | `showCashOutModal` 7456 | Requires open shift | TODO | |
 | C2 | Type EXPENSE or DEPOSIT; labels change ("Paid To (Vendor/Staff)" vs "Deposited By / Handed To") | `setCashOutType` 7603 | Same | TODO | |
-| C3 | Categories with codes: E001 Cleaning Supplies, E002 Equipment Repairs, E003 Utility top-up, E004 Staff Meals, E005 Transport/Delivery, E006 Minor Site Fixes, E007 Miscellaneous; D001 Bank Deposit, D002 Owner Withdrawal, D003 Safe Drop | 7406 `CASH_OUT_CATEGORIES` | Configurable categories (seeded with these) | TODO | |
+| C3 | Categories with codes: E001 Cleaning Supplies, E002 Equipment Repairs, E003 Utility top-up, E004 Staff Meals, E005 Transport/Delivery, E006 Minor Site Fixes, E007 Miscellaneous; D001 Bank Deposit, D002 Owner Withdrawal, D003 Safe Drop | 7406 `CASH_OUT_CATEGORIES` | Configurable categories (seeded with these) | WIP | |
 | C4 | Amount > 0, category, paidTo required; description optional | `validateCashOut` 7667 | Zod | TODO | |
 | C5 | Manager approval select + PIN verify UI exists but `approvedBy` is always saved as "N/A" | `verifyCashOutApproval` 7633, `saveCashOut` 7687 | Manager PIN approval required above configurable amount; approver stored | TODO | BUG FIXED |
 | C6 | HR can backdate (createdAt, sessionId null) | 7687 | Manager back-dated entry to a chosen shift, with reason | TODO | |
@@ -111,8 +111,8 @@ Line numbers refer to `SWOMS2.5.html`.
 | R3 | Expected = opening + cash sales − expenses − deposits | 5348 | `expectedCash()` in shared, tested | TODO | |
 | R4 | Closing denomination count → physical total | `calculateClosingBalance` 5268 | Same component | TODO | |
 | R5 | Variance = physical − expected; label Matched (<1), Shortage (<0), Overage (>0), coloured box | `calculateVariance` 5323 | Same; exact 0 = Matched (integer cents) | TODO | |
-| R6 | |variance| > 500 → explanation mandatory | `finalizeCloseShift` 5547 | Threshold from settings (default LKR 500) | TODO | |
-| R7 | |variance| > 2000 → supervisor passcode override required | 5547 | Second threshold from settings (default LKR 2,000) → manager PIN override, override recorded | TODO | Not in old README; found in source |
+| R6 | |variance| > 500 → explanation mandatory | `finalizeCloseShift` 5547 | Threshold from settings (default LKR 500) | WIP | |
+| R7 | |variance| > 2000 → supervisor passcode override required | 5547 | Second threshold from settings (default LKR 2,000) → manager PIN override, override recorded | WIP | Not in old README; found in source |
 | R8 | Handover: incoming manager selects name + PIN → "Verified by" | `verifyHandover` 5283 | Incoming manager PIN verification via API (hashed PIN, rate-limited) | TODO | Old compared plain-text PIN client-side |
 | R9 | Close blocked without handover verification; confirm dialog | 5547 | Same | TODO | |
 | R10 | Close writes endTime, closingBalance, expectedBalance, variance, cash/card/total sales, totalExpenses, totalDeposits, vehicleCount, closingNotes, handoverManager, closingDenominations, status CLOSED | 5547 | `shiftCloses` append-only record + shift status CLOSED (API transaction) | TODO | |
@@ -170,9 +170,9 @@ Line numbers refer to `SWOMS2.5.html`.
 |---|---|---|---|---|---|
 | PY1 | Month + year selector | `showPayrollModal` 6555 | Period picker | TODO | |
 | PY2 | Shop daily count = COMPLETED orders per calendar day (date taken from ISO string prefix = UTC date) | 6566 | Count by `businessDate` in Asia/Colombo | TODO | BUG FIXED: UTC date put orders after 18:30 SL time on the wrong day |
-| PY3 | Weekend = Sat/Sun | `isWeekend` | Configurable weekend days (default Sat, Sun) | TODO | |
+| PY3 | Weekend = Sat/Sun | `isWeekend` | Configurable weekend days (default Sat, Sun) | WIP | |
 | PY4 | Per day: highest tier whose target ≤ daily count gives that tier's bonus (not cumulative) | 6566 | `dailyIncentive()` in shared, tested | TODO | |
-| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | TODO | D-017 |
+| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | WIP | D-017 |
 | PY6 | Net = base + bonus + bonus adjustments + recurring addition − (one-off deductions + recurring deduction); recurring skipped if month exempt | 6566 | `computePayslip()` in shared, tested | TODO | |
 | PY7 | Grand total of all net pay | 6566 | Run total | TODO | |
 | PY8 | Bonus breakdown modal: date, count, tier, bonus | `showBonusBreakdown` 6836 | Payslip detail | TODO | |
@@ -180,7 +180,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | PY10 | Salary slip PDF: navy header, employee, code, role, period, base, itemised bonus by date, deductions, adjustments, net; `SalarySlip_{name}_{month}.pdf`; audit | `generateSalarySlip` 6895 | Salary slip PDF from a finalized payroll run | TODO | |
 | PY11 | "Process all payroll" button only shows an alert and reloads (not implemented) | `processAllPayroll` 7042 | Finalize payroll run (append-only snapshot) + bulk slips ZIP | TODO | Implemented properly |
 | PY12 | Payroll is recalculated live every time (no stored run) | 6566 | Draft preview → Finalize → immutable `payrollRuns`; corrections = supplementary run | TODO | CHANGED. D-018 |
-| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | TODO | New, configurable. D-019 |
+| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | WIP | New, configurable. D-019 |
 
 ## 13. Leave
 
@@ -227,29 +227,29 @@ Line numbers refer to `SWOMS2.5.html`.
 | IN1 | New invoice: customer name, address (autocomplete from `invoice_customers` + orders), date, number (starts 55100), line items (desc, qty, unit), discount, paid/unpaid | 9595–9903 | Invoices page | TODO | |
 | IN2 | Saves `invoice_customers` (name, address) if new/changed | `saveCustomerIfNeeded` 9889 | `billingCustomers` | TODO | |
 | IN3 | History: reprint, re-edit, toggle paid, delete | 9653–9762 | Reprint; "void + reissue" instead of edit/delete; payments recorded as settlements | TODO | CHANGED: append-only |
-| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | TODO | |
+| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | WIP | |
 | IN5 | PDF via html2canvas → jsPDF | 9903 | Vector PDF (pdf-lib / jsPDF text) | TODO | |
-| IN6 | `nextNumber` default 55100 | 9606 | Counter seeded from settings | TODO | |
+| IN6 | `nextNumber` default 55100 | 9606 | Counter seeded from settings | WIP | |
 
 ## 18. Audit trail
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| AU1 | `logAuditAction(action, category, targetId, before, after, reason)` writes timestamp, userId, userRole | 2981 | API writes audit in the same transaction as the change | TODO | |
+| AU1 | `logAuditAction(action, category, targetId, before, after, reason)` writes timestamp, userId, userRole | 2981 | API writes audit in the same transaction as the change | WIP | |
 | AU2 | Viewer: filter by action and date; latest 100; colour by action | `loadAuditLogs` 6011 | Audit page: filter by actor, entity, action, date; paginated; before/after diff | TODO | |
-| AU3 | Many writes were NOT audited (order create/pay/edit, employee save/delete, leave, rules) | various | Every write that matters audited | TODO | Gap closed |
+| AU3 | Many writes were NOT audited (order create/pay/edit, employee save/delete, leave, rules) | various | Every write that matters audited | WIP | Gap closed |
 
 ## 19. Platform & UX
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| X1 | EN / Sinhala / Tamil switch in header, saved in localStorage `sw_lang`; 33 translated elements | 3494 | i18next, every string, Noto Sans Sinhala / Tamil fonts | TODO | |
-| X2 | Tailwind, Inter; navy `#001828` header/nav | — | Brand tokens from website (lime/navy/ink, Space Grotesk + Inter) | TODO | |
-| X3 | Mobile slide-out nav; table → cards on mobile | 9 | Responsive shell | TODO | |
-| X4 | iOS input zoom fix (16px inputs ≤768px) | README §17 | Base font 16px on inputs | TODO | |
+| X1 | EN / Sinhala / Tamil switch in header, saved in localStorage `sw_lang`; 33 translated elements | 3494 | i18next, every string, Noto Sans Sinhala / Tamil fonts | WIP | |
+| X2 | Tailwind, Inter; navy `#001828` header/nav | — | Brand tokens from website (lime/navy/ink, Space Grotesk + Inter) | DONE | |
+| X3 | Mobile slide-out nav; table → cards on mobile | 9 | Responsive shell | DONE | |
+| X4 | iOS input zoom fix (16px inputs ≤768px) | README §17 | Base font 16px on inputs | DONE | |
 | X5 | Requires internet for everything | — | PWA + Firestore offline persistence + queued order writes | TODO | |
 | X6 | `parseFlexibleDate` handles ISO, Date, Timestamp, `YYYY-MM-DDTHH:MM` local, `DD/MM/YYYY` | 2911 | Legacy importer uses equivalent parser (tested) | TODO | |
-| X7 | `getSLDate` Asia/Colombo date | 3381 | `businessDate()` in shared | TODO | |
+| X7 | `getSLDate` Asia/Colombo date | 3381 | `businessDate()` in shared | DONE | |
 | X8 | `getEffectiveEndTime`: open session ends now; past-day open session ends 23:59:59 that day | 2947 | Stale-shift detection on Shifts page | TODO | |
 | X9 | Invoice settings loaded on auth | 4283 | Settings query | TODO | |
 | X10 | `open_flow_state` vestigial key | 5200 | — | DROPPED | Dead code |

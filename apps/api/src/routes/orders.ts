@@ -1,6 +1,7 @@
 import { can, CheckoutInput, CreateOrderInput, DateKeyField, OrderStatus } from '@stopwash/shared';
 import { checkout, quoteOrder } from '../services/checkout';
 import { getSettings } from '../services/config';
+import { editOrder, EditOrderInput, refundOrder } from '../services/order-changes';
 import { eq } from '../repos';
 import { assertLocation } from '../lib/guard';
 import { verifyOverride } from '../services/override';
@@ -149,5 +150,29 @@ export async function orderRoutes(app: FastifyInstance): Promise<void> {
       getSettings(app.store, ctx.actor.brandId, order.locationId),
     ]);
     return { order, payments, business: settings.business, footer: settings.receipt.footer };
+  });
+
+  app.patch('/orders/:id', { preHandler: guard('order.update') }, async (req) => {
+    const ctx = ctxOf(req);
+    const key = idempotencyKeyOf(req);
+    const body = validate(EditOrderInput, req.body);
+    const { id } = req.params as { id: string };
+    const route = 'PATCH /orders/' + id;
+    return (
+      await idempotent(app.store, ctx, route, key, req.body, (tx) => editOrder(tx, ctx, id, body))
+    ).result;
+  });
+
+  app.post('/orders/:id/refund', { preHandler: guard('order.refund') }, async (req) => {
+    const ctx = ctxOf(req);
+    const key = idempotencyKeyOf(req);
+    const { reason } = validate(z.object({ reason: z.string().trim().min(1).max(200) }), req.body);
+    const { id } = req.params as { id: string };
+    const route = 'POST /orders/' + id + '/refund';
+    return (
+      await idempotent(app.store, ctx, route, key, req.body, (tx) =>
+        refundOrder(tx, ctx, id, reason),
+      )
+    ).result;
   });
 }

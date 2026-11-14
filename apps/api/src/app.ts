@@ -10,6 +10,7 @@ import { healthRoutes } from './routes/health';
 import { authRoutes } from './routes/auth';
 import { meRoutes } from './routes/me';
 import { configRoutes } from './routes/config';
+import { adminConfigRoutes } from './routes/admin-config';
 import { createTokenIssuer, type AuthTokenIssuer } from './services/tokens';
 import { createDataStore, type DataStore } from './repos';
 
@@ -110,6 +111,7 @@ export async function buildApp({
   await app.register(authRoutes);
   await app.register(meRoutes);
   await app.register(configRoutes);
+  await app.register(adminConfigRoutes);
   for (const plugin of plugins) await app.register(plugin);
 
   return app;

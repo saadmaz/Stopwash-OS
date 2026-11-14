@@ -55,6 +55,29 @@ export async function checkout(
   if (!shift || shift.status !== 'OPEN')
     throw new AppError('SHIFT_NOT_OPEN', 'Open a shift before taking payments');
 
+  const { priced, settings, vehicle, loyalty } = await quoteOrder(
+    tx,
+    ctx,
+    order,
+    input.discountCents,
+  );
+  if (input.discountCents > 0 && !input.discountReason) {
+    throw new AppError('VALIDATION_FAILED', 'Give a reason for the discount');
+  }
+  if (
+    discountPercent(input.discountCents, priced.subtotalCents) >
+      settings.discount.overrideAbovePct &&
+    !approver
+  ) {
+    throw new AppError('OVERRIDE_REQUIRED', 'A manager needs to approve this discount', {
+      limitPct: settings.discount.overrideAbovePct,
+    });
+  }
+  return finish(tx, ctx, order, shift.id, input, approver, priced, vehicle, loyalty);
+}
+
+/** Exact server total for an open order (loyalty and tax included) without changing anything. */
+export async function quoteOrder(tx: Repositories, ctx: Ctx, order: Order, discountCents: number) {
   const settings = await getSettings(tx, ctx.actor.brandId, order.locationId);
   const catalog = await loadCatalog(tx, ctx.actor.brandId, order.locationId);
   // Re-price from the order's own snapshot so later price changes don't affect a queued car.
@@ -78,7 +101,7 @@ export async function checkout(
       catalog,
       order.lines.map((l) => ({ itemId: l.itemId, qty: l.qty })),
       {
-        discountCents: input.discountCents,
+        discountCents,
         loyaltyDiscountCents: loyalty,
         tax: settings.tax,
       },
@@ -86,18 +109,27 @@ export async function checkout(
   } catch (e) {
     asAppError(e);
   }
-  if (input.discountCents > 0 && !input.discountReason) {
-    throw new AppError('VALIDATION_FAILED', 'Give a reason for the discount');
-  }
-  if (
-    discountPercent(input.discountCents, priced.subtotalCents) >
-      settings.discount.overrideAbovePct &&
-    !approver
-  ) {
-    throw new AppError('OVERRIDE_REQUIRED', 'A manager needs to approve this discount', {
-      limitPct: settings.discount.overrideAbovePct,
-    });
-  }
+  return {
+    priced,
+    settings,
+    vehicle,
+    loyalty,
+    discountNeedsApproval:
+      discountPercent(discountCents, priced.subtotalCents) > settings.discount.overrideAbovePct,
+  };
+}
+
+async function finish(
+  tx: Repositories,
+  ctx: Ctx,
+  order: Order,
+  shiftId: string,
+  input: CheckoutInput,
+  approver: Employee | null,
+  priced: Awaited<ReturnType<typeof quoteOrder>>['priced'],
+  vehicle: Awaited<ReturnType<typeof quoteOrder>>['vehicle'],
+  loyalty: number,
+): Promise<CheckoutResult> {
   const tendered = sum(input.tenders.map((t) => t.amountCents));
   if (tendered !== priced.totalCents) {
     throw new AppError('TENDER_MISMATCH', 'Payments must add up to the total', {
@@ -120,7 +152,7 @@ export async function checkout(
         createdAt: at,
         createdBy: ctx.actor.id,
         orderId: order.id,
-        shiftId: shift.id,
+        shiftId,
         businessDate: day,
         method: t.method,
         amountCents: t.amountCents,
@@ -138,7 +170,7 @@ export async function checkout(
     taxCents: priced.taxCents,
     totalCents: priced.totalCents,
     paidCents: tendered,
-    shiftId: shift.id,
+    shiftId,
     completedAt: at,
     statusHistory: [...order.statusHistory, { status: 'COMPLETED', at, by: ctx.actor.id }],
     updatedAt: at,

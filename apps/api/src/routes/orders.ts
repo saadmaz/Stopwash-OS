@@ -1,5 +1,6 @@
 import { can, CheckoutInput, CreateOrderInput, DateKeyField, OrderStatus } from '@stopwash/shared';
-import { checkout } from '../services/checkout';
+import { checkout, quoteOrder } from '../services/checkout';
+import { assertLocation } from '../lib/guard';
 import { verifyOverride } from '../services/override';
 import { AppError } from '../lib/errors';
 import { listQueue, setOrderStatus } from '../services/queue';
@@ -20,6 +21,8 @@ const QueueQuery = z.object({
   page: z.coerce.number().int().positive().optional(),
   pageSize: z.coerce.number().int().positive().max(100).optional(),
 });
+
+const QuoteQuery = z.object({ discountCents: z.coerce.number().int().nonnegative().default(0) });
 
 const StatusBody = z.object({
   status: OrderStatus,
@@ -98,5 +101,36 @@ export async function orderRoutes(app: FastifyInstance): Promise<void> {
       checkout(tx, ctx, id, body, approver),
     );
     return result;
+  });
+
+  async function orderFor(req: Parameters<typeof ctxOf>[0]) {
+    const ctx = ctxOf(req);
+    const { id } = req.params as { id: string };
+    const order = await app.store.orders.get(id);
+    if (!order || order.brandId !== ctx.actor.brandId)
+      throw new AppError('NOT_FOUND', 'Order not found');
+    assertLocation(ctx, order.locationId);
+    return { ctx, order };
+  }
+
+  app.get(
+    '/orders/:id',
+    { preHandler: guard('order.read') },
+    async (req) => (await orderFor(req)).order,
+  );
+
+  /** Exact total to collect (loyalty, discount and tax applied) before taking payment. */
+  app.get('/orders/:id/quote', { preHandler: guard('order.checkout') }, async (req) => {
+    const { ctx, order } = await orderFor(req);
+    const { discountCents } = validate(QuoteQuery, req.query);
+    const q = await quoteOrder(app.store, ctx, order, discountCents);
+    return {
+      subtotalCents: q.priced.subtotalCents,
+      loyaltyDiscountCents: q.priced.loyaltyDiscountCents,
+      discountCents: q.priced.discountCents,
+      taxCents: q.priced.taxCents,
+      totalCents: q.priced.totalCents,
+      discountNeedsApproval: q.discountNeedsApproval,
+    };
   });
 }

@@ -151,3 +151,20 @@ describe('POST /orders/:id/checkout', () => {
     expect(second.order).toMatchObject({ loyaltyDiscountCents: 37500, totalCents: 62500 });
   });
 });
+
+describe('GET /orders/:id/quote', () => {
+  it('returns the exact amount to collect and whether approval is needed', async () => {
+    const { app, order } = await setup();
+    const o = await order();
+    const h = await authHeader(app, 'e1', '4826');
+    const q = await app.inject({ url: `/orders/${o.id}/quote?discountCents=50000`, headers: h });
+    expect(q.json()).toMatchObject({
+      subtotalCents: 100000,
+      discountCents: 50000,
+      totalCents: 50000,
+      discountNeedsApproval: true,
+    });
+    const single = await app.inject({ url: `/orders/${o.id}`, headers: h });
+    expect(single.json().id).toBe(o.id);
+  });
+});

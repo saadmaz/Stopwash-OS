@@ -9,6 +9,7 @@ import { AppError } from '../lib/errors';
 import { verifyOverride } from '../services/override';
 import { closeShift, CloseShiftInput, loadShift, shiftSummary } from '../services/shift-close';
 import { getSettings } from '../services/config';
+import { ApprovalInput, decideShift, listApprovals } from '../services/approvals';
 import { eq } from '../repos';
 
 const Loc = z.object({ locationId: z.string().optional() });
@@ -122,5 +123,28 @@ export async function shiftRoutes(app: FastifyInstance): Promise<void> {
       business: settings.business,
       denominations: settings.denominations,
     };
+  });
+
+  app.get('/approvals', { preHandler: guard('shift.read') }, async (req) => {
+    const ctx = ctxOf(req);
+    const q = validate(
+      z.object({
+        status: z.enum(['PENDING', 'APPROVED', 'ALL']).default('PENDING'),
+        locationId: z.string().optional(),
+      }),
+      req.query,
+    );
+    return listApprovals(app.store, ctx, q.status, q.locationId);
+  });
+
+  app.post('/shifts/:id/decision', { preHandler: guard('shift.approve') }, async (req) => {
+    const ctx = ctxOf(req);
+    const key = idempotencyKeyOf(req);
+    const body = validate(ApprovalInput, req.body);
+    const { id } = req.params as { id: string };
+    const route = 'POST /shifts/' + id + '/decision';
+    return (
+      await idempotent(app.store, ctx, route, key, req.body, (tx) => decideShift(tx, ctx, id, body))
+    ).result;
   });
 }

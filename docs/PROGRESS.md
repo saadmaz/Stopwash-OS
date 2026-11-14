@@ -30,7 +30,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 2.2 | Self-hosted variable fonts (Inter, Space Grotesk, Noto Sans Sinhala, Noto Sans Tamil, JetBrains Mono) via fontsource; font stacks fall back to Sinhala/Tamil | 862790d |
 | 2.3 | Button (variants, 44px+ sizes, loading, asChild), Badge (tones, dot), Input (sizes, leading/trailing), Label, Textarea, Field (a11y wiring); 6 tests | 28e1184 |
 | 2.4 | Select (options-driven, Field-compatible), Checkbox, Switch, RadioGroup (labelled), SegmentedControl (never empty); 4 tests | 6f8c6b3 |
-| 2.5 | Dialog (sizes, labelled, close), Sheet (right/left/bottom, sticky footer), Toaster/toast (sonner, themed), Tooltip; 3 tests | (next) |
+| 2.5 | Dialog (sizes, labelled, close), Sheet (right/left/bottom, sticky footer), Toaster/toast (sonner, themed), Tooltip; 3 tests | 6bf6eb9 |
+| 2.6 | Table primitives, Pagination (old pager shape via tested pageItems), EmptyState (empty/error/offline/denied), Skeleton, StatCard (delta, progress); 5 tests | (next) |
 | 1.6a | CI and runtime on Node 22 LTS (Node 20 is EOL; jsdom/undici 8 failed on it) | 6c34e8a |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)

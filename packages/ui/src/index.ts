@@ -7,3 +7,4 @@ export * from './components/select';
 export * from './components/choice';
 export * from './components/overlay';
 export * from './components/toast';
+export * from './components/data';

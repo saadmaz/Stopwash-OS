@@ -7,7 +7,7 @@ import {
   type Permission,
 } from '@stopwash/shared';
 import type { FastifyInstance } from 'fastify';
-import { z } from 'zod';
+import { type z } from 'zod';
 import { AppError } from '../lib/errors';
 import { ctxOf, guard, resolveLocation } from '../lib/guard';
 import { validate } from '../lib/validate';

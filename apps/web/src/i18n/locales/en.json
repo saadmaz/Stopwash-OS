@@ -207,6 +207,24 @@
     "customerName": "Customer name",
     "suggestions": "Suggestions",
     "returning_one": "Returning · {{count}} visit",
-    "returning_other": "Returning · {{count}} visits"
+    "returning_other": "Returning · {{count}} visits",
+    "vehicleClass": "Vehicle class",
+    "addons": "Add-ons",
+    "products": "Products",
+    "summary": "Order summary",
+    "pickService": "Pick a vehicle class or a product",
+    "addOrder": "Add order",
+    "clear": "Clear",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "created": "Ticket #{{ticket}} · {{plate}} added to the queue",
+    "pricing": {
+      "NO_BILLABLE_ITEM": "Add-ons need a vehicle class or a product",
+      "MULTIPLE_VEHICLE_CLASSES": "Choose one vehicle class",
+      "QTY_LIMIT": "Quantity is over the limit",
+      "UNKNOWN_ITEM": "An item is no longer available",
+      "INACTIVE_ITEM": "An item is no longer available",
+      "DISCOUNT_TOO_LARGE": "Discount is larger than the order"
+    }
   }
 }

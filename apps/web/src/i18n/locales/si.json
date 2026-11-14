@@ -207,6 +207,24 @@
     "customerName": "පාරිභෝගික නම",
     "suggestions": "යෝජනා",
     "returning_one": "නැවත පැමිණි · පැමිණීම් {{count}}",
-    "returning_other": "නැවත පැමිණි · පැමිණීම් {{count}}"
+    "returning_other": "නැවත පැමිණි · පැමිණීම් {{count}}",
+    "vehicleClass": "වාහන පන්තිය",
+    "addons": "අමතර සේවා",
+    "products": "නිෂ්පාදන",
+    "summary": "ඇණවුම් සාරාංශය",
+    "pickService": "වාහන පන්තියක් හෝ නිෂ්පාදනයක් තෝරන්න",
+    "addOrder": "ඇණවුම එක් කරන්න",
+    "clear": "හිස් කරන්න",
+    "decrease": "අඩු කරන්න",
+    "increase": "වැඩි කරන්න",
+    "created": "ටිකට් #{{ticket}} · {{plate}} පෝලිමට එක් කළා",
+    "pricing": {
+      "NO_BILLABLE_ITEM": "අමතර සේවා සඳහා වාහන පන්තියක් හෝ නිෂ්පාදනයක් අවශ්‍යයි",
+      "MULTIPLE_VEHICLE_CLASSES": "එක් වාහන පන්තියක් තෝරන්න",
+      "QTY_LIMIT": "ප්‍රමාණය සීමාව ඉක්මවයි",
+      "UNKNOWN_ITEM": "අයිතමයක් තවදුරටත් නොමැත",
+      "INACTIVE_ITEM": "අයිතමයක් තවදුරටත් නොමැත",
+      "DISCOUNT_TOO_LARGE": "වට්ටම ඇණවුමට වඩා වැඩියි"
+    }
   }
 }

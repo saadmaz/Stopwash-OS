@@ -129,5 +129,37 @@
     "CONFLICT": "මෙය දැනටමත් සිදු කර ඇත.",
     "NOT_IMPLEMENTED": "මෙම විශේෂාංගය තවම නැත.",
     "INTERNAL": "සේවාදායකයේ දෝෂයකි."
+  },
+  "settings": {
+    "tabs": {
+      "general": "සාමාන්‍ය",
+      "catalog": "සේවා සහ මිල",
+      "categories": "මුදල් වර්ග",
+      "checklist": "පිරික්සුම් ලැයිස්තුව"
+    },
+    "operations": "මෙහෙයුම්",
+    "dailyTarget": "දෛනික වාහන ඉලක්කය",
+    "dailyTargetHint": "පෝලිමේ ප්‍රගති තීරුව ලෙස පෙන්වයි.",
+    "discountOverride": "කළමනාකරු අනුමැතිය අවශ්‍ය වට්ටම",
+    "discountOverrideHint": "මෙම ප්‍රතිශතයට වැඩි වට්ටම් සඳහා කළමනාකරු PIN අවශ්‍යයි.",
+    "explainAbove": "පැහැදිලි කිරීම අවශ්‍ය වෙනස",
+    "explainAboveHint": "මෙම මුදලට වැඩි නම් මාරුව වසන විට හේතුවක් අවශ්‍යයි.",
+    "overrideAbove": "කළමනාකරු අනුමැතිය අවශ්‍ය වෙනස",
+    "overrideAboveHint": "මෙම මුදලට වැඩි නම් කළමනාකරු PIN අවශ්‍යයි.",
+    "cashOutApproval": "කළමනාකරු අනුමැතිය අවශ්‍ය මුදල් පිටවීම",
+    "cashOutApprovalHint": "මෙයට වැඩි වියදම් සහ තැන්පතු සඳහා කළමනාකරු PIN අවශ්‍යයි.",
+    "receiptFooter": "රිසිට්පතේ පාදකය",
+    "whatsapp": "WhatsApp දැනුම්දීම් අංක",
+    "whatsappHint": "පේළියකට එක් අංකයක්. දැනුම්දීම් සූදානම් පණිවිඩයක් සමඟ WhatsApp විවෘත කරයි.",
+    "stockPhones": "අඩු තොග",
+    "equipmentPhones": "උපකරණ දෝෂ",
+    "variancePhones": "මුදල් වෙනස",
+    "saved": "සැකසුම් සුරකින ලදී",
+    "errors": {
+      "amount": "රුපියල් මුදලක් ඇතුළත් කරන්න",
+      "phones": "දුරකථන අංක පරීක්ෂා කරන්න",
+      "overrideBelowExplain": "පැහැදිලි කිරීමේ මුදලට වඩා අඩු විය නොහැක",
+      "invalid": "මෙම අගය පරීක්ෂා කරන්න"
+    }
   }
 }

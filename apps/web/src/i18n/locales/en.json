@@ -129,5 +129,37 @@
     "CONFLICT": "This was already done.",
     "NOT_IMPLEMENTED": "This feature is not available yet.",
     "INTERNAL": "Something went wrong on the server."
+  },
+  "settings": {
+    "tabs": {
+      "general": "General",
+      "catalog": "Services & prices",
+      "categories": "Cash categories",
+      "checklist": "Checklist"
+    },
+    "operations": "Operations",
+    "dailyTarget": "Daily vehicle target",
+    "dailyTargetHint": "Shown as the progress bar on the queue.",
+    "discountOverride": "Discount needing manager approval",
+    "discountOverrideHint": "Discounts above this percentage need a manager PIN.",
+    "explainAbove": "Variance needing an explanation",
+    "explainAboveHint": "Shift close needs a written reason above this amount.",
+    "overrideAbove": "Variance needing a manager override",
+    "overrideAboveHint": "Shift close needs a manager PIN above this amount.",
+    "cashOutApproval": "Cash-out needing manager approval",
+    "cashOutApprovalHint": "Expenses and deposits above this need a manager PIN.",
+    "receiptFooter": "Receipt footer",
+    "whatsapp": "WhatsApp alert numbers",
+    "whatsappHint": "One number per line. Alerts open WhatsApp with a ready message.",
+    "stockPhones": "Low stock",
+    "equipmentPhones": "Equipment faults",
+    "variancePhones": "Cash variance",
+    "saved": "Settings saved",
+    "errors": {
+      "amount": "Enter an amount in rupees",
+      "phones": "Check the phone numbers",
+      "overrideBelowExplain": "Must be at least the explanation amount",
+      "invalid": "Check this value"
+    }
   }
 }

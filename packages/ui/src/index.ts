@@ -9,3 +9,4 @@ export * from './components/overlay';
 export * from './components/toast';
 export * from './components/data';
 export * from './components/pos';
+export * from './components/tabs';

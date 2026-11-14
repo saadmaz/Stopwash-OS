@@ -8,6 +8,12 @@ import { useSession } from '@/lib/session';
 import { AppShell } from './AppShell';
 import { NAV } from './nav';
 import { DesignSystemPage } from '@/pages/DesignSystem';
+import { SettingsPage } from '@/features/settings/SettingsPage';
+
+/** Screens that are built; the rest show a placeholder. */
+const PAGES: Record<string, () => ReactNode> = {
+  settings: () => <SettingsPage />,
+};
 
 export function RequirePermission({
   permission,
@@ -55,7 +61,7 @@ export const routes: RouteObject[] = [
         ...(n.to === '/' ? { index: true } : { path: n.to.slice(1) }),
         element: (
           <RequirePermission permission={n.permission}>
-            <Placeholder navKey={n.key} />
+            {PAGES[n.key]?.() ?? <Placeholder navKey={n.key} />}
           </RequirePermission>
         ),
       })),

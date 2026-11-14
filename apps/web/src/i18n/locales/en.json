@@ -288,5 +288,20 @@
     "pdf": "PDF",
     "print": "Print",
     "whatsapp": "WhatsApp"
+  },
+  "orderEdit": {
+    "action": "Edit order",
+    "title": "Edit order #{{ticket}}",
+    "body": "Fix the plate or customer details. To change services, cancel and add a new order.",
+    "reason": "What changed and why",
+    "saved": "Order updated"
+  },
+  "refund": {
+    "short": "Refund",
+    "title": "Refund {{plate}}?",
+    "body": "{{amount}} will be reversed in this shift. The sale stays in the history as refunded.",
+    "action": "Refund {{amount}}",
+    "reason": "Reason for refund",
+    "done": "Refund recorded"
   }
 }

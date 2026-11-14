@@ -13,7 +13,17 @@ import {
   Textarea,
   toast,
 } from '@stopwash/ui';
-import { ArrowRight, Ban, ListOrdered, ReceiptText, RotateCcw, Search, Wallet } from 'lucide-react';
+import {
+  ArrowRight,
+  Ban,
+  ListOrdered,
+  Pencil,
+  ReceiptText,
+  RotateCcw,
+  Search,
+  Undo2,
+  Wallet,
+} from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
@@ -21,6 +31,7 @@ import { useHotkeys } from '@/lib/hotkeys';
 import { useSession } from '@/lib/session';
 import { CheckoutSheet } from '@/features/checkout/CheckoutSheet';
 import { ReceiptDialog } from '@/features/receipt/ReceiptDialog';
+import { EditOrderDialog, RefundDialog } from './OrderDialogs';
 import { STATUS_TONE, useQueue, useSetStatus, type QueueFilter } from './useQueue';
 
 const time = (iso: string) =>
@@ -68,11 +79,15 @@ function Actions({
   onCancel,
   onPay,
   onReceipt,
+  onEdit,
+  onRefund,
 }: {
   order: Order;
   onCancel: () => void;
   onPay: () => void;
   onReceipt: () => void;
+  onEdit: () => void;
+  onRefund: () => void;
 }) {
   const { t } = useTranslation();
   const { can } = useSession();
@@ -106,6 +121,16 @@ function Actions({
           <Wallet aria-hidden /> {t('queue.pay')}
         </Button>
       )}
+      {open && can('order.update') && (
+        <Button size="sm" variant="ghost" aria-label={t('orderEdit.action')} onClick={onEdit}>
+          <Pencil aria-hidden />
+        </Button>
+      )}
+      {order.status === 'COMPLETED' && can('order.refund') && (
+        <Button size="sm" variant="ghost" aria-label={t('refund.short')} onClick={onRefund}>
+          <Undo2 aria-hidden />
+        </Button>
+      )}
       {open && can('order.cancel') && (
         <Button size="sm" variant="ghost" aria-label={t('queue.cancelOrder')} onClick={onCancel}>
           <Ban aria-hidden />
@@ -121,6 +146,8 @@ export function QueuePage() {
   const [cancelling, setCancelling] = useState<Order | null>(null);
   const [paying, setPaying] = useState<Order | null>(null);
   const [receiptFor, setReceiptFor] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Order | null>(null);
+  const [refunding, setRefunding] = useState<Order | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const queue = useQueue(filter);
   useHotkeys({ '/': () => searchRef.current?.focus() });
@@ -197,6 +224,8 @@ export function QueuePage() {
               onCancel={() => setCancelling(o)}
               onPay={() => setPaying(o)}
               onReceipt={() => setReceiptFor(o.id)}
+              onEdit={() => setEditing(o)}
+              onRefund={() => setRefunding(o)}
             />
           </li>
         ))}
@@ -271,6 +300,8 @@ export function QueuePage() {
         />
       )}
       {receiptFor && <ReceiptDialog orderId={receiptFor} onClose={() => setReceiptFor(null)} />}
+      {editing && <EditOrderDialog order={editing} onClose={() => setEditing(null)} />}
+      {refunding && <RefundDialog order={refunding} onClose={() => setRefunding(null)} />}
     </div>
   );
 }

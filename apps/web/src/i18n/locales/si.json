@@ -200,5 +200,13 @@
     "stock": "තොග",
     "equipment": "උපකරණ",
     "new": "නව අයිතමය"
+  },
+  "pos": {
+    "plate": "වාහන අංකය",
+    "phone": "දුරකථන",
+    "customerName": "පාරිභෝගික නම",
+    "suggestions": "යෝජනා",
+    "returning_one": "නැවත පැමිණි · පැමිණීම් {{count}}",
+    "returning_other": "නැවත පැමිණි · පැමිණීම් {{count}}"
   }
 }

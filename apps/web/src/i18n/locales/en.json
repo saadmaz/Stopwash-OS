@@ -200,5 +200,13 @@
     "stock": "Stock",
     "equipment": "Equipment",
     "new": "New item"
+  },
+  "pos": {
+    "plate": "Vehicle plate",
+    "phone": "Phone",
+    "customerName": "Customer name",
+    "suggestions": "Suggestions",
+    "returning_one": "Returning · {{count}} visit",
+    "returning_other": "Returning · {{count}} visits"
   }
 }

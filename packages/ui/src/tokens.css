@@ -51,10 +51,12 @@
 
   /* type */
   --font-display:
-    'Space Grotesk', 'Noto Sans Sinhala', 'Noto Sans Tamil', ui-sans-serif, system-ui, sans-serif;
+    'Space Grotesk Variable', 'Space Grotesk', 'Noto Sans Sinhala Variable',
+    'Noto Sans Tamil Variable', ui-sans-serif, system-ui, sans-serif;
   --font-sans:
-    'Inter', 'Noto Sans Sinhala', 'Noto Sans Tamil', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    'Inter Variable', 'Inter', 'Noto Sans Sinhala Variable', 'Noto Sans Tamil Variable',
+    ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   --text-xs: 0.75rem;
   --text-xs--line-height: 1rem;
   --text-sm: 0.875rem;

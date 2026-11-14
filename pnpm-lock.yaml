@@ -59,6 +59,9 @@ importers:
       firebase-admin:
         specifier: ^14
         version: 14.5.1(@firebase/app-compat@0.5.22)(@firebase/app@0.16.6)
+      jose:
+        specifier: ^6.2.17
+        version: 6.2.17
       zod:
         specifier: ^4
         version: 4.6.7

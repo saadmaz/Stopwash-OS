@@ -12,6 +12,7 @@ import { meRoutes } from './routes/me';
 import { configRoutes } from './routes/config';
 import { adminConfigRoutes } from './routes/admin-config';
 import { customerRoutes } from './routes/customers';
+import { orderRoutes } from './routes/orders';
 import { createTokenIssuer, type AuthTokenIssuer } from './services/tokens';
 import { createDataStore, type DataStore } from './repos';
 
@@ -114,6 +115,7 @@ export async function buildApp({
   await app.register(configRoutes);
   await app.register(adminConfigRoutes);
   await app.register(customerRoutes);
+  await app.register(orderRoutes);
   for (const plugin of plugins) await app.register(plugin);
 
   return app;

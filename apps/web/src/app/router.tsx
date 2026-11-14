@@ -7,6 +7,7 @@ import { createBrowserRouter, type RouteObject } from 'react-router';
 import { useSession } from '@/lib/session';
 import { AppShell } from './AppShell';
 import { NAV } from './nav';
+import { DesignSystemPage } from '@/pages/DesignSystem';
 
 export function RequirePermission({
   permission,
@@ -48,14 +49,17 @@ export const routes: RouteObject[] = [
   {
     path: '/',
     element: <AppShell />,
-    children: NAV.map((n) => ({
-      ...(n.to === '/' ? { index: true } : { path: n.to.slice(1) }),
-      element: (
-        <RequirePermission permission={n.permission}>
-          <Placeholder navKey={n.key} />
-        </RequirePermission>
-      ),
-    })),
+    children: [
+      { path: 'design-system', element: <DesignSystemPage /> },
+      ...NAV.map((n) => ({
+        ...(n.to === '/' ? { index: true } : { path: n.to.slice(1) }),
+        element: (
+          <RequirePermission permission={n.permission}>
+            <Placeholder navKey={n.key} />
+          </RequirePermission>
+        ),
+      })),
+    ],
   },
 ];
 

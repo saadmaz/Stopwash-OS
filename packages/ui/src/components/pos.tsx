@@ -266,6 +266,8 @@ export function PinPad({
   };
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
       if (/^\d$/.test(e.key)) press(e.key);
       else if (e.key === 'Backspace') press('back');
     };

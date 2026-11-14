@@ -34,7 +34,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 2.6 | Table primitives, Pagination (old pager shape via tested pageItems), EmptyState (empty/error/offline/denied), Skeleton, StatCard (delta, progress); 5 tests | 86e37ee |
 | 2.7 | POS parts: VehicleClassTile (radio tile, price, shortcut), AddOnStepper (bounded qty, line total), DenominationCounter (notes + coins value, live total in cents), PinPad (taps + keyboard, completes at length); 6 tests | ca9ee61 |
 | 2.8 | App shell: React Router 7, role-aware sidebar + mobile sheet nav, RequirePermission (permission-denied state), theme provider (light/dark/system), offline badge, skip link, temporary dev session; 3 tests | a6d1e23 |
-| 2.9 | i18next EN/SI/TA (legacy SWOMS strings carried over under `legacy.*`), language switcher, html lang, shell fully translated, key/placeholder parity test; docs/i18n-review.md | (next) |
+| 2.9 | i18next EN/SI/TA (legacy SWOMS strings carried over under `legacy.*`), language switcher, html lang, shell fully translated, key/placeholder parity test; docs/i18n-review.md | 23acc8a |
+| 2.10 | /design-system route: brand + semantic swatches, type, radius, elevation, every component incl. POS parts; fix: PinPad ignores keys typed in other inputs (+1 test) | (next) |
 | 1.6a | CI and runtime on Node 22 LTS (Node 20 is EOL; jsdom/undici 8 failed on it) | 6c34e8a |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)

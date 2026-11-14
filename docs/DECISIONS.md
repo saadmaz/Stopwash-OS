@@ -116,3 +116,6 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-028 Node 22 LTS
 - **Decision:** Node 22 for CI, the API runtime and `engines` (the brief said Node 20).
 - **Why:** Node 20 reached end-of-life in April 2026, and current jsdom (via undici 8) no longer runs on it. CI failed on Node 20 for exactly that reason.
+
+### D-029 Design-system page stays English
+- **Decision:** `/design-system` is an internal reference for designers and developers. Its copy is English only and not in the locale files. Every user-facing screen is fully translated.

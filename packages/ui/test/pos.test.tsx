@@ -89,3 +89,17 @@ describe('PinPad', () => {
     expect(onComplete).toHaveBeenCalledWith('1277');
   });
 });
+
+describe('PinPad keyboard scope', () => {
+  it('ignores typing inside other inputs on the page', async () => {
+    const onChange = vi.fn();
+    render(
+      <>
+        <input aria-label="Plate" />
+        <PinPad value="" onChange={onChange} />
+      </>,
+    );
+    await userEvent.type(screen.getByLabelText('Plate'), '12');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+});

@@ -238,7 +238,6 @@
     "noMatches": "ගැළපෙන ඇණවුම් නැත",
     "returning": "නැවත පැමිණි",
     "pay": "ගෙවීම ලබාගන්න",
-    "payComingSoon": "ගෙවීම ඊළඟ පියවරේදී",
     "cancelOrder": "ඇණවුම අවලංගු කරන්න",
     "cancelTitle": "{{plate}} ඇණවුම අවලංගු කරන්නද?",
     "cancelBody": "ඇණවුම අවලංගු ලෙස ඉතිහාසයේ රැඳේ.",
@@ -259,5 +258,29 @@
       "IN_PROGRESS": "ආරම්භ කරන්න",
       "READY": "සූදානම්"
     }
+  },
+  "checkout": {
+    "title": "ගෙවීම · {{plate}}",
+    "pay": "{{amount}} ලබාගන්න",
+    "paid": "ගෙවා ඇත · රිසිට්පත {{number}}",
+    "method": "ගෙවීමේ ක්‍රමය",
+    "cash": "මුදල්",
+    "card": "කාඩ්",
+    "split": "බෙදූ",
+    "received": "ලැබුණු මුදල",
+    "change": "ඉතිරි: {{amount}}",
+    "notEnough": "එකතුවට වඩා අඩුයි",
+    "splitCash": "මුදල් කොටස",
+    "splitCard": "කාඩ් කොටස: {{amount}}",
+    "splitInvalid": "මුදල් කොටස 0 සහ එකතුව අතර විය යුතුයි",
+    "addDiscount": "වට්ටමක් එක් කරන්න",
+    "discount": "වට්ටම",
+    "reason": "වට්ටමට හේතුව",
+    "tax": "බද්ද",
+    "loyalty": "පක්ෂපාතීත්ව ත්‍යාගය",
+    "needsApproval": "මෙම වට්ටමට කළමනාකරු අනුමැතිය අවශ්‍යයි.",
+    "approver": "අනුමත කරන කළමනාකරු",
+    "chooseApprover": "කළමනාකරුවෙකු තෝරන්න",
+    "approverPin": "කළමනාකරු PIN"
   }
 }

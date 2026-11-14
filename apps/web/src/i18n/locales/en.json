@@ -238,7 +238,6 @@
     "noMatches": "No orders match your search",
     "returning": "Returning",
     "pay": "Take payment",
-    "payComingSoon": "Payment arrives in the next step",
     "cancelOrder": "Cancel order",
     "cancelTitle": "Cancel order {{plate}}?",
     "cancelBody": "The order stays in the history as cancelled.",
@@ -259,5 +258,29 @@
       "IN_PROGRESS": "Start",
       "READY": "Ready"
     }
+  },
+  "checkout": {
+    "title": "Payment · {{plate}}",
+    "pay": "Take {{amount}}",
+    "paid": "Paid · receipt {{number}}",
+    "method": "Payment method",
+    "cash": "Cash",
+    "card": "Card",
+    "split": "Split",
+    "received": "Cash received",
+    "change": "Change: {{amount}}",
+    "notEnough": "Less than the total",
+    "splitCash": "Cash part",
+    "splitCard": "Card part: {{amount}}",
+    "splitInvalid": "Cash part must be between 0 and the total",
+    "addDiscount": "Add a discount",
+    "discount": "Discount",
+    "reason": "Reason for discount",
+    "tax": "Tax",
+    "loyalty": "Loyalty reward",
+    "needsApproval": "This discount needs a manager to approve it.",
+    "approver": "Approving manager",
+    "chooseApprover": "Choose a manager",
+    "approverPin": "Manager PIN"
   }
 }

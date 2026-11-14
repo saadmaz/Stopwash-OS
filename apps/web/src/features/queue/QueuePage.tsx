@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
 import { useHotkeys } from '@/lib/hotkeys';
 import { useSession } from '@/lib/session';
+import { CheckoutSheet } from '@/features/checkout/CheckoutSheet';
 import { STATUS_TONE, useQueue, useSetStatus, type QueueFilter } from './useQueue';
 
 const time = (iso: string) =>
@@ -61,7 +62,15 @@ function CancelDialog({ order, onClose }: { order: Order; onClose: () => void })
   );
 }
 
-function Actions({ order, onCancel }: { order: Order; onCancel: () => void }) {
+function Actions({
+  order,
+  onCancel,
+  onPay,
+}: {
+  order: Order;
+  onCancel: () => void;
+  onPay: () => void;
+}) {
   const { t } = useTranslation();
   const { can } = useSession();
   const setStatus = useSetStatus();
@@ -85,7 +94,7 @@ function Actions({ order, onCancel }: { order: Order; onCancel: () => void }) {
         </Button>
       )}
       {open && can('order.checkout') && (
-        <Button size="sm" disabled title={t('queue.payComingSoon')}>
+        <Button size="sm" onClick={onPay}>
           <Wallet aria-hidden /> {t('queue.pay')}
         </Button>
       )}
@@ -102,6 +111,7 @@ export function QueuePage() {
   const { t } = useTranslation();
   const [filter, setFilter] = useState<QueueFilter>({ status: 'OPEN', q: '', page: 1 });
   const [cancelling, setCancelling] = useState<Order | null>(null);
+  const [paying, setPaying] = useState<Order | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const queue = useQueue(filter);
   useHotkeys({ '/': () => searchRef.current?.focus() });
@@ -173,7 +183,7 @@ export function QueuePage() {
             <p className="tabular text-right font-semibold md:min-w-28">
               {formatLKR(o.totalCents)}
             </p>
-            <Actions order={o} onCancel={() => setCancelling(o)} />
+            <Actions order={o} onCancel={() => setCancelling(o)} onPay={() => setPaying(o)} />
           </li>
         ))}
       </ul>
@@ -236,6 +246,13 @@ export function QueuePage() {
         />
       )}
       {cancelling && <CancelDialog order={cancelling} onClose={() => setCancelling(null)} />}
+      {paying && (
+        <CheckoutSheet
+          order={paying}
+          onClose={() => setPaying(null)}
+          onPaid={() => setPaying(null)}
+        />
+      )}
     </div>
   );
 }

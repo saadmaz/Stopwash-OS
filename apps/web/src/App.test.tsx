@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { routes } from './app/router';
 import { SessionProvider, type SessionUser } from './lib/session';
@@ -49,5 +49,17 @@ describe('app shell', () => {
   it('lets accounts reach approvals', () => {
     renderAt('/approvals', 'accounts');
     expect(screen.queryByText("You don't have access to this page")).not.toBeInTheDocument();
+  });
+});
+
+describe('language switch', () => {
+  it('translates the navigation to Sinhala and back', async () => {
+    const { default: i18n } = await import('./i18n');
+    renderAt('/queue', 'cashier');
+    await act(() => i18n.changeLanguage('si'));
+    expect(screen.getAllByRole('link', { name: 'පෝලිම' }).length).toBeGreaterThan(0);
+    expect(document.documentElement.lang).toBe('si');
+    await act(() => i18n.changeLanguage('en'));
+    expect(screen.getAllByRole('link', { name: 'Queue' }).length).toBeGreaterThan(0);
   });
 });

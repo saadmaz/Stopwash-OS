@@ -18,9 +18,11 @@
     "@fontsource-variable/noto-sans-tamil": "^5.3.0",
     "@fontsource-variable/space-grotesk": "^5.3.0",
     "@stopwash/shared": "workspace:^",
+    "i18next": "^27",
     "lucide-react": "^1.73.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-i18next": "^18",
     "react-router": "^7"
   },
   "devDependencies": {

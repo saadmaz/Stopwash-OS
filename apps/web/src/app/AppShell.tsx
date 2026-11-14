@@ -1,30 +1,15 @@
 import { Badge, Button, cn, Sheet } from '@stopwash/ui';
 import { LogOut, Menu, Monitor, Moon, Sun, WifiOff } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet } from 'react-router';
+import { LANGUAGES } from '@/i18n';
 import { useOnline } from '@/lib/online';
 import { useSession } from '@/lib/session';
 import { useTheme, type ThemePref } from '@/lib/theme';
 import { NAV, NAV_GROUPS } from './nav';
 
-const LABELS: Record<string, string> = {
-  dashboard: 'Dashboard',
-  newOrder: 'New order',
-  queue: 'Queue',
-  shift: 'Shift',
-  cash: 'Cash out',
-  approvals: 'Approvals',
-  reports: 'Reports',
-  invoices: 'Invoices',
-  staff: 'Staff',
-  attendance: 'Attendance',
-  leave: 'Leave',
-  payroll: 'Payroll',
-  audit: 'Audit log',
-  settings: 'Settings',
-};
-
-export function Wordmark({ className }: { className?: string }) {
+export function Wordmark({ className, wash = 'text-lime' }: { className?: string; wash?: string }) {
   return (
     <span
       className={cn('inline-flex items-center gap-2 font-display text-lg font-bold', className)}
@@ -33,7 +18,7 @@ export function Wordmark({ className }: { className?: string }) {
         SW
       </span>
       <span>
-        STOP<span className="text-lime">WASH</span>
+        STOP<span className={wash}>WASH</span>
       </span>
     </span>
   );
@@ -41,8 +26,9 @@ export function Wordmark({ className }: { className?: string }) {
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const { can } = useSession();
+  const { t } = useTranslation();
   return (
-    <nav aria-label="Main" className="flex flex-col gap-5">
+    <nav aria-label={t('nav.main')} className="flex flex-col gap-5">
       {NAV_GROUPS.map((g) => {
         const items = NAV.filter((n) => n.group === g && can(n.permission));
         if (!items.length) return null;
@@ -62,7 +48,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
                   }
                 >
                   <Icon className="size-5" aria-hidden />
-                  {LABELS[key] ?? key}
+                  {t(`nav.${key}`)}
                 </NavLink>
               </li>
             ))}
@@ -78,13 +64,14 @@ const THEME_ICON = { light: Sun, dark: Moon, system: Monitor };
 
 export function ThemeToggle() {
   const { pref, setPref } = useTheme();
+  const { t } = useTranslation();
   const Icon = THEME_ICON[pref];
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={() => setPref(NEXT_THEME[pref])}
-      aria-label={`Theme: ${pref}. Switch theme`}
+      aria-label={t('shell.theme.label', { theme: t(`shell.theme.${pref}`) })}
     >
       <Icon aria-hidden />
     </Button>
@@ -93,24 +80,54 @@ export function ThemeToggle() {
 
 export function OfflineBadge() {
   const online = useOnline();
+  const { t } = useTranslation();
   if (online) return null;
   return (
     <Badge tone="warning" role="status">
-      <WifiOff aria-hidden /> Offline
+      <WifiOff aria-hidden /> {t('shell.offline')}
     </Badge>
+  );
+}
+
+export function LanguageSwitcher() {
+  const { t, i18n } = useTranslation();
+  return (
+    <div
+      role="group"
+      aria-label={t('shell.language')}
+      className="flex rounded-md bg-surface-2 p-0.5"
+    >
+      {LANGUAGES.map((l) => (
+        <button
+          key={l.code}
+          type="button"
+          lang={l.code}
+          aria-pressed={i18n.language === l.code}
+          aria-label={l.name}
+          onClick={() => void i18n.changeLanguage(l.code)}
+          className={cn(
+            'h-9 min-w-9 rounded px-2 text-xs font-semibold text-fg-muted focus-visible:outline-2 focus-visible:outline-ring',
+            i18n.language === l.code && 'bg-surface text-fg shadow-xs',
+          )}
+        >
+          {l.label}
+        </button>
+      ))}
+    </div>
   );
 }
 
 export function AppShell() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, signOut } = useSession();
+  const { t } = useTranslation();
   return (
     <div className="flex min-h-dvh bg-bg text-fg">
       <a
         href="#main"
         className="sr-only z-50 rounded bg-primary px-3 py-2 text-primary-fg focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
       >
-        Skip to content
+        {t('app.skipToContent')}
       </a>
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-6 overflow-y-auto bg-navy p-4 lg:flex">
         <Wordmark className="px-2 text-white" />
@@ -123,21 +140,27 @@ export function AppShell() {
             size="icon"
             className="lg:hidden"
             onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label={t('nav.openMenu')}
           >
             <Menu aria-hidden />
           </Button>
-          <Wordmark className="lg:hidden" />
+          <Wordmark className="lg:hidden" wash="text-leaf dark:text-lime" />
           <div className="ml-auto flex items-center gap-2">
             <OfflineBadge />
+            <LanguageSwitcher />
             <ThemeToggle />
             {user && (
               <>
                 <span className="hidden text-sm sm:inline">
                   <span className="font-semibold">{user.name}</span>{' '}
-                  <span className="text-fg-muted capitalize">· {user.role}</span>
+                  <span className="text-fg-muted">· {t(`role.${user.role}`)}</span>
                 </span>
-                <Button variant="ghost" size="icon" onClick={signOut} aria-label="Switch user">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={signOut}
+                  aria-label={t('shell.switchUser')}
+                >
                   <LogOut aria-hidden />
                 </Button>
               </>
@@ -152,7 +175,7 @@ export function AppShell() {
         side="left"
         open={menuOpen}
         onOpenChange={setMenuOpen}
-        title="Menu"
+        title={t('nav.menu')}
         hideTitle
         className="bg-navy p-4"
       >

@@ -2,6 +2,7 @@ import type { Permission } from '@stopwash/shared';
 import { EmptyState } from '@stopwash/ui';
 import { Construction, Lock } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { useSession } from '@/lib/session';
 import { AppShell } from './AppShell';
@@ -15,27 +16,29 @@ export function RequirePermission({
   children: ReactNode;
 }) {
   const { can } = useSession();
+  const { t } = useTranslation();
   if (!can(permission)) {
     return (
       <EmptyState
         icon={<Lock />}
         tone="warning"
-        title="You don't have access to this page"
-        description="Ask a manager if you need it."
+        title={t('state.noAccessTitle')}
+        description={t('state.noAccessBody')}
       />
     );
   }
   return <>{children}</>;
 }
 
-function Placeholder({ title }: { title: string }) {
+function Placeholder({ navKey }: { navKey: string }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="font-display text-3xl font-bold">{title}</h1>
+      <h1 className="font-display text-3xl font-bold">{t(`nav.${navKey}`)}</h1>
       <EmptyState
         icon={<Construction />}
-        title="Coming soon"
-        description="This screen is being built."
+        title={t('state.comingSoon')}
+        description={t('state.comingSoonBody')}
       />
     </div>
   );
@@ -49,7 +52,7 @@ export const routes: RouteObject[] = [
       ...(n.to === '/' ? { index: true } : { path: n.to.slice(1) }),
       element: (
         <RequirePermission permission={n.permission}>
-          <Placeholder title={n.key} />
+          <Placeholder navKey={n.key} />
         </RequirePermission>
       ),
     })),

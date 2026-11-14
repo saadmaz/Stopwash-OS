@@ -2,6 +2,7 @@ import type { Employee, Role } from '@stopwash/shared';
 import { buildApp } from '../src/app';
 import { loadEnv } from '../src/env';
 import { createMemoryStore, type MemoryStore } from '../src/repos';
+import { ensureDefaults } from '../src/services/defaults';
 import { hashSecret, setPin } from '../src/services/pin';
 import { DevJwtIssuer } from '../src/services/tokens';
 
@@ -70,6 +71,7 @@ export async function seedBasics(store: MemoryStore): Promise<void> {
     await setPin(store, BRAND, id, pin, now);
   }
   await store.employees.insert(employee('e5', null, { hasPin: false })); // washer without POS access
+  await ensureDefaults(store, BRAND, LOCATION, now);
 }
 
 export const TEST_SECRET = 'test-secret-test-secret-test-secret';

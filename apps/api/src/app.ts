@@ -9,6 +9,7 @@ import { NotImplementedError } from './lib/not-implemented';
 import { healthRoutes } from './routes/health';
 import { authRoutes } from './routes/auth';
 import { meRoutes } from './routes/me';
+import { configRoutes } from './routes/config';
 import { createTokenIssuer, type AuthTokenIssuer } from './services/tokens';
 import { createDataStore, type DataStore } from './repos';
 
@@ -108,6 +109,7 @@ export async function buildApp({
   await app.register(healthRoutes);
   await app.register(authRoutes);
   await app.register(meRoutes);
+  await app.register(configRoutes);
   for (const plugin of plugins) await app.register(plugin);
 
   return app;

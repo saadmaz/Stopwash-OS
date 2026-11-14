@@ -1,38 +1,41 @@
 # Progress
 
-> A fresh session starts here. Read this file, then `DECISIONS.md`, then the phase you're on.
+> A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
 ## Current state
-- **Phase:** 0 (Discovery & spec): done
-- **Next:** Phase 1 (Foundation)
-- **Branch:** `main`. Push after every phase.
+- **Working mode:** small steps (about 300 lines or fewer), one commit + push per step. Plan in the step log below.
+- **Next step:** see the last line of the step log.
+- **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
+- **Figma:** not connected (checked 2026-11-15: no Figma MCP tools in the session). Check again at Phase F.
 
 ## Environment notes (this machine)
-- Git over HTTPS needs `http.sslBackend=schannel` (set in this repo's local config, not globally).
-- pnpm 9.15.4 via corepack.
-- No JDK installed. The Firebase emulators run in Docker (`docker compose up emulators`), see D-020. Docker Desktop must be running.
-- Reference repos are cloned read-only in `../_ref/` (Stopwash-POS-HTML, Stopwash-Website).
+- Git over HTTPS needs `http.sslBackend=schannel` (set in this repo's local config).
+- pnpm 9.15.4 via corepack. TypeScript 6.0 (typescript-eslint does not support 7 yet).
+- Reference repos are cloned read-only in `../_ref/`.
+- Do NOT start the emulators or run the firebase CLI (Saad handles Firebase).
 
-## Phase log
+## Step log
+Each line: step · what changed · commit. A commit can't contain its own hash, so the hash is filled in by the next step's commit (D-025).
 
-### Phase 0: Discovery & spec (done)
-Built:
-- Read `SWOMS2.5.html` end to end (all ~190 functions), README, SYSTEM_SUMMARY, attendance notes, and the website's tokens, fonts, logo, content and assets.
-- `PRD.md`, `PARITY.md` (≈150 rows), `ARCHITECTURE.md` (Mermaid), `DATA_MODEL.md`, `DECISIONS.md` (D-001…D-024).
+| Step | What changed | Commit |
+|---|---|---|
+| 0 | Discovery docs: PRD, PARITY, ARCHITECTURE, DATA_MODEL, DECISIONS | df000d1 |
+| 1.1 | Workspace root config (pnpm, TS 6 strict, prettier) + `packages/shared`: money (integer cents), Asia/Colombo dates, plate/phone normalisation, RBAC map; 58 tests | (next) |
 
-Findings worth knowing (bugs in the old app, fixed by design here):
+## Findings from Phase 0 (old-app bugs fixed by design)
 - Mitts and Power/Water faults never triggered the WhatsApp alert (status string mismatch).
 - Cash-out manager approval was collected but saved as "N/A".
 - The Accounts "expenses" KPI read a field that doesn't exist, so it was always 0.
 - Payroll daily counts used the UTC date, so orders after 18:30 SL time landed on the next day.
 - The YEARLY sales tab had no date window.
 - Receipt numbers were computed client-side and could collide.
-- The variance > LKR 2,000 supervisor override is missing from the old README but exists in the code.
+- The variance > LKR 2,000 supervisor override exists in the code but not in the old README.
 
 ## Needs Saad
-- **Rotate the old secrets.** The old Firebase project config (`stopwash-dashboard-001`), passcodes 5252/6225/0706 and WhatsApp number 94767885404 are public in `Stopwash-POS-HTML`. Tighten that project's Firestore rules, or shut it down once the migration is done.
-- A real Firebase project for production (not used during the build; emulators only).
-- Native-speaker review of the Sinhala and Tamil strings (`docs/i18n-review.md`, created in Phase 2).
+- **Firebase (all of it).** Firestore adapters for every repository (`apps/api/src/repos/firestore/*`, currently stubs that throw), Firebase Auth custom-token issuer (stub), `firestore.rules` / `storage.rules` beyond the deny-all baseline, `firestore.indexes.json` (indexes listed in `DATA_MODEL.md`), rules unit tests (`pnpm test:rules`, needs the emulator), the real project config and deploy.
+- **Figma:** the Figma MCP is not connected in this session. Expected account: w2053223@westminster.ac.uk (student team).
+- **Rotate the old secrets.** The old Firebase config (`stopwash-dashboard-001`), passcodes 5252/6225/0706 and WhatsApp number 94767885404 are public in `Stopwash-POS-HTML`.
+- Native-speaker review of the Sinhala/Tamil strings.
 - Real logo files and photography (the website itself still uses a text wordmark and placeholder images).
 
 ## Known issues

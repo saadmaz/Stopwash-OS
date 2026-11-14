@@ -102,3 +102,13 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-024 Business day = calendar day in Asia/Colombo
 - **Decision:** `businessDate` (YYYY-MM-DD) is computed from the server timestamp in `Asia/Colombo` and stored on orders, payments and cash movements. All "today" queries use it. Sri Lanka has no DST, so +05:30 holds all year, but the code still uses the IANA zone.
+
+### D-025 Step-by-step delivery
+- **Decision:** work ships in small steps (about 300 changed lines or fewer), one conventional commit and one push per step, with a line in `PROGRESS.md`. The commit hash for a step is filled in by the next step's commit, because a commit can't contain its own hash and history is never rewritten.
+
+### D-026 Repository layer with in-memory adapters (supersedes the Firestore-first parts of D-007/D-020)
+- **Decision:** the API talks to storage only through repository interfaces. `DATA_BACKEND=memory` (default) uses full in-memory adapters for dev and tests. `DATA_BACKEND=firestore` selects stub adapters that throw `NotImplementedError` until Saad wires up Firebase. Token issuance sits behind `AuthTokenIssuer` (dev JWT now, Firebase custom token later).
+- **Why:** Saad handles Firebase himself. The domain rules (cents, idempotency, append-only, audit) are enforced in the service layer above the repositories, so they hold for both adapters.
+
+### D-027 TypeScript 6.0
+- **Decision:** pin `typescript ~6.0.3`. TS 7 (native compiler) is out, but typescript-eslint 8.x supports `<6.1`. Revisit when typescript-eslint supports 7.

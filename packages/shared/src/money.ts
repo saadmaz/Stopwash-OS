@@ -143,7 +143,8 @@ function numberToPlainString(n: number): string {
   if (!Number.isFinite(n)) throw new MoneyError(`not a finite number: ${n}`);
   // toFixed(2) is safe for display-range values; reject anything with more precision.
   const fixed = n.toFixed(2);
-  if (Math.abs(Number(fixed) - n) > 1e-9) throw new MoneyError(`amount has more than 2 decimals: ${n}`);
+  if (Math.abs(Number(fixed) - n) > 1e-9)
+    throw new MoneyError(`amount has more than 2 decimals: ${n}`);
   return fixed;
 }
 

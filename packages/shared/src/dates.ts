@@ -86,11 +86,7 @@ export function tzOffsetMinutes(date: Date, tz = DEFAULT_TZ): number {
 }
 
 /** Converts a wall-clock time in the zone to a UTC instant. */
-export function zonedTimeToUtc(
-  dateKey: DateKey,
-  time = '00:00:00',
-  tz = DEFAULT_TZ,
-): Date {
+export function zonedTimeToUtc(dateKey: DateKey, time = '00:00:00', tz = DEFAULT_TZ): Date {
   if (!isDateKey(dateKey)) throw new RangeError(`invalid date key ${dateKey}`);
   const [y, m, d] = dateKey.split('-').map(Number) as [number, number, number];
   const [hh = 0, mm = 0, ss = 0] = time.split(':').map(Number);
@@ -108,7 +104,10 @@ export function zonedTimeToUtc(
 
 /** [start, end) of a business day as UTC instants. */
 export function businessDayRange(dateKey: DateKey, tz = DEFAULT_TZ): { start: Date; end: Date } {
-  return { start: zonedTimeToUtc(dateKey, '00:00:00', tz), end: zonedTimeToUtc(addDays(dateKey, 1), '00:00:00', tz) };
+  return {
+    start: zonedTimeToUtc(dateKey, '00:00:00', tz),
+    end: zonedTimeToUtc(addDays(dateKey, 1), '00:00:00', tz),
+  };
 }
 
 export function addDays(dateKey: DateKey, days: number): DateKey {

@@ -37,7 +37,9 @@ describe('phones', () => {
   });
 
   it('builds wa.me links without the plus', () => {
-    expect(whatsappLink('0771234567', 'Hi there')).toBe('https://wa.me/94771234567?text=Hi%20there');
+    expect(whatsappLink('0771234567', 'Hi there')).toBe(
+      'https://wa.me/94771234567?text=Hi%20there',
+    );
   });
 
   it('makes initials', () => {
@@ -89,7 +91,9 @@ describe('rbac', () => {
   });
 
   it('parses claims defensively', () => {
-    expect(parseClaims({ role: 'cashier', brandId: 'stopwash', locationIds: ['katubedda', 3] })).toEqual({
+    expect(
+      parseClaims({ role: 'cashier', brandId: 'stopwash', locationIds: ['katubedda', 3] }),
+    ).toEqual({
       role: 'cashier',
       brandId: 'stopwash',
       locationIds: ['katubedda'],

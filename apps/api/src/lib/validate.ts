@@ -8,7 +8,11 @@ export function validate<S extends z.ZodType>(schema: S, input: unknown): z.infe
     throw new AppError(
       'VALIDATION_FAILED',
       'Request validation failed',
-      result.error.issues.map((i) => ({ path: i.path.join('.'), message: i.message, code: i.code })),
+      result.error.issues.map((i) => ({
+        path: i.path.join('.'),
+        message: i.message,
+        code: i.code,
+      })),
     );
   }
   return result.data;

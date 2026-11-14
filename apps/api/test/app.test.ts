@@ -37,7 +37,11 @@ describe('api foundation', () => {
   });
 
   it('echoes a caller-supplied request id', async () => {
-    const res = await app.inject({ method: 'GET', url: '/health', headers: { 'x-request-id': 'abc-123' } });
+    const res = await app.inject({
+      method: 'GET',
+      url: '/health',
+      headers: { 'x-request-id': 'abc-123' },
+    });
     expect(res.headers['x-request-id']).toBe('abc-123');
   });
 
@@ -75,14 +79,18 @@ describe('api foundation', () => {
 
 describe('env', () => {
   it('refuses a real project id outside production', () => {
-    expect(() => loadEnv({ NODE_ENV: 'development', FIREBASE_PROJECT_ID: 'stopwash-dashboard-001' })).toThrow(
-      /demo-/,
-    );
+    expect(() =>
+      loadEnv({ NODE_ENV: 'development', FIREBASE_PROJECT_ID: 'stopwash-dashboard-001' }),
+    ).toThrow(/demo-/);
   });
 
   it('refuses emulator hosts in production', () => {
     expect(() =>
-      loadEnv({ NODE_ENV: 'production', FIREBASE_PROJECT_ID: 'prod', FIRESTORE_EMULATOR_HOST: 'x:1' }),
+      loadEnv({
+        NODE_ENV: 'production',
+        FIREBASE_PROJECT_ID: 'prod',
+        FIRESTORE_EMULATOR_HOST: 'x:1',
+      }),
     ).toThrow(/production/);
   });
 });

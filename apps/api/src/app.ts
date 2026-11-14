@@ -42,7 +42,13 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cors, {
     origin: corsOrigins(env),
-    allowedHeaders: ['authorization', 'content-type', 'idempotency-key', 'x-request-id', 'x-device-id'],
+    allowedHeaders: [
+      'authorization',
+      'content-type',
+      'idempotency-key',
+      'x-request-id',
+      'x-device-id',
+    ],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   });
   await app.register(rateLimit, {
@@ -57,7 +63,9 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
   });
 
   app.setNotFoundHandler((req, reply) => {
-    reply.status(404).send({ error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.url} not found` } });
+    reply
+      .status(404)
+      .send({ error: { code: 'NOT_FOUND', message: `Route ${req.method} ${req.url} not found` } });
   });
 
   app.setErrorHandler((err, req, reply) => {
@@ -70,7 +78,9 @@ export async function buildApp({ env, plugins = [] }: BuildOptions): Promise<Fas
     }
     const status = (err as { statusCode?: number }).statusCode;
     if (status && status >= 400 && status < 500) {
-      return reply.status(status).send({ error: { code: 'BAD_REQUEST', message: (err as Error).message } });
+      return reply
+        .status(status)
+        .send({ error: { code: 'BAD_REQUEST', message: (err as Error).message } });
     }
     req.log.error({ err }, 'unhandled error');
     return reply.status(500).send({ error: { code: 'INTERNAL', message: 'Something went wrong' } });

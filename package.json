@@ -5,6 +5,7 @@
   "description": "Point-of-sale and operations system for STOPWASH car wash",
   "author": "Saad Mazhar",
   "license": "UNLICENSED",
+  "type": "module",
   "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=20"

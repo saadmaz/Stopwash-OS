@@ -23,7 +23,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 1.1 | Workspace root config (pnpm, TS 6 strict, prettier) + `packages/shared`: money (integer cents), Asia/Colombo dates, plate/phone normalisation, RBAC map; 58 tests | 03d5434 |
 | 1.2 | API skeleton: zod env (demo- project guard), AppError codes, validation helper, health route, helmet/CORS/rate limit, pino redaction; 9 tests | 822d170 |
 | 1.3 | Web skeleton: React 18 + Vite 8, Vitest (jsdom, Testing Library), Playwright config + smoke spec, brand favicon | ea189d5 |
-| 1.4 | firebase/ (config, deny-all baseline rules, empty indexes, rules test harness) + emulator Dockerfile/compose committed as-is; rules tests excluded from `pnpm test`, run with `pnpm test:rules` | (next) |
+| 1.4 | firebase/ (config, deny-all baseline rules, empty indexes, rules test harness) + emulator Dockerfile/compose committed as-is; rules tests excluded from `pnpm test`, run with `pnpm test:rules` | a6a220e |
+| 1.5 | Root ESLint 9 flat config (typescript-eslint, react-hooks, jsx-a11y), zero warnings; Prettier applied to code (docs and firebase/ excluded) | (next) |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)
 - Mitts and Power/Water faults never triggered the WhatsApp alert (status string mismatch).

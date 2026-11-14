@@ -9,10 +9,13 @@ export default defineConfig({
     baseURL: process.env.E2E_BASE_URL ?? 'http://localhost:5173',
     trace: 'retain-on-failure',
   },
-  projects: [
-    { name: 'tablet', use: { ...devices['Galaxy Tab S9'] } },
-  ],
+  projects: [{ name: 'tablet', use: { ...devices['Galaxy Tab S9'] } }],
   webServer: process.env.E2E_BASE_URL
     ? undefined
-    : { command: 'pnpm dev', url: 'http://localhost:5173', reuseExistingServer: true, timeout: 120_000 },
+    : {
+        command: 'pnpm dev',
+        url: 'http://localhost:5173',
+        reuseExistingServer: true,
+        timeout: 120_000,
+      },
 });

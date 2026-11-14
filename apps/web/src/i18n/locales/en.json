@@ -161,5 +161,32 @@
       "overrideBelowExplain": "Must be at least the explanation amount",
       "invalid": "Check this value"
     }
+  },
+  "catalog": {
+    "add": "Add item",
+    "edit": "Edit item",
+    "name": "Name",
+    "nameEn": "Name (English)",
+    "nameSi": "Name (Sinhala)",
+    "nameTa": "Name (Tamil)",
+    "code": "Code",
+    "codeLocked": "Codes cannot change after creation",
+    "kind": "Type",
+    "kinds": {
+      "vehicleClass": "Vehicle class",
+      "addon": "Add-on",
+      "product": "Product"
+    },
+    "price": "Price",
+    "unit": "unit",
+    "maxQty": "Max per order",
+    "maxQtyHint": "1 makes it an on/off add-on.",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Hidden",
+    "errors": {
+      "code": "Use capitals, digits and _ (2–32)",
+      "name": "Name is required"
+    }
   }
 }

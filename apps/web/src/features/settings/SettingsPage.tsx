@@ -1,6 +1,7 @@
 import { Button, EmptyState, Skeleton, Tabs } from '@stopwash/ui';
 import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
+import { CatalogEditor } from './CatalogEditor';
 import { GeneralSettingsForm } from './GeneralSettingsForm';
 import { useConfig } from './useConfig';
 
@@ -38,6 +39,11 @@ export function SettingsPage() {
             value: 'general',
             label: t('settings.tabs.general'),
             content: <GeneralSettingsForm settings={config.data.settings} />,
+          },
+          {
+            value: 'catalog',
+            label: t('settings.tabs.catalog'),
+            content: <CatalogEditor items={config.data.catalog} />,
           },
         ]}
       />

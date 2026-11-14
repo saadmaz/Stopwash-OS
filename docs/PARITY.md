@@ -50,43 +50,43 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| O1 | Plate (required, uppercased), phone, name (optional; stored as 'N/A' when empty) | `addOrder` 8851 | New Order screen; empty → null (not 'N/A') | TODO | |
-| O2 | Vehicle size: BIKE 500 / SMALL 750 / MEDIUM 1000 / LARGE 1250 (hardcoded) | `PRICES` 3381 | Configurable vehicle classes in `catalog` | WIP | Seeded with the same prices |
-| O3 | Add-ons (flat, on/off): Wax 250, Vacuum add-on 250 | `PRICES.addons` | Catalog items `kind: addon`, qty stepper (max 1 by default) | WIP | Old README lists only products; source has both. Both kept |
-| O4 | Products (per unit, qty): Air Freshener 500, Int. Vacuum product 500, Wiper Fluid 250 | `PRICES.products` | Catalog items `kind: product`, steppers | WIP | |
-| O5 | Selecting a size opens add-ons modal | `handleSizeSelection` 3975 | Add-ons shown inline beside class tiles (no modal, faster) | TODO | CHANGED for speed |
-| O6 | Order valid if plate + (size or ≥1 product); add-on alone is not enough | `calculateTotal` 4233, `addOrder` | Same rule in shared Zod schema | TODO | |
-| O7 | Price = size + add-ons + Σ product×qty; qty defaults 1 | `calculateTotal`, `calculateBreakdown` 3890 | `priceOrder()` in shared, recomputed on API (client total ignored) | TODO | |
-| O8 | Order doc fields: customerName, customerPhone, numberPlate, vehicleSize, selectedAddOns[], selectedProducts[{name,qty}], calculatedPrice, orderDate, status QUEUED, paymentMethod 'N/A', createdBy, createdAt | 8851 | `orders` with line items snapshotting name + unit price | TODO | |
-| O9 | Autocomplete: datalists for plates/phones/names from all orders + localStorage recent list; normalized plate (no spaces) dedupe | 8252, 8673–8840 | Customer/vehicle lookup endpoint + Firestore `vehicles` index; typeahead | TODO | |
-| O10 | Cross-fill: entering a known plate fills phone/name; known phone fills name/plate; known name fills phone/plate; only fills empty fields or fields it filled itself; clears what it filled when the trigger changes | `lookUpPlate/Phone/Name`, `setAutofillValue`, `clearAutofilledBy` 8760–8850 | Same behaviour in New Order form hook (tested) | TODO | |
-| O11 | Returning-customer badge when plate seen before | README §8.3 | Badge + visit count + last service on plate entry | TODO | |
-| O12 | Live queue: real-time listener of ALL orders, QUEUED first then newest | `startOrderListener` 8252 | Queue scoped to location + business day (+ open older QUEUED), real-time | TODO | CHANGED: no full-collection listener (performance) |
-| O13 | Search across plate, name, phone | `renderOrders` 8350 | Search box (Ctrl/⌘+K and `/`) | TODO | |
-| O14 | Pagination 10/page with numbered pages, ellipsis, "Showing x to y of z" | 8350, 8522–8550 | Paginated table (desktop) / card list (mobile) | WIP | |
-| O15 | Daily target progress (DAILY_TARGET=15), counts COMPLETED orders completed today; bar colour red <5, orange <10, green ≥10 | `renderOrders` | Target progress, target from settings; colour thresholds as % of target | TODO | CHANGED: thresholds scale with target |
-| O16 | Row shows date/time, plate, phone, services string, price, discount note, status badge, payment info, actions | `renderOrders` | Queue card/row | TODO | |
-| O17 | Status values in use: QUEUED, COMPLETED, CANCELLED (filtered in analytics) | various | QUEUED → IN_PROGRESS → READY → COMPLETED; CANCELLED with reason | TODO | CHANGED: richer flow for bay board. D-015 |
-| O18 | Edit order modal: customer, plate, size, add-ons, products; recalculates price; for COMPLETED also final price, payment method, split amounts | `showEditModal` 4041, `saveOrderChanges` 8556 | Edit before payment; after payment, corrections via payment reversal + re-tender | TODO | CHANGED: append-only payments. D-008 |
+| O1 | Plate (required, uppercased), phone, name (optional; stored as 'N/A' when empty) | `addOrder` 8851 | New Order screen; empty → null (not 'N/A') | DONE | |
+| O2 | Vehicle size: BIKE 500 / SMALL 750 / MEDIUM 1000 / LARGE 1250 (hardcoded) | `PRICES` 3381 | Configurable vehicle classes in `catalog` | DONE | Seeded with the same prices |
+| O3 | Add-ons (flat, on/off): Wax 250, Vacuum add-on 250 | `PRICES.addons` | Catalog items `kind: addon`, qty stepper (max 1 by default) | DONE | Old README lists only products; source has both. Both kept |
+| O4 | Products (per unit, qty): Air Freshener 500, Int. Vacuum product 500, Wiper Fluid 250 | `PRICES.products` | Catalog items `kind: product`, steppers | DONE | |
+| O5 | Selecting a size opens add-ons modal | `handleSizeSelection` 3975 | Add-ons shown inline beside class tiles (no modal, faster) | DONE | CHANGED for speed |
+| O6 | Order valid if plate + (size or ≥1 product); add-on alone is not enough | `calculateTotal` 4233, `addOrder` | Same rule in shared Zod schema | DONE | |
+| O7 | Price = size + add-ons + Σ product×qty; qty defaults 1 | `calculateTotal`, `calculateBreakdown` 3890 | `priceOrder()` in shared, recomputed on API (client total ignored) | DONE | |
+| O8 | Order doc fields: customerName, customerPhone, numberPlate, vehicleSize, selectedAddOns[], selectedProducts[{name,qty}], calculatedPrice, orderDate, status QUEUED, paymentMethod 'N/A', createdBy, createdAt | 8851 | `orders` with line items snapshotting name + unit price | DONE | |
+| O9 | Autocomplete: datalists for plates/phones/names from all orders + localStorage recent list; normalized plate (no spaces) dedupe | 8252, 8673–8840 | Customer/vehicle lookup endpoint + Firestore `vehicles` index; typeahead | DONE | |
+| O10 | Cross-fill: entering a known plate fills phone/name; known phone fills name/plate; known name fills phone/plate; only fills empty fields or fields it filled itself; clears what it filled when the trigger changes | `lookUpPlate/Phone/Name`, `setAutofillValue`, `clearAutofilledBy` 8760–8850 | Same behaviour in New Order form hook (tested) | DONE | |
+| O11 | Returning-customer badge when plate seen before | README §8.3 | Badge + visit count + last service on plate entry | DONE | |
+| O12 | Live queue: real-time listener of ALL orders, QUEUED first then newest | `startOrderListener` 8252 | Queue scoped to location + business day (+ open older QUEUED), real-time | DONE | CHANGED: no full-collection listener (performance) |
+| O13 | Search across plate, name, phone | `renderOrders` 8350 | Search box (Ctrl/⌘+K and `/`) | DONE | |
+| O14 | Pagination 10/page with numbered pages, ellipsis, "Showing x to y of z" | 8350, 8522–8550 | Paginated table (desktop) / card list (mobile) | DONE | |
+| O15 | Daily target progress (DAILY_TARGET=15), counts COMPLETED orders completed today; bar colour red <5, orange <10, green ≥10 | `renderOrders` | Target progress, target from settings; colour thresholds as % of target | DONE | CHANGED: thresholds scale with target |
+| O16 | Row shows date/time, plate, phone, services string, price, discount note, status badge, payment info, actions | `renderOrders` | Queue card/row | DONE | |
+| O17 | Status values in use: QUEUED, COMPLETED, CANCELLED (filtered in analytics) | various | QUEUED → IN_PROGRESS → READY → COMPLETED; CANCELLED with reason | DONE | CHANGED: richer flow for bay board. D-015 |
+| O18 | Edit order modal: customer, plate, size, add-ons, products; recalculates price; for COMPLETED also final price, payment method, split amounts | `showEditModal` 4041, `saveOrderChanges` 8556 | Edit before payment; after payment, corrections via payment reversal + re-tender | DONE | CHANGED: append-only payments. D-008 |
 | O19 | HR can backdate order date (sets createdAt/completedAt, clears sessionId) | 4041, 8556 | Manager "back-dated entry" with reason, assigned to a target shift; audited | TODO | |
-| O20 | Delete order (confirm) — hard delete | `deleteOrder` 8914 | Cancel with reason (permission `order.cancel`); paid orders need refund first | TODO | CHANGED: no hard deletes |
-| O21 | Edit/delete icons per row | `renderOrders` | Row actions menu | TODO | |
-| O22 | Clear form button | `clearOrderForm` 4762 | "Clear" (Esc) | TODO | |
-| O23 | Products-only order allowed (no vehicle size) | `addOrder` | Allowed ("Retail only") | TODO | |
-| O24 | `order-staff-name` select (all staff) exists in UI | 6420 | Optional "Assigned washer" on order | TODO | Used later for per-staff analytics |
+| O20 | Delete order (confirm) — hard delete | `deleteOrder` 8914 | Cancel with reason (permission `order.cancel`); paid orders need refund first | DONE | CHANGED: no hard deletes |
+| O21 | Edit/delete icons per row | `renderOrders` | Row actions menu | DONE | |
+| O22 | Clear form button | `clearOrderForm` 4762 | "Clear" (Esc) | DONE | |
+| O23 | Products-only order allowed (no vehicle size) | `addOrder` | Allowed ("Retail only") | DONE | |
+| O24 | `order-staff-name` select (all staff) exists in UI | 6420 | Optional "Assigned washer" on order | WIP | Used later for per-staff analytics |
 
 ## 5. Payment & invoice per order
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| P1 | "Mark complete & pay" opens payment modal with calculated amount, final paid price editable | `showPaymentModal` 4002 | Checkout sheet | TODO | |
-| P2 | Methods CASH, CARD, SPLIT (cash+card must equal final ±0.01); split inputs auto-fill the remainder | 4168, 4740 | Tenders list (CASH, CARD now; design allows more) with remaining-due calculator | TODO | Integer cents, exact match |
-| P3 | discountAmount = calculated − final; shown as "(LKR x Discount)" | 4168, 8350 | Discount line with reason; above configurable % needs manager override | TODO | Override threshold new |
-| P4 | Final price must be ≥ 0 | 4168 | Zod + API | TODO | |
-| P5 | On pay: status COMPLETED, paymentMethod, cashAmount, cardAmount, completedAt, invoiceNumber, finalPaidPrice, discountAmount, sessionId | 4168 | API `POST /orders/:id/checkout` transaction writes `payments` + order status + invoice | TODO | |
-| P6 | Invoice number = DDMM + 3-digit sequence of today's completed orders (client-side count, race-prone) | 4168 | Server counter per location per business day, in transaction: `{prefix}-{YYMMDD}-{seq}` | TODO | CHANGED: race-free. D-014 |
-| P7 | "View invoice" → per-order invoice PDF `Invoice_{plate}_{no}.pdf` | `generateInvoicePDF` 9148 | Receipt view + PDF download + WhatsApp share | TODO | |
-| P8 | Sales split: SPLIT counts cashAmount to cash and cardAmount to card | 5348 | Payments ledger sums by method | TODO | |
+| P1 | "Mark complete & pay" opens payment modal with calculated amount, final paid price editable | `showPaymentModal` 4002 | Checkout sheet | DONE | |
+| P2 | Methods CASH, CARD, SPLIT (cash+card must equal final ±0.01); split inputs auto-fill the remainder | 4168, 4740 | Tenders list (CASH, CARD now; design allows more) with remaining-due calculator | DONE | Integer cents, exact match |
+| P3 | discountAmount = calculated − final; shown as "(LKR x Discount)" | 4168, 8350 | Discount line with reason; above configurable % needs manager override | DONE | Override threshold new |
+| P4 | Final price must be ≥ 0 | 4168 | Zod + API | DONE | |
+| P5 | On pay: status COMPLETED, paymentMethod, cashAmount, cardAmount, completedAt, invoiceNumber, finalPaidPrice, discountAmount, sessionId | 4168 | API `POST /orders/:id/checkout` transaction writes `payments` + order status + invoice | DONE | |
+| P6 | Invoice number = DDMM + 3-digit sequence of today's completed orders (client-side count, race-prone) | 4168 | Same DDMM+seq format from a server counter per location per day, in the checkout transaction | DONE | Race-free. D-033 |
+| P7 | "View invoice" → per-order invoice PDF `Invoice_{plate}_{no}.pdf` | `generateInvoicePDF` 9148 | Receipt view + PDF download + WhatsApp share | DONE | |
+| P8 | Sales split: SPLIT counts cashAmount to cash and cardAmount to card | 5348 | Payments ledger sums by method | DONE | |
 
 ## 6. Cash out (expenses & deposits)
 

@@ -3,8 +3,8 @@
 > A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
 ## Current state
-- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config API + settings screens).
-- **Next:** Phase 4, step 4.1 (pricing engine in shared). The last line of the step log is always the latest step.
+- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections).
+- **Next:** Phase 5, step 5.1 (pre-shift checklist). Until 5.2 lands, checkout needs a shift opened by the test helper or the coming shift API. The last line of the step log is always the latest step.
 - **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
 - **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
@@ -48,7 +48,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 4.2 | Customers & vehicles: recordVisit upserts vehicle by plate key and customer by phone (or the vehicle's last customer), fills blanks, returning flag; lookup by plate/phone/name prefix (Firestore-compatible ranges, case-insensitive names via nameKey); GET /lookup, GET /vehicles/:plate; 5 tests | ec741e1 |
 | 4.3 | Create order API: idempotent() helper (stored response per actor+key in the same transaction, replay, mismatch 422), POST /orders (Idempotency-Key required, server pricing, daily ticket numbers, visit/returning, QUEUED, audited, rollback on failure, product-only allowed); 6 tests | 43bd935 |
 | 4.8 | Receipts: GET /orders/:id/receipt; one receipt model for screen, 80 mm vector PDF (jsPDF, lazy chunk, brand header) and WhatsApp click-to-chat text; receipt dialog after payment and from paid orders in the queue (PDF, print-only-receipt CSS, WhatsApp); 5 tests | 7fee1ef |
-| 4.9b | Queue corrections UI: edit dialog for unpaid orders (plate/customer + required reason), manager refund dialog for paid orders (reason, reversal amount), EN/SI/TA; 2 tests | (next) |
+| 4.10 | Docs: PARITY statuses for orders and payments (P6 now DDMM+seq per D-033), PROGRESS current state after Phase 4 | (next) |
+| 4.9b | Queue corrections UI: edit dialog for unpaid orders (plate/customer + required reason), manager refund dialog for paid orders (reason, reversal amount), EN/SI/TA; 2 tests | 9ebfb77 |
 | 4.9a | Order corrections API: PATCH /orders/:id edits unpaid orders (plate moves the visit, re-priced lines, reason required, audited before/after); POST /orders/:id/refund (manager) appends negative reversing payments in the open shift, voids the sale, adjusts vehicle/customer totals, blocks double refunds; 4 tests | 047f5c0 |
 | 4.7b | Payment screen: checkout sheet from the queue with server quote (loyalty/discount/tax), cash with change due, card, split (card = remainder), discount with reason, manager approver + PIN when above threshold, stable idempotency key, receipt-number toast, EN/SI/TA; 2 tests | f13fd5e |
 | 4.7a | Quote API for the payment screen: quoteOrder shared by checkout and GET /orders/:id/quote (loyalty, discount, tax, needs-approval flag), GET /orders/:id, staff tiles include role (approver picker); 1 test | a6a7281 |

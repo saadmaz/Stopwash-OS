@@ -5,3 +5,5 @@ export * from './components/badge';
 export * from './components/field';
 export * from './components/select';
 export * from './components/choice';
+export * from './components/overlay';
+export * from './components/toast';

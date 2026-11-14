@@ -303,5 +303,16 @@
     "action": "{{amount}} ආපසු ගෙවන්න",
     "reason": "ආපසු ගෙවීමට හේතුව",
     "done": "ආපසු ගෙවීම සටහන් විය"
+  },
+  "checklistForm": {
+    "allGood": "සියල්ල හොඳයි",
+    "notes": "සටහන් (විකල්ප)",
+    "sendRequest": "තොග ඉල්ලීම යවන්න",
+    "noNumbers": "WhatsApp අංක සකසා නැත. සැකසුම් තුළ එක් කරන්න.",
+    "send": {
+      "stock": "WhatsApp {{phone}} (තොග)",
+      "equipment": "WhatsApp {{phone}} (උපකරණ)",
+      "variance": "WhatsApp {{phone}} (වෙනස)"
+    }
   }
 }

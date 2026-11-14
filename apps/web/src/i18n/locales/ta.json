@@ -303,5 +303,16 @@
     "action": "{{amount}} திருப்பு",
     "reason": "திருப்புவதற்கான காரணம்",
     "done": "பணம் திருப்புதல் பதிவு செய்யப்பட்டது"
+  },
+  "checklistForm": {
+    "allGood": "அனைத்தும் சரி",
+    "notes": "குறிப்புகள் (விருப்பம்)",
+    "sendRequest": "இருப்பு கோரிக்கையை அனுப்பு",
+    "noNumbers": "WhatsApp எண்கள் அமைக்கப்படவில்லை. அமைப்புகளில் சேர்க்கவும்.",
+    "send": {
+      "stock": "WhatsApp {{phone}} (இருப்பு)",
+      "equipment": "WhatsApp {{phone}} (உபகரணம்)",
+      "variance": "WhatsApp {{phone}} (வேறுபாடு)"
+    }
   }
 }

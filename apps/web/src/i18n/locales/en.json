@@ -303,5 +303,16 @@
     "action": "Refund {{amount}}",
     "reason": "Reason for refund",
     "done": "Refund recorded"
+  },
+  "checklistForm": {
+    "allGood": "All good",
+    "notes": "Notes (optional)",
+    "sendRequest": "Send stock request",
+    "noNumbers": "No WhatsApp numbers are set. Add them in Settings.",
+    "send": {
+      "stock": "WhatsApp {{phone}} (stock)",
+      "equipment": "WhatsApp {{phone}} (equipment)",
+      "variance": "WhatsApp {{phone}} (variance)"
+    }
   }
 }

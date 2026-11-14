@@ -1,5 +1,5 @@
 import { formatLKR } from '@stopwash/shared';
-import { Button, EmptyState, Sheet, Skeleton, StatCard } from '@stopwash/ui';
+import { Button, EmptyState, Sheet, Skeleton, StatCard, toast } from '@stopwash/ui';
 import { ClipboardList, PackageSearch } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { useSession } from '@/lib/session';
 import { AlertLinks, ChecklistForm, type ChecklistResult } from './ChecklistForm';
 import { OpenShiftForm } from './OpenShiftForm';
 import { CloseShiftSheet, VarianceLinks, type CloseResult } from './CloseShiftSheet';
+import { downloadShiftReport } from './reconciliationPdf';
 import { useCurrentShift } from './useShift';
 
 const time = (iso: string) =>
@@ -115,6 +116,16 @@ export function ShiftPage() {
         </p>
         <VarianceLinks links={closed.whatsapp} />
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={() =>
+              void downloadShiftReport(closed.close.shiftId).catch(() =>
+                toast.error(t('errors.generic')),
+              )
+            }
+          >
+            {t('legacy.dailyRevenuePdf')}
+          </Button>
           <Button onClick={signOut}>{t('shell.switchUser')}</Button>
           <Button variant="outline" onClick={() => setClosed(null)}>
             {t('closeShift.openNext')}

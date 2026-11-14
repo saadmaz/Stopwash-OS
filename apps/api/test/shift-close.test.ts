@@ -111,3 +111,15 @@ describe('shift summary and close', () => {
     expect(wrong.json().error.code).toBe('OVERRIDE_INVALID');
   });
 });
+
+describe('GET /shifts/:id/report', () => {
+  it('bundles the close record and cash entries for the PDF', async () => {
+    const { app, cashier, shift, close, count } = await setup();
+    await close({ closingCount: count(10, 55000) });
+    const r = (await app.inject({ url: `/shifts/${shift.id}/report`, headers: cashier })).json();
+    expect(r.closes).toHaveLength(1);
+    expect(r.cashMovements[0]).toMatchObject({ categoryCode: 'E004', amountCents: 20000 });
+    expect(r.business.name).toBe('STOPWASH (PVT) LTD');
+    expect(r.shift.status).toBe('CLOSED');
+  });
+});

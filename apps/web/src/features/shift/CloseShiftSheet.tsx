@@ -35,7 +35,7 @@ interface Summary {
   openOrders: number;
 }
 export interface CloseResult {
-  close: { id: string; varianceCents: number };
+  close: { id: string; shiftId: string; varianceCents: number };
   reconciliation: Reconciliation;
   whatsapp: WhatsappAlert[];
 }

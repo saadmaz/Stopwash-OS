@@ -8,6 +8,8 @@ import { currentShift, openShift, OpenShiftInput } from '../services/shifts';
 import { AppError } from '../lib/errors';
 import { verifyOverride } from '../services/override';
 import { closeShift, CloseShiftInput, loadShift, shiftSummary } from '../services/shift-close';
+import { getSettings } from '../services/config';
+import { eq } from '../repos';
 
 const Loc = z.object({ locationId: z.string().optional() });
 
@@ -94,5 +96,31 @@ export async function shiftRoutes(app: FastifyInstance): Promise<void> {
         closeShift(tx, ctx, id, body, handover, override),
       )
     ).result;
+  });
+
+  /** Everything needed for the reconciliation report PDF. */
+  app.get('/shifts/:id/report', { preHandler: guard('shift.read') }, async (req) => {
+    const ctx = ctxOf(req);
+    const { id } = req.params as { id: string };
+    const summary = await shiftSummary(app.store, ctx, id);
+    const brand = eq<{ brandId: string }>('brandId', ctx.actor.brandId);
+    const [closes, cashMovements, settings] = await Promise.all([
+      app.store.shiftCloses.find({
+        where: [brand, eq('shiftId', id)],
+        orderBy: { field: 'createdAt' },
+      }),
+      app.store.cashMovements.find({
+        where: [brand, eq('shiftId', id)],
+        orderBy: { field: 'createdAt' },
+      }),
+      getSettings(app.store, ctx.actor.brandId, summary.shift.locationId),
+    ]);
+    return {
+      ...summary,
+      closes,
+      cashMovements,
+      business: settings.business,
+      denominations: settings.denominations,
+    };
   });
 }

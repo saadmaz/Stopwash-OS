@@ -127,3 +127,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-031 Dev sign-in is PIN-only; email sign-in waits for Firebase Auth
 - **Decision:** every role, owner and accounts included, signs in with an employee PIN on a registered device in dev. `POST /auth/email` returns 501 until Firebase Auth is wired up. Sign-in tokens come from `AuthTokenIssuer`: `dev` signs an HS256 JWT with `AUTH_DEV_SECRET`, and `firebase` is a stub. `AUTH_ISSUER=dev` is refused in production.
 - **Why:** Firebase is out of scope for now (D-026), and the PIN path already covers device trust, hashing, lockout and rate limits.
+
+### D-032 Queue refresh by polling until Firestore listeners exist
+- **Decision:** the queue, bay board and display refresh with TanStack Query polling (every 5 s, and on window focus) against `GET /orders`. When Firestore is wired up, swap the hook's internals for an `onSnapshot` listener. Components don't change.
+- **Why:** the in-memory backend has no realtime channel, and polling a small, indexed query every 5 s is cheap at one location.

@@ -1,0 +1,16 @@
+{
+  "name": "@stopwash/firebase",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "emulators": "firebase emulators:start --project demo-stopwash"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^6",
+    "firebase": "^13",
+    "vitest": "^5"
+  }
+}

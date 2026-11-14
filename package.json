@@ -16,7 +16,7 @@
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "pnpm -r test",
+    "test": "pnpm -r --filter \"!@stopwash/firebase\" test",
     "test:rules": "pnpm --filter @stopwash/firebase test",
     "e2e": "pnpm --filter @stopwash/web e2e",
     "emulators": "docker compose up emulators",

@@ -1,0 +1,15 @@
+services:
+  emulators:
+    build: ./docker/emulators
+    image: stopwash/firebase-emulators:15.36.0
+    working_dir: /firebase
+    volumes:
+      - ./firebase:/firebase
+    ports:
+      - "4000:4000" # Emulator UI
+      - "4400:4400" # Hub
+      - "4500:4500"
+      - "8081:8081" # Firestore
+      - "9099:9099" # Auth
+      - "9199:9199" # Storage
+    stop_grace_period: 30s

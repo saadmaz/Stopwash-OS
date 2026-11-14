@@ -188,5 +188,17 @@
       "code": "Use capitals, digits and _ (2–32)",
       "name": "Name is required"
     }
+  },
+  "cashCategories": {
+    "type": "Type",
+    "expense": "Expenses",
+    "deposit": "Deposits",
+    "new": "New category ({{code}})"
+  },
+  "checklist": {
+    "kind": "Check type",
+    "stock": "Stock",
+    "equipment": "Equipment",
+    "new": "New item"
   }
 }

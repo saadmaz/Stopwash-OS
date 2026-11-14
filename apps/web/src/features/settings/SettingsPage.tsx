@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
 import { CatalogEditor } from './CatalogEditor';
 import { GeneralSettingsForm } from './GeneralSettingsForm';
+import { CashCategoryEditor, ChecklistEditor } from './ListEditors';
 import { useConfig } from './useConfig';
 
 export function SettingsPage() {
@@ -44,6 +45,16 @@ export function SettingsPage() {
             value: 'catalog',
             label: t('settings.tabs.catalog'),
             content: <CatalogEditor items={config.data.catalog} />,
+          },
+          {
+            value: 'categories',
+            label: t('settings.tabs.categories'),
+            content: <CashCategoryEditor items={config.data.cashCategories} />,
+          },
+          {
+            value: 'checklist',
+            label: t('settings.tabs.checklist'),
+            content: <ChecklistEditor items={config.data.checklistItems} />,
           },
         ]}
       />

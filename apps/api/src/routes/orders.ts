@@ -1,4 +1,6 @@
-import { can, CreateOrderInput, DateKeyField, OrderStatus } from '@stopwash/shared';
+import { can, CheckoutInput, CreateOrderInput, DateKeyField, OrderStatus } from '@stopwash/shared';
+import { checkout } from '../services/checkout';
+import { verifyOverride } from '../services/override';
 import { AppError } from '../lib/errors';
 import { listQueue, setOrderStatus } from '../services/queue';
 import type { FastifyInstance } from 'fastify';
@@ -66,6 +68,34 @@ export async function orderRoutes(app: FastifyInstance): Promise<void> {
     const route = `POST /orders/${id}/status`;
     const { result } = await idempotent(app.store, ctx, route, key, req.body, (tx) =>
       setOrderStatus(tx, ctx, id, body.status, body.reason),
+    );
+    return result;
+  });
+
+  app.post('/orders/:id/checkout', { preHandler: guard('order.checkout') }, async (req) => {
+    const ctx = ctxOf(req);
+    const key = idempotencyKeyOf(req);
+    const body = validate(CheckoutInput, req.body);
+    const { id } = req.params as { id: string };
+    // Verify any approval first, outside the transaction, so failed PINs still count to lockout.
+    const order = await app.store.orders.get(id);
+    const approver =
+      body.override && order
+        ? await verifyOverride(
+            app.store,
+            ctx,
+            order.locationId,
+            body.override,
+            'order.discount.override',
+            {
+              maxAttempts: app.env.PIN_MAX_ATTEMPTS,
+              lockoutMinutes: app.env.PIN_LOCKOUT_MINUTES,
+            },
+          )
+        : null;
+    const route = 'POST /orders/' + id + '/checkout';
+    const { result } = await idempotent(app.store, ctx, route, key, req.body, (tx) =>
+      checkout(tx, ctx, id, body, approver),
     );
     return result;
   });

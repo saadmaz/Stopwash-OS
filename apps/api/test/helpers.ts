@@ -96,3 +96,31 @@ export async function authHeader(
   if (res.statusCode !== 200) throw new Error(`sign-in failed: ${res.body}`);
   return { authorization: `Bearer ${res.json().token}` };
 }
+
+/** Opens a shift directly (until the shift API exists in Phase 5). */
+export async function openTestShift(store: MemoryStore, id = 'shift-1'): Promise<string> {
+  await store.shifts.insert({
+    id,
+    brandId: BRAND,
+    locationId: LOCATION,
+    createdAt: T0,
+    createdBy: 'emp:e1',
+    updatedAt: null,
+    updatedBy: null,
+    status: 'OPEN',
+    supervisorEmployeeId: 'e1',
+    supervisorName: 'Staff e1',
+    openedAt: T0,
+    businessDate: '2026-11-15',
+    checklistId: null,
+    openingCount: { notes: {}, coinsCents: 0 },
+    openingCents: 0,
+    carryoverNotes: null,
+    closeId: null,
+    closedAt: null,
+    approvalId: null,
+    backdated: false,
+  });
+  await store.locations.update(LOCATION, { openShiftId: id });
+  return id;
+}

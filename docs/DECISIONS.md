@@ -131,3 +131,11 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-032 Queue refresh by polling until Firestore listeners exist
 - **Decision:** the queue, bay board and display refresh with TanStack Query polling (every 5 s, and on window focus) against `GET /orders`. When Firestore is wired up, swap the hook's internals for an `onSnapshot` listener. Components don't change.
 - **Why:** the in-memory backend has no realtime channel, and polling a small, indexed query every 5 s is cheap at one location.
+
+### D-033 Receipt numbers keep the SWOMS format (supersedes the format in D-014)
+- **Decision:** receipt number = `DDMM` + 3-digit daily sequence (e.g. `1511007`), from a server counter per location per business day, assigned in the checkout transaction. The order id stays the unique key; the number is what staff and customers read.
+- **Why:** Saad's plan asks for DDMM+seq. Moving the counter to the server removes the old collision risk.
+
+### D-034 Manager approvals are verified outside the write transaction
+- **Decision:** when a request carries a manager override, the PIN is checked before the business transaction starts, and the transaction receives the verified approver.
+- **Why:** if the PIN check ran inside a transaction that later rolled back, the failed-attempt count would roll back too, and approval PINs could be brute-forced.

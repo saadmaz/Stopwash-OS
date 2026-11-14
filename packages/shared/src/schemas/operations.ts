@@ -97,7 +97,8 @@ export const Tender = z.object({ method: PaymentMethod, amountCents: PositiveCen
 export type Tender = z.infer<typeof Tender>;
 
 export const CheckoutInput = z.object({
-  tenders: z.array(Tender).min(1).max(4),
+  /** Empty only when the total is zero (fully discounted). */
+  tenders: z.array(Tender).max(4),
   discountCents: NonNegativeCents.default(0),
   discountReason: OptionalText(200),
   /** Manager override for discounts above the configured percentage. */

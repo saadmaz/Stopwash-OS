@@ -139,3 +139,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-034 Manager approvals are verified outside the write transaction
 - **Decision:** when a request carries a manager override, the PIN is checked before the business transaction starts, and the transaction receives the verified approver.
 - **Why:** if the PIN check ran inside a transaction that later rolled back, the failed-attempt count would roll back too, and approval PINs could be brute-forced.
+
+### D-035 Shift handover must be signed by someone else
+- **Decision:** closing a shift requires the PIN of an incoming supervisor (anyone allowed to open shifts) who is not the person closing. Above the override threshold, a manager PIN is also required. Both are verified before the close transaction (D-034).
+- **Why:** SWOMS's handover was meant as a countersignature. Letting the closer sign their own handover would make it meaningless.

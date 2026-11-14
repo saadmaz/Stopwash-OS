@@ -1,5 +1,7 @@
 import { can, CheckoutInput, CreateOrderInput, DateKeyField, OrderStatus } from '@stopwash/shared';
 import { checkout, quoteOrder } from '../services/checkout';
+import { getSettings } from '../services/config';
+import { eq } from '../repos';
 import { assertLocation } from '../lib/guard';
 import { verifyOverride } from '../services/override';
 import { AppError } from '../lib/errors';
@@ -132,5 +134,20 @@ export async function orderRoutes(app: FastifyInstance): Promise<void> {
       totalCents: q.priced.totalCents,
       discountNeedsApproval: q.discountNeedsApproval,
     };
+  });
+
+  /** Everything needed to show or reprint a receipt. */
+  app.get('/orders/:id/receipt', { preHandler: guard('order.read') }, async (req) => {
+    const { ctx, order } = await orderFor(req);
+    if (order.status !== 'COMPLETED')
+      throw new AppError('ORDER_NOT_EDITABLE', 'Order is not paid yet');
+    const [payments, settings] = await Promise.all([
+      app.store.payments.find({
+        where: [eq('brandId', ctx.actor.brandId), eq('orderId', order.id)],
+        orderBy: { field: 'createdAt' },
+      }),
+      getSettings(app.store, ctx.actor.brandId, order.locationId),
+    ]);
+    return { order, payments, business: settings.business, footer: settings.receipt.footer };
   });
 }

@@ -13,13 +13,14 @@ import {
   Textarea,
   toast,
 } from '@stopwash/ui';
-import { ArrowRight, Ban, ListOrdered, RotateCcw, Search, Wallet } from 'lucide-react';
+import { ArrowRight, Ban, ListOrdered, ReceiptText, RotateCcw, Search, Wallet } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
 import { useHotkeys } from '@/lib/hotkeys';
 import { useSession } from '@/lib/session';
 import { CheckoutSheet } from '@/features/checkout/CheckoutSheet';
+import { ReceiptDialog } from '@/features/receipt/ReceiptDialog';
 import { STATUS_TONE, useQueue, useSetStatus, type QueueFilter } from './useQueue';
 
 const time = (iso: string) =>
@@ -66,10 +67,12 @@ function Actions({
   order,
   onCancel,
   onPay,
+  onReceipt,
 }: {
   order: Order;
   onCancel: () => void;
   onPay: () => void;
+  onReceipt: () => void;
 }) {
   const { t } = useTranslation();
   const { can } = useSession();
@@ -93,6 +96,11 @@ function Actions({
           {t(`queue.to.${next}`)} <ArrowRight aria-hidden />
         </Button>
       )}
+      {order.status === 'COMPLETED' && (
+        <Button size="sm" variant="outline" onClick={onReceipt}>
+          <ReceiptText aria-hidden /> {t('receipt.title')}
+        </Button>
+      )}
       {open && can('order.checkout') && (
         <Button size="sm" onClick={onPay}>
           <Wallet aria-hidden /> {t('queue.pay')}
@@ -112,6 +120,7 @@ export function QueuePage() {
   const [filter, setFilter] = useState<QueueFilter>({ status: 'OPEN', q: '', page: 1 });
   const [cancelling, setCancelling] = useState<Order | null>(null);
   const [paying, setPaying] = useState<Order | null>(null);
+  const [receiptFor, setReceiptFor] = useState<string | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const queue = useQueue(filter);
   useHotkeys({ '/': () => searchRef.current?.focus() });
@@ -183,7 +192,12 @@ export function QueuePage() {
             <p className="tabular text-right font-semibold md:min-w-28">
               {formatLKR(o.totalCents)}
             </p>
-            <Actions order={o} onCancel={() => setCancelling(o)} onPay={() => setPaying(o)} />
+            <Actions
+              order={o}
+              onCancel={() => setCancelling(o)}
+              onPay={() => setPaying(o)}
+              onReceipt={() => setReceiptFor(o.id)}
+            />
           </li>
         ))}
       </ul>
@@ -250,9 +264,13 @@ export function QueuePage() {
         <CheckoutSheet
           order={paying}
           onClose={() => setPaying(null)}
-          onPaid={() => setPaying(null)}
+          onPaid={(r) => {
+            setPaying(null);
+            setReceiptFor(r.order.id);
+          }}
         />
       )}
+      {receiptFor && <ReceiptDialog orderId={receiptFor} onClose={() => setReceiptFor(null)} />}
     </div>
   );
 }

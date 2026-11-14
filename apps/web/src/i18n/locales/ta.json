@@ -282,5 +282,11 @@
     "approver": "ஒப்புதல் அளிக்கும் மேலாளர்",
     "chooseApprover": "மேலாளரைத் தேர்ந்தெடுக்கவும்",
     "approverPin": "மேலாளர் PIN"
+  },
+  "receipt": {
+    "title": "ரசீது",
+    "pdf": "PDF",
+    "print": "அச்சிடு",
+    "whatsapp": "WhatsApp"
   }
 }

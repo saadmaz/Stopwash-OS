@@ -282,5 +282,11 @@
     "approver": "Approving manager",
     "chooseApprover": "Choose a manager",
     "approverPin": "Manager PIN"
+  },
+  "receipt": {
+    "title": "Receipt",
+    "pdf": "PDF",
+    "print": "Print",
+    "whatsapp": "WhatsApp"
   }
 }

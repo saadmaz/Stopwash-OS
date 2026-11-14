@@ -282,5 +282,11 @@
     "approver": "අනුමත කරන කළමනාකරු",
     "chooseApprover": "කළමනාකරුවෙකු තෝරන්න",
     "approverPin": "කළමනාකරු PIN"
+  },
+  "receipt": {
+    "title": "රිසිට්පත",
+    "pdf": "PDF",
+    "print": "මුද්‍රණය",
+    "whatsapp": "WhatsApp"
   }
 }

@@ -168,3 +168,17 @@ describe('GET /orders/:id/quote', () => {
     expect(single.json().id).toBe(o.id);
   });
 });
+
+describe('GET /orders/:id/receipt', () => {
+  it('returns order, payments and business details once paid', async () => {
+    const { app, post, order } = await setup();
+    const o = await order();
+    const h = await authHeader(app, 'e1', '4826');
+    expect((await app.inject({ url: `/orders/${o.id}/receipt`, headers: h })).statusCode).toBe(409);
+    await post(`/orders/${o.id}/checkout`, { tenders: [{ method: 'CASH', amountCents: 100000 }] });
+    const r = (await app.inject({ url: `/orders/${o.id}/receipt`, headers: h })).json();
+    expect(r.payments).toHaveLength(1);
+    expect(r.business.name).toBe('STOPWASH (PVT) LTD');
+    expect(r.order.number).toMatch(/^\d{7}$/);
+  });
+});

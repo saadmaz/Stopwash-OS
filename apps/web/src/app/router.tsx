@@ -11,12 +11,14 @@ import { DesignSystemPage } from '@/pages/DesignSystem';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { NewOrderPage } from '@/features/pos/NewOrderPage';
 import { QueuePage } from '@/features/queue/QueuePage';
+import { ShiftPage } from '@/features/shift/ShiftPage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
   settings: () => <SettingsPage />,
   newOrder: () => <NewOrderPage />,
   queue: () => <QueuePage />,
+  shift: () => <ShiftPage />,
 };
 
 export function RequirePermission({

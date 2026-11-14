@@ -314,5 +314,23 @@
       "equipment": "WhatsApp {{phone}} (equipment)",
       "variance": "WhatsApp {{phone}} (variance)"
     }
+  },
+  "shift": {
+    "openingCount": "Opening cash count",
+    "coins": "Coins (total value)",
+    "openingTotal": "Opening cash",
+    "noteCount": "Number of {{note}} notes",
+    "supervisor": "Supervisor",
+    "chooseSupervisor": "Choose supervisor",
+    "carryover": "Carry-over notes",
+    "start": "Start shift · {{amount}}",
+    "opened": "Shift started with {{amount}}",
+    "openedAt": "Opened at",
+    "skipCheck": "Skip the check (manager)",
+    "steps": {
+      "label": "Open shift steps",
+      "check": "Stock & equipment",
+      "count": "Cash count"
+    }
   }
 }

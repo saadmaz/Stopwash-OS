@@ -14,7 +14,7 @@ import {
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { loadDevice } from '@/features/auth/device';
+import { isManager, useDeviceStaff } from '@/features/auth/useDeviceStaff';
 import { api, ApiError, errorKey } from '@/lib/api';
 
 interface Quote {
@@ -32,23 +32,6 @@ export interface CheckoutResult {
 }
 
 type Method = 'CASH' | 'CARD' | 'SPLIT';
-
-function useApprovers(enabled: boolean) {
-  return useQuery({
-    queryKey: ['approvers'],
-    enabled,
-    staleTime: 10 * 60_000,
-    queryFn: async () => {
-      const device = loadDevice();
-      if (!device) return [];
-      const r = await api<{ staff: Array<{ id: string; name: string; role: string | null }> }>(
-        '/auth/device/staff',
-        { body: device },
-      );
-      return r.staff.filter((s) => s.role === 'manager' || s.role === 'owner');
-    },
-  });
-}
 
 const lkr = <span className="text-xs font-semibold">LKR</span>;
 
@@ -81,7 +64,8 @@ export function CheckoutSheet({
   const q = quote.data;
   const total = q?.totalCents ?? 0;
   const needsApproval = !!q?.discountNeedsApproval;
-  const approvers = useApprovers(needsApproval);
+  const staff = useDeviceStaff(needsApproval);
+  const approvers = { data: staff.data?.filter(isManager) };
 
   let tenders: Tender[] = [];
   let tenderError: string | null = null;

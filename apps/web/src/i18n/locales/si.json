@@ -314,5 +314,23 @@
       "equipment": "WhatsApp {{phone}} (උපකරණ)",
       "variance": "WhatsApp {{phone}} (වෙනස)"
     }
+  },
+  "shift": {
+    "openingCount": "ආරම්භක මුදල් ගණන",
+    "coins": "කාසි (මුළු වටිනාකම)",
+    "openingTotal": "ආරම්භක මුදල",
+    "noteCount": "{{note}} නෝට්ටු ගණන",
+    "supervisor": "අධීක්ෂක",
+    "chooseSupervisor": "අධීක්ෂකයා තෝරන්න",
+    "carryover": "ඉදිරියට ගෙන යන සටහන්",
+    "start": "මාරුව අරඹන්න · {{amount}}",
+    "opened": "{{amount}} සමඟ මාරුව ආරම්භ විය",
+    "openedAt": "ආරම්භ කළ වේලාව",
+    "skipCheck": "පරීක්ෂාව මඟහරින්න (කළමනාකරු)",
+    "steps": {
+      "label": "මාරුව විවෘත කිරීමේ පියවර",
+      "check": "තොග සහ උපකරණ",
+      "count": "මුදල් ගණන"
+    }
   }
 }

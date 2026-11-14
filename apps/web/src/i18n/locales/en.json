@@ -332,5 +332,25 @@
       "check": "Stock & equipment",
       "count": "Cash count"
     }
+  },
+  "cash": {
+    "expense": "Expense",
+    "deposit": "Deposit / drop",
+    "category": "Category",
+    "chooseCategory": "Choose a category",
+    "amount": "Amount",
+    "paidTo": "Paid to (vendor or staff)",
+    "depositedBy": "Deposited by / handed to",
+    "description": "Description",
+    "needsApproval": "Above {{amount}} needs a manager to approve.",
+    "save": "Save entry",
+    "saved": "Entry saved",
+    "thisShift": "This shift",
+    "none": "No cash entries yet",
+    "noShift": "Start a shift to record expenses and deposits",
+    "reverse": "Reverse entry",
+    "reverseTitle": "Reverse {{amount}}?",
+    "reverseBody": "A negative entry is added; the original stays in the record.",
+    "reverseReason": "Reason"
   }
 }

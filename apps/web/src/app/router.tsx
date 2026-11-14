@@ -12,6 +12,7 @@ import { SettingsPage } from '@/features/settings/SettingsPage';
 import { NewOrderPage } from '@/features/pos/NewOrderPage';
 import { QueuePage } from '@/features/queue/QueuePage';
 import { ShiftPage } from '@/features/shift/ShiftPage';
+import { CashPage } from '@/features/cash/CashPage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
@@ -19,6 +20,7 @@ const PAGES: Record<string, () => ReactNode> = {
   newOrder: () => <NewOrderPage />,
   queue: () => <QueuePage />,
   shift: () => <ShiftPage />,
+  cash: () => <CashPage />,
 };
 
 export function RequirePermission({

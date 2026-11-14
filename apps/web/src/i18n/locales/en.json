@@ -226,5 +226,38 @@
       "INACTIVE_ITEM": "An item is no longer available",
       "DISCOUNT_TOO_LARGE": "Discount is larger than the order"
     }
+  },
+  "queue": {
+    "target": "Today’s target",
+    "searchPlaceholder": "Plate, name, phone or #ticket  ( / )",
+    "filter": "Show",
+    "open": "Open",
+    "done": "Paid",
+    "all": "All",
+    "empty": "No orders yet today",
+    "noMatches": "No orders match your search",
+    "returning": "Returning",
+    "pay": "Take payment",
+    "payComingSoon": "Payment arrives in the next step",
+    "cancelOrder": "Cancel order",
+    "cancelTitle": "Cancel order {{plate}}?",
+    "cancelBody": "The order stays in the history as cancelled.",
+    "reason": "Reason",
+    "showing": "Showing {{from}} to {{to}} of {{total}}",
+    "prev": "Previous page",
+    "next": "Next page",
+    "pages": "Pages",
+    "page": "Page {{n}}",
+    "status": {
+      "QUEUED": "Queued",
+      "IN_PROGRESS": "In bay",
+      "READY": "Ready",
+      "COMPLETED": "Paid",
+      "CANCELLED": "Cancelled"
+    },
+    "to": {
+      "IN_PROGRESS": "Start",
+      "READY": "Ready"
+    }
   }
 }

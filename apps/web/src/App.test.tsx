@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { routes } from './app/router';
 import { SessionProvider, type SessionUser } from './lib/session';
@@ -17,7 +18,9 @@ function renderAt(path: string, role: SessionUser['role']) {
   return render(
     <ThemeProvider>
       <SessionProvider initialUser={user(role)}>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={new QueryClient()}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
       </SessionProvider>
     </ThemeProvider>,
   );
@@ -33,7 +36,7 @@ describe('app shell', () => {
   });
 
   it('shows only the navigation a cashier may use', () => {
-    renderAt('/queue', 'cashier');
+    renderAt('/shift', 'cashier');
     const nav = screen.getAllByRole('navigation', { name: 'Main' })[0]!;
     expect(nav).toHaveTextContent('New order');
     expect(nav).toHaveTextContent('Queue');
@@ -55,7 +58,7 @@ describe('app shell', () => {
 describe('language switch', () => {
   it('translates the navigation to Sinhala and back', async () => {
     const { default: i18n } = await import('./i18n');
-    renderAt('/queue', 'cashier');
+    renderAt('/shift', 'cashier');
     await act(() => i18n.changeLanguage('si'));
     expect(screen.getAllByRole('link', { name: 'පෝලිම' }).length).toBeGreaterThan(0);
     expect(document.documentElement.lang).toBe('si');
@@ -66,7 +69,7 @@ describe('language switch', () => {
 
 describe('command palette', () => {
   it('opens with Ctrl+K and lists only permitted pages', async () => {
-    renderAt('/queue', 'cashier');
+    renderAt('/shift', 'cashier');
     fireEvent.keyDown(window, { key: 'k', code: 'KeyK', ctrlKey: true });
     const dialog = await screen.findByRole('dialog', { name: 'Command menu' });
     expect(dialog).toHaveTextContent('New order');

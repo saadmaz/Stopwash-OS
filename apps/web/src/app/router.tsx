@@ -10,11 +10,13 @@ import { NAV } from './nav';
 import { DesignSystemPage } from '@/pages/DesignSystem';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { NewOrderPage } from '@/features/pos/NewOrderPage';
+import { QueuePage } from '@/features/queue/QueuePage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
   settings: () => <SettingsPage />,
   newOrder: () => <NewOrderPage />,
+  queue: () => <QueuePage />,
 };
 
 export function RequirePermission({

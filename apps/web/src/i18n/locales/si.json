@@ -226,5 +226,38 @@
       "INACTIVE_ITEM": "අයිතමයක් තවදුරටත් නොමැත",
       "DISCOUNT_TOO_LARGE": "වට්ටම ඇණවුමට වඩා වැඩියි"
     }
+  },
+  "queue": {
+    "target": "අද ඉලක්කය",
+    "searchPlaceholder": "අංකය, නම, දුරකථනය හෝ #ටිකට්  ( / )",
+    "filter": "පෙන්වන්න",
+    "open": "විවෘත",
+    "done": "ගෙවූ",
+    "all": "සියල්ල",
+    "empty": "අද තවම ඇණවුම් නැත",
+    "noMatches": "ගැළපෙන ඇණවුම් නැත",
+    "returning": "නැවත පැමිණි",
+    "pay": "ගෙවීම ලබාගන්න",
+    "payComingSoon": "ගෙවීම ඊළඟ පියවරේදී",
+    "cancelOrder": "ඇණවුම අවලංගු කරන්න",
+    "cancelTitle": "{{plate}} ඇණවුම අවලංගු කරන්නද?",
+    "cancelBody": "ඇණවුම අවලංගු ලෙස ඉතිහාසයේ රැඳේ.",
+    "reason": "හේතුව",
+    "showing": "{{total}} න් {{from}} සිට {{to}} දක්වා",
+    "prev": "පෙර පිටුව",
+    "next": "ඊළඟ පිටුව",
+    "pages": "පිටු",
+    "page": "පිටුව {{n}}",
+    "status": {
+      "QUEUED": "පෝලිමේ",
+      "IN_PROGRESS": "සේදීමේ",
+      "READY": "සූදානම්",
+      "COMPLETED": "ගෙවා ඇත",
+      "CANCELLED": "අවලංගුයි"
+    },
+    "to": {
+      "IN_PROGRESS": "ආරම්භ කරන්න",
+      "READY": "සූදානම්"
+    }
   }
 }

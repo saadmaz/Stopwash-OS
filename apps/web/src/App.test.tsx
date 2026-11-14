@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { routes } from './app/router';
 import { SessionProvider, type SessionUser } from './lib/session';
@@ -61,5 +61,15 @@ describe('language switch', () => {
     expect(document.documentElement.lang).toBe('si');
     await act(() => i18n.changeLanguage('en'));
     expect(screen.getAllByRole('link', { name: 'Queue' }).length).toBeGreaterThan(0);
+  });
+});
+
+describe('command palette', () => {
+  it('opens with Ctrl+K and lists only permitted pages', async () => {
+    renderAt('/queue', 'cashier');
+    fireEvent.keyDown(window, { key: 'k', code: 'KeyK', ctrlKey: true });
+    const dialog = await screen.findByRole('dialog', { name: 'Command menu' });
+    expect(dialog).toHaveTextContent('New order');
+    expect(dialog).not.toHaveTextContent('Payroll');
   });
 });

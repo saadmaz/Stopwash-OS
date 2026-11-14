@@ -1,5 +1,5 @@
 import { Badge, Button, cn, Sheet } from '@stopwash/ui';
-import { LogOut, Menu, Monitor, Moon, Sun, WifiOff } from 'lucide-react';
+import { LogOut, Menu, Monitor, Moon, Search, Sun, WifiOff } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet } from 'react-router';
@@ -8,6 +8,8 @@ import { useOnline } from '@/lib/online';
 import { useSession } from '@/lib/session';
 import { useTheme, type ThemePref } from '@/lib/theme';
 import { NAV, NAV_GROUPS } from './nav';
+import { CommandPalette, openCommandPalette } from './CommandPalette';
+import { SHORTCUTS, shortcutLabel } from '@/lib/hotkeys';
 
 export function Wordmark({ className, wash = 'text-lime' }: { className?: string; wash?: string }) {
   return (
@@ -145,6 +147,15 @@ export function AppShell() {
             <Menu aria-hidden />
           </Button>
           <Wordmark className="lg:hidden" wash="text-leaf dark:text-lime" />
+          <Button
+            variant="outline"
+            size="sm"
+            className="ml-2 hidden text-fg-muted md:inline-flex"
+            onClick={openCommandPalette}
+          >
+            <Search aria-hidden /> {t('palette.open')}
+            <kbd className="ml-2 text-xs">{shortcutLabel(SHORTCUTS.palette)}</kbd>
+          </Button>
           <div className="ml-auto flex items-center gap-2">
             <OfflineBadge />
             <LanguageSwitcher />
@@ -167,6 +178,7 @@ export function AppShell() {
             )}
           </div>
         </header>
+        <CommandPalette />
         <main id="main" className="flex-1 p-3 sm:p-5 lg:p-8">
           <Outlet />
         </main>

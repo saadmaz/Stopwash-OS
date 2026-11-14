@@ -1,5 +1,8 @@
 {
-  "app": { "name": "STOPWASH POS", "skipToContent": "Skip to content" },
+  "app": {
+    "name": "STOPWASH POS",
+    "skipToContent": "Skip to content"
+  },
   "nav": {
     "main": "Main",
     "dashboard": "Dashboard",
@@ -55,7 +58,12 @@
     "optional": "Optional",
     "total": "Total"
   },
-  "role": { "owner": "Owner", "manager": "Manager", "cashier": "Cashier", "accounts": "Accounts" },
+  "role": {
+    "owner": "Owner",
+    "manager": "Manager",
+    "cashier": "Cashier",
+    "accounts": "Accounts"
+  },
   "legacy": {
     "finance": "Finance",
     "inventory": "Inventory",
@@ -84,5 +92,16 @@
     "incentiveRules": "Incentive Rules",
     "active": "Active",
     "createInvoice": "Create Invoice"
+  },
+  "palette": {
+    "title": "Command menu",
+    "hint": "Type to search pages and actions",
+    "placeholder": "Search pages and actions…",
+    "empty": "No results",
+    "goTo": "Go to",
+    "preferences": "Preferences",
+    "designSystem": "Design system",
+    "theme": "Theme: {{theme}}",
+    "open": "Search"
   }
 }

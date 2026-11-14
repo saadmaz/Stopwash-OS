@@ -3,3 +3,12 @@
 
 /* Scan the shared component package too. */
 @source '../../../packages/ui/src';
+
+[cmdk-group-heading] {
+  padding: 0.375rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sw-fg-subtle);
+}

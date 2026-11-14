@@ -1,5 +1,8 @@
 {
-  "app": { "name": "STOPWASH POS", "skipToContent": "අන්තර්ගතයට යන්න" },
+  "app": {
+    "name": "STOPWASH POS",
+    "skipToContent": "අන්තර්ගතයට යන්න"
+  },
   "nav": {
     "main": "ප්‍රධාන",
     "dashboard": "උපකරණ පුවරුව",
@@ -55,7 +58,12 @@
     "optional": "විකල්පයි",
     "total": "එකතුව"
   },
-  "role": { "owner": "හිමිකරු", "manager": "කළමනාකරු", "cashier": "මුදල් අයකැමි", "accounts": "ගිණුම්" },
+  "role": {
+    "owner": "හිමිකරු",
+    "manager": "කළමනාකරු",
+    "cashier": "මුදල් අයකැමි",
+    "accounts": "ගිණුම්"
+  },
   "legacy": {
     "finance": "මූල්‍ය",
     "inventory": "තොග",
@@ -84,5 +92,16 @@
     "incentiveRules": "දිරිදීමනා නීති",
     "active": "සක්‍රියයි",
     "createInvoice": "ඉන්වොයිසි සාදන්න"
+  },
+  "palette": {
+    "title": "විධාන මෙනුව",
+    "hint": "පිටු සහ ක්‍රියා සෙවීමට ටයිප් කරන්න",
+    "placeholder": "පිටු සහ ක්‍රියා සොයන්න…",
+    "empty": "ප්‍රතිඵල නැත",
+    "goTo": "යන්න",
+    "preferences": "මනාපයන්",
+    "designSystem": "නිර්මාණ පද්ධතිය",
+    "theme": "තේමාව: {{theme}}",
+    "open": "සොයන්න"
   }
 }

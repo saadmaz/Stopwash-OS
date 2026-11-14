@@ -180,6 +180,8 @@ export const DEFAULT_SETTINGS: Settings = {
 
 export const Customer = BaseRecord.extend({
   name: z.string().max(80).nullable(),
+  /** Lowercased name for case-insensitive prefix search. */
+  nameKey: z.string().max(80).nullable(),
   phone: z.string().max(20).nullable(),
   plateKeys: z.array(z.string()).max(50),
   firstSeenAt: Timestamp,

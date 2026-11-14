@@ -112,3 +112,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-027 TypeScript 6.0
 - **Decision:** pin `typescript ~6.0.3`. TS 7 (native compiler) is out, but typescript-eslint 8.x supports `<6.1`. Revisit when typescript-eslint supports 7.
+
+### D-028 Node 22 LTS
+- **Decision:** Node 22 for CI, the API runtime and `engines` (the brief said Node 20).
+- **Why:** Node 20 reached end-of-life in April 2026, and current jsdom (via undici 8) no longer runs on it. CI failed on Node 20 for exactly that reason.

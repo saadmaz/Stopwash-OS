@@ -103,5 +103,31 @@
     "designSystem": "Design system",
     "theme": "Theme: {{theme}}",
     "open": "Search"
+  },
+  "signIn": {
+    "whoAreYou": "Who is signing in?",
+    "enterPin": "Hi {{name}}, enter your PIN",
+    "pin": "PIN",
+    "backspace": "Delete digit",
+    "registerTitle": "Register this device",
+    "registerBody": "A manager sets this up once per tablet or phone.",
+    "deviceId": "Device ID",
+    "deviceSecret": "Device secret",
+    "registerAction": "Save device"
+  },
+  "errors": {
+    "generic": "Something went wrong. Try again.",
+    "NETWORK": "No connection. Check the network and try again.",
+    "PIN_INVALID": "Incorrect PIN",
+    "PIN_LOCKED": "Too many attempts. Try again in a few minutes.",
+    "DEVICE_INVALID": "This device is not registered.",
+    "RATE_LIMITED": "Too many attempts. Wait a moment.",
+    "UNAUTHENTICATED": "Your session has ended. Sign in again.",
+    "FORBIDDEN": "You are not allowed to do this.",
+    "VALIDATION_FAILED": "Some details are missing or invalid.",
+    "NOT_FOUND": "Not found.",
+    "CONFLICT": "This was already done.",
+    "NOT_IMPLEMENTED": "This feature is not available yet.",
+    "INTERNAL": "Something went wrong on the server."
   }
 }

@@ -1,17 +1,34 @@
-import { formatLKR } from '@stopwash/shared';
+import { Toaster, TooltipProvider } from '@stopwash/ui';
+import { useState } from 'react';
+import { RouterProvider } from 'react-router';
+import { createRouter } from './app/router';
+import { SessionProvider, type SessionUser } from './lib/session';
+import { ThemeProvider, useTheme } from './lib/theme';
+
+// Temporary dev identity until PIN / email sign-in lands (step 3.7).
+const DEV_USER: SessionUser = {
+  id: 'dev-owner',
+  name: 'Dev Owner',
+  role: 'owner',
+  brandId: 'stopwash',
+  locationIds: ['katubedda'],
+};
+
+function ThemedToaster() {
+  const { resolved } = useTheme();
+  return <Toaster theme={resolved} />;
+}
 
 export function App() {
+  const [router] = useState(createRouter);
   return (
-    <main className="grid min-h-dvh place-items-center bg-bg p-6 text-fg">
-      <div className="rounded-xl bg-surface p-8 shadow-md">
-        <h1 className="font-display text-3xl font-bold">STOPWASH POS</h1>
-        <p className="mt-2 text-fg-muted">
-          Design tokens loaded. <span className="tabular">{formatLKR(0)}</span>
-        </p>
-        <span className="mt-4 inline-block rounded-md bg-primary px-3 py-1 text-sm font-semibold text-primary-fg">
-          Ready
-        </span>
-      </div>
-    </main>
+    <ThemeProvider>
+      <SessionProvider initialUser={DEV_USER}>
+        <TooltipProvider>
+          <RouterProvider router={router} />
+          <ThemedToaster />
+        </TooltipProvider>
+      </SessionProvider>
+    </ThemeProvider>
   );
 }

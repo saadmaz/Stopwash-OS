@@ -352,5 +352,30 @@
     "reverseTitle": "Reverse {{amount}}?",
     "reverseBody": "A negative entry is added; the original stays in the record.",
     "reverseReason": "Reason"
+  },
+  "closeShift": {
+    "closeAndSign": "Close & sign off",
+    "closed": "Shift closed",
+    "done": "Shift closed and signed off",
+    "variance": "Variance",
+    "openNext": "Open the next shift",
+    "openOrders_one": "{{count}} car is still in the queue.",
+    "openOrders_other": "{{count}} cars are still in the queue.",
+    "opening": "Opening cash",
+    "cashSales": "Cash sales",
+    "cardSales": "Card sales (not in drawer)",
+    "expenses": "Expenses",
+    "deposits": "Deposits / drops",
+    "expected": "Expected in drawer",
+    "counted": "Counted",
+    "matched": "Matched",
+    "shortage": "Shortage",
+    "overage": "Overage",
+    "notes": "Notes / explanation",
+    "notesRequired": "Required when the difference is over {{amount}}.",
+    "needsOverride": "Difference over {{amount}}: a manager must approve.",
+    "handover": "Handover",
+    "incoming": "Incoming supervisor",
+    "incomingPin": "Their PIN"
   }
 }

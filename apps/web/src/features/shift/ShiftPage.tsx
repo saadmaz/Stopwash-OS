@@ -8,6 +8,7 @@ import { errorKey } from '@/lib/api';
 import { useSession } from '@/lib/session';
 import { AlertLinks, ChecklistForm, type ChecklistResult } from './ChecklistForm';
 import { OpenShiftForm } from './OpenShiftForm';
+import { CloseShiftSheet, VarianceLinks, type CloseResult } from './CloseShiftSheet';
 import { useCurrentShift } from './useShift';
 
 const time = (iso: string) =>
@@ -87,6 +88,9 @@ export function ShiftPage() {
   const config = useConfig();
   const [requesting, setRequesting] = useState(false);
   const [requested, setRequested] = useState<ChecklistResult | null>(null);
+  const [closing, setClosing] = useState(false);
+  const [closed, setClosed] = useState<CloseResult | null>(null);
+  const { can, signOut } = useSession();
 
   let body;
   if (shift.isLoading) body = <Skeleton className="h-64" />;
@@ -101,6 +105,22 @@ export function ShiftPage() {
           </Button>
         }
       />
+    );
+  else if (!shift.data?.shift && closed)
+    body = (
+      <div className="flex max-w-xl flex-col gap-4 rounded-xl border border-border bg-surface p-5">
+        <p className="font-display text-xl font-bold">{t('closeShift.done')}</p>
+        <p className="tabular">
+          {t('closeShift.variance')}: {formatLKR(closed.close.varianceCents)}
+        </p>
+        <VarianceLinks links={closed.whatsapp} />
+        <div className="flex gap-2">
+          <Button onClick={signOut}>{t('shell.switchUser')}</Button>
+          <Button variant="outline" onClick={() => setClosed(null)}>
+            {t('closeShift.openNext')}
+          </Button>
+        </div>
+      </div>
     );
   else if (!shift.data?.shift) body = <OpenWizard />;
   else {
@@ -125,7 +145,22 @@ export function ShiftPage() {
           >
             <PackageSearch aria-hidden /> {t('legacy.requestStock')}
           </Button>
+          {can('shift.close') && (
+            <Button variant="danger" onClick={() => setClosing(true)}>
+              {t('legacy.endShift')}
+            </Button>
+          )}
         </div>
+        {closing && (
+          <CloseShiftSheet
+            shift={s}
+            onClose={() => setClosing(false)}
+            onClosed={(r) => {
+              setClosing(false);
+              setClosed(r);
+            }}
+          />
+        )}
       </div>
     );
   }

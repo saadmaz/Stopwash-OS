@@ -352,5 +352,30 @@
     "reverseTitle": "{{amount}} ආපසු හරවන්නද?",
     "reverseBody": "සෘණ සටහනක් එක් වේ; මුල් සටහන රැඳේ.",
     "reverseReason": "හේතුව"
+  },
+  "closeShift": {
+    "closeAndSign": "වසා අත්සන් කරන්න",
+    "closed": "මාරුව වසා ඇත",
+    "done": "මාරුව වසා අත්සන් කර ඇත",
+    "variance": "වෙනස",
+    "openNext": "ඊළඟ මාරුව විවෘත කරන්න",
+    "openOrders_one": "පෝලිමේ තවම රථ {{count}} ක් ඇත.",
+    "openOrders_other": "පෝලිමේ තවම රථ {{count}} ක් ඇත.",
+    "opening": "ආරම්භක මුදල",
+    "cashSales": "මුදල් විකුණුම්",
+    "cardSales": "කාඩ් විකුණුම් (ලාච්චුවේ නැත)",
+    "expenses": "වියදම්",
+    "deposits": "තැන්පතු",
+    "expected": "ලාච්චුවේ අපේක්ෂිත",
+    "counted": "ගණන් කළ",
+    "matched": "ගැළපේ",
+    "shortage": "අඩුව",
+    "overage": "වැඩිපුර",
+    "notes": "සටහන් / පැහැදිලි කිරීම",
+    "notesRequired": "වෙනස {{amount}} ට වැඩි නම් අවශ්‍යයි.",
+    "needsOverride": "වෙනස {{amount}} ට වැඩියි: කළමනාකරු අනුමැතිය අවශ්‍යයි.",
+    "handover": "භාර දීම",
+    "incoming": "පැමිණෙන අධීක්ෂක",
+    "incomingPin": "ඔවුන්ගේ PIN"
   }
 }

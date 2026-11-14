@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@import '@stopwash/ui/tokens.css';
+
+/* Scan the shared component package too. */
+@source '../../../packages/ui/src';

@@ -25,7 +25,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 1.3 | Web skeleton: React 18 + Vite 8, Vitest (jsdom, Testing Library), Playwright config + smoke spec, brand favicon | ea189d5 |
 | 1.4 | firebase/ (config, deny-all baseline rules, empty indexes, rules test harness) + emulator Dockerfile/compose committed as-is; rules tests excluded from `pnpm test`, run with `pnpm test:rules` | a6a220e |
 | 1.5 | Root ESLint 9 flat config (typescript-eslint, react-hooks, jsx-a11y), zero warnings; Prettier applied to code (docs and firebase/ excluded) | 6f2b56b |
-| 1.6 | GitHub Actions CI: install (frozen lockfile), typecheck, lint, format check, unit tests, build; no emulator | (next) |
+| 1.6 | GitHub Actions CI: install (frozen lockfile), typecheck, lint, format check, unit tests, build; no emulator | c1a91cb |
+| 2.1 | Tailwind v4 + `packages/ui` token layer: brand palette, semantic light/dark colours, type scale, radius, elevation, motion, 44px touch spacing; tokens.ts for charts/PDF; cn() | (next) |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)
 - Mitts and Power/Water faults never triggered the WhatsApp alert (status string mismatch).

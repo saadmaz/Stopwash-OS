@@ -36,7 +36,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 2.8 | App shell: React Router 7, role-aware sidebar + mobile sheet nav, RequirePermission (permission-denied state), theme provider (light/dark/system), offline badge, skip link, temporary dev session; 3 tests | a6d1e23 |
 | 2.9 | i18next EN/SI/TA (legacy SWOMS strings carried over under `legacy.*`), language switcher, html lang, shell fully translated, key/placeholder parity test; docs/i18n-review.md | 23acc8a |
 | 2.10 | /design-system route: brand + semantic swatches, type, radius, elevation, every component incl. POS parts; fix: PinPad ignores keys typed in other inputs (+1 test) | ad60bbc |
-| 2.11 | Ctrl/⌘K command palette (cmdk; permitted pages, theme, language), global shortcuts Alt+N/Q/S (ignored while typing), header search button; 5 tests | (next) |
+| 2.11 | Ctrl/⌘K command palette (cmdk; permitted pages, theme, language), global shortcuts Alt+N/Q/S (ignored while typing), header search button; 5 tests | b99d8db |
+| 3.1a | Zod schemas (part 1): common fields (cents, ISO timestamps, date keys, localized text, base record), catalog items, checklist items, cash categories, location Settings + SWOMS-parity defaults (target 15, variance 500/2000), customers, vehicles; 6 tests | (next) |
 | 1.6a | CI and runtime on Node 22 LTS (Node 20 is EOL; jsdom/undici 8 failed on it) | 6c34e8a |
 
 ## Findings from Phase 0 (old-app bugs fixed by design)

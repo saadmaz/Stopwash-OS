@@ -119,3 +119,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-029 Design-system page stays English
 - **Decision:** `/design-system` is an internal reference for designers and developers. Its copy is English only and not in the locale files. Every user-facing screen is fully translated.
+
+### D-030 Timestamps as ISO strings in the domain layer
+- **Decision:** domain records and API payloads carry timestamps as ISO-8601 UTC strings (`Timestamp` schema). The Firestore adapter converts them to and from native `Timestamp` at the boundary. Business days are always `DateKey` strings computed in Asia/Colombo.
+- **Why:** the same objects serialise as JSON for the API and the in-memory store without conversion code everywhere.

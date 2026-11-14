@@ -23,6 +23,10 @@ const EnvSchema = z.object({
   CORS_ORIGINS: z.string().default('http://localhost:5173,http://127.0.0.1:5173'),
   DEFAULT_BRAND_ID: z.string().default('stopwash'),
 
+  /** dev = signed JWT (AUTH_DEV_SECRET); firebase = custom tokens (stub until configured). */
+  AUTH_ISSUER: z.enum(['dev', 'firebase']).default('dev'),
+  AUTH_DEV_SECRET: z.string().min(32).optional(),
+
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(300),
   PIN_MAX_ATTEMPTS: z.coerce.number().int().positive().default(5),
   PIN_LOCKOUT_MINUTES: z.coerce.number().int().positive().default(15),
@@ -39,6 +43,9 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
   const env = parsed.data;
   if (env.NODE_ENV === 'production' && env.FIRESTORE_EMULATOR_HOST) {
     throw new Error('FIRESTORE_EMULATOR_HOST must not be set in production');
+  }
+  if (env.NODE_ENV === 'production' && env.AUTH_ISSUER === 'dev') {
+    throw new Error('AUTH_ISSUER=dev is not allowed in production');
   }
   if (env.NODE_ENV !== 'production' && !env.FIREBASE_PROJECT_ID.startsWith('demo-')) {
     // Guard against accidentally pointing local work at a real project.

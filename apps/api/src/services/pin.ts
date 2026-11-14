@@ -7,7 +7,7 @@ import type { EmployeeSecret, Repositories } from '../repos';
 const COST = 10;
 
 /** Hash compared against when the employee is unknown, so timing matches a real check. */
-const DUMMY_HASH = bcrypt.hashSync('no-such-employee', COST);
+export const DUMMY_HASH = bcrypt.hashSync('no-such-employee', COST);
 
 /** PINs that are too easy to guess (old shared passcodes are treated as compromised too). */
 const WEAK = new Set(['0000', '1111', '1234', '4321', '9999', '5252', '6225', '0706', '123456']);

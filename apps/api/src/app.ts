@@ -7,12 +7,15 @@ import { corsOrigins, type Env } from './env';
 import { AppError, isAppError } from './lib/errors';
 import { NotImplementedError } from './lib/not-implemented';
 import { healthRoutes } from './routes/health';
+import { authRoutes } from './routes/auth';
+import { createTokenIssuer, type AuthTokenIssuer } from './services/tokens';
 import { createDataStore, type DataStore } from './repos';
 
 export interface BuildOptions {
   env: Env;
   /** Storage backend; defaults to the one selected by DATA_BACKEND. */
   store?: DataStore;
+  tokens?: AuthTokenIssuer;
   /** Extra route plugins (tests use this to mount fakes). */
   plugins?: Array<(app: FastifyInstance) => Promise<void>>;
 }
@@ -20,6 +23,7 @@ export interface BuildOptions {
 export async function buildApp({
   env,
   store,
+  tokens,
   plugins = [],
 }: BuildOptions): Promise<FastifyInstance> {
   const app = Fastify({
@@ -47,6 +51,7 @@ export async function buildApp({
 
   app.decorate('env', env);
   app.decorate('store', store ?? createDataStore(env));
+  app.decorate('tokens', tokens ?? createTokenIssuer(env, app.log));
 
   await app.register(helmet, { contentSecurityPolicy: false });
   await app.register(cors, {
@@ -100,6 +105,7 @@ export async function buildApp({
   });
 
   await app.register(healthRoutes);
+  await app.register(authRoutes);
   for (const plugin of plugins) await app.register(plugin);
 
   return app;
@@ -109,5 +115,6 @@ declare module 'fastify' {
   interface FastifyInstance {
     env: Env;
     store: DataStore;
+    tokens: AuthTokenIssuer;
   }
 }

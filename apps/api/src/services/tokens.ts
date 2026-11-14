@@ -1,5 +1,7 @@
 import { parseClaims, type StopwashClaims } from '@stopwash/shared';
 import { jwtVerify, SignJWT } from 'jose';
+import { randomBytes } from 'node:crypto';
+import type { Env } from '../env';
 import { AppError } from '../lib/errors';
 import { NotImplementedError } from '../lib/not-implemented';
 
@@ -89,4 +91,15 @@ export class FirebaseTokenIssuer implements AuthTokenIssuer {
       'Firebase ID token verification: wire up when Firebase is configured (admin.auth().verifyIdToken)',
     );
   }
+}
+
+export function createTokenIssuer(
+  env: Pick<Env, 'AUTH_ISSUER' | 'AUTH_DEV_SECRET'>,
+  log?: { warn: (msg: string) => void },
+): AuthTokenIssuer {
+  if (env.AUTH_ISSUER === 'firebase') return new FirebaseTokenIssuer();
+  if (!env.AUTH_DEV_SECRET) {
+    log?.warn('AUTH_DEV_SECRET not set: using a random secret, sessions end when the API restarts');
+  }
+  return new DevJwtIssuer(env.AUTH_DEV_SECRET ?? randomBytes(32).toString('hex'));
 }

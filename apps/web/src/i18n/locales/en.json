@@ -544,5 +544,14 @@
       "ABSENT": "Absent",
       "LEAVE": "Leave"
     }
+  },
+  "reports": {
+    "today": "Today",
+    "previousDay": "Previous day",
+    "vehicles": "Vehicles / target",
+    "cash": "Cash revenue",
+    "card": "Card revenue",
+    "total": "Grand total",
+    "csvHint": "All completed orders, or pick a date range. Opens in Excel with Sinhala and Tamil names intact."
   }
 }

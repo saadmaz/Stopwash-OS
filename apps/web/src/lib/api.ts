@@ -63,3 +63,17 @@ export async function api<T>(path: string, opts: RequestOptions = {}): Promise<T
 export function errorKey(err: unknown): string {
   return err instanceof ApiError ? `errors.${err.code}` : 'errors.generic';
 }
+
+/** Authenticated download (CSV and other files the API streams). */
+export async function apiBlob(path: string): Promise<Blob> {
+  const headers: Record<string, string> = {};
+  if (authToken) headers.authorization = `Bearer ${authToken}`;
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, { headers });
+  } catch {
+    throw new ApiError(0, 'NETWORK', 'Network unavailable');
+  }
+  if (!res.ok) throw new ApiError(res.status, 'INTERNAL', res.statusText);
+  return res.blob();
+}

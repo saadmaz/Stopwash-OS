@@ -56,3 +56,24 @@ jobs:
           name: playwright-traces
           path: apps/web/test-results
           retention-days: 7
+
+  api-image:
+    # Builds the API container and checks it answers /health (in-memory, no seed, no Firebase).
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -f apps/api/Dockerfile -t stopwash-api:ci .
+      - name: Smoke test
+        run: |
+          docker run -d --name api -p 8080:8080 \
+            -e NODE_ENV=development -e DATA_BACKEND=memory -e DEV_SEED=false \
+            -e FIREBASE_PROJECT_ID=demo-stopwash -e LOG_LEVEL=info stopwash-api:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8080/health; then exit 0; fi
+            sleep 1
+          done
+          docker logs api
+          exit 1

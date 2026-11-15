@@ -88,3 +88,11 @@ Business settings (prices, thresholds, receipt footer, business profile, loyalty
 - [Data model](docs/DATA_MODEL.md)
 - [Decisions](docs/DECISIONS.md)
 - [Translation review notes](docs/i18n-review.md)
+
+## API container
+
+```sh
+docker build -f apps/api/Dockerfile -t stopwash-api .
+```
+
+This is a multi-stage image with production dependencies only. It runs as the non-root `node` user, listens on port 8080 and has a `/health` healthcheck. All configuration comes from environment variables at run time. In production (`NODE_ENV=production`) the API refuses to start until Firebase is wired: it needs `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase` and `DEV_SEED=false` (see **Needs Saad** in PROGRESS). CI builds the image and smoke-tests `/health`.

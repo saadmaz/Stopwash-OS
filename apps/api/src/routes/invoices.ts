@@ -15,7 +15,7 @@ import {
 
 export async function invoiceRoutes(app: FastifyInstance): Promise<void> {
   app.get('/invoices', { preHandler: guard('invoice.read') }, async (req) => ({
-    items: await listInvoices(app.store, ctxOf(req).actor.brandId),
+    items: await listInvoices(app.store, ctxOf(req)),
   }));
 
   app.get('/billing-customers', { preHandler: guard('invoice.read') }, async (req) => ({

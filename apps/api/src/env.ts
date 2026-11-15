@@ -52,6 +52,10 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
   if (env.NODE_ENV === 'production' && env.AUTH_ISSUER === 'dev') {
     throw new Error('AUTH_ISSUER=dev is not allowed in production');
   }
+  if (env.NODE_ENV === 'production' && (env.DEV_SEED || env.DATA_BACKEND === 'memory')) {
+    // Dev seed has published PINs; the memory backend loses everything on restart.
+    throw new Error('Production needs DEV_SEED=false and DATA_BACKEND=firestore');
+  }
   if (env.NODE_ENV !== 'production' && !env.FIREBASE_PROJECT_ID.startsWith('demo-')) {
     // Guard against accidentally pointing local work at a real project.
     throw new Error('Non-production runs must use a demo- project id (emulators only)');

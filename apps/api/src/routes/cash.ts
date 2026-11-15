@@ -2,7 +2,7 @@ import { can } from '@stopwash/shared';
 import type { FastifyInstance } from 'fastify';
 import { AppError } from '../lib/errors';
 import { z } from 'zod';
-import { ctxOf, guard, resolveLocation } from '../lib/guard';
+import { assertLocation, ctxOf, guard, resolveLocation } from '../lib/guard';
 import { idempotencyKeyOf, idempotent } from '../lib/idempotency';
 import { validate } from '../lib/validate';
 import {
@@ -70,9 +70,19 @@ export async function cashRoutes(app: FastifyInstance): Promise<void> {
   app.get('/cash-movements', { preHandler: guard('cash.read') }, async (req) => {
     const ctx = ctxOf(req);
     const q = validate(Loc.extend({ shiftId: z.string().optional() }), req.query);
-    const shiftId =
-      q.shiftId ??
-      (await currentShift(app.store, ctx.actor.brandId, resolveLocation(ctx, q.locationId)))?.id;
+    let shiftId: string | undefined;
+    if (q.shiftId) {
+      // An explicit shift must belong to this brand and to a location the caller can see.
+      const shift = await app.store.shifts.get(q.shiftId);
+      if (!shift || shift.brandId !== ctx.actor.brandId) {
+        throw new AppError('NOT_FOUND', 'Shift not found');
+      }
+      assertLocation(ctx, shift.locationId);
+      shiftId = shift.id;
+    } else {
+      const loc = resolveLocation(ctx, q.locationId);
+      shiftId = (await currentShift(app.store, ctx.actor.brandId, loc))?.id;
+    }
     return { items: shiftId ? await listCashMovements(app.store, ctx.actor.brandId, shiftId) : [] };
   });
 }

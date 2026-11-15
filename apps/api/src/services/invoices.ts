@@ -10,6 +10,7 @@ import {
 import { z } from 'zod';
 import type { Ctx } from '../lib/context';
 import { AppError } from '../lib/errors';
+import { assertLocation } from '../lib/guard';
 import { newId } from '../lib/ids';
 import { eq, type InvoiceSettlement, type Repositories } from '../repos';
 import { audit } from './audit';
@@ -140,6 +141,7 @@ export async function settle(
   const invoice = await tx.invoices.get(invoiceId);
   if (!invoice || invoice.brandId !== ctx.actor.brandId || invoice.voidsId)
     throw new AppError('NOT_FOUND', 'Invoice not found');
+  assertLocation(ctx, invoice.locationId);
   const settlement: InvoiceSettlement = {
     id: newId(ctx.now),
     brandId: ctx.actor.brandId,
@@ -171,6 +173,7 @@ export async function voidInvoice(
   const original = await tx.invoices.get(id);
   if (!original || original.brandId !== ctx.actor.brandId || original.voidsId)
     throw new AppError('NOT_FOUND', 'Invoice not found');
+  assertLocation(ctx, original.locationId);
   const already = await tx.invoices.find({
     where: [eq('brandId', ctx.actor.brandId), eq('voidsId', id)],
     limit: 1,
@@ -189,7 +192,8 @@ export async function voidInvoice(
   return record;
 }
 
-export async function listInvoices(repos: Repositories, brandId: string): Promise<InvoiceView[]> {
+export async function listInvoices(repos: Repositories, ctx: Ctx): Promise<InvoiceView[]> {
+  const brandId = ctx.actor.brandId;
   const [all, settlements] = await Promise.all([
     repos.invoices.find({
       where: [eq('brandId', brandId)],
@@ -199,8 +203,10 @@ export async function listInvoices(repos: Repositories, brandId: string): Promis
     repos.invoiceSettlements.find({ where: [eq('brandId', brandId)] }),
   ]);
   const voided = new Set(all.map((i) => i.voidsId).filter(Boolean));
+  const visible = (loc: string) =>
+    ctx.actor.role === 'owner' || ctx.actor.locationIds.includes(loc);
   return all
-    .filter((i) => !i.voidsId)
+    .filter((i) => !i.voidsId && visible(i.locationId))
     .map((i) => {
       const paidCents = sum(
         settlements.filter((s) => s.invoiceId === i.id).map((s) => s.amountCents),

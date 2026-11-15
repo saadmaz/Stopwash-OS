@@ -58,3 +58,19 @@ describe('GET /reports/daily', () => {
     expect((await app.inject({ url: '/reports/daily', headers: h })).statusCode).toBe(403);
   });
 });
+
+describe('GET /reports/orders.csv', () => {
+  it('exports completed orders with SWOMS columns and escaping', async () => {
+    const { app, manager, sell, post } = await setup();
+    await sell('A-1', [{ method: 'CASH', amountCents: 75000 }]);
+    await post('/orders', { plate: 'Q-9', lines: [{ itemId: 'stopwash__bike', qty: 1 }] });
+    const res = await app.inject({ url: '/reports/orders.csv', headers: manager });
+    expect(res.headers['content-type']).toMatch(/text\/csv/);
+    expect(res.body.charCodeAt(0)).toBe(0xfeff);
+    const lines = res.body.slice(1).trim().split('\r\n');
+    expect(lines[0]).toMatch(/^DATE,TIME IN,NUMBER PLATE/);
+    expect(lines).toHaveLength(2);
+    expect(lines[1]).toContain(',A-1,');
+    expect(lines[1]).toContain(',750.00,750.00,0.00,CASH,');
+  });
+});

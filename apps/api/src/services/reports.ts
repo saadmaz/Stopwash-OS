@@ -1,4 +1,12 @@
-import { businessDate, sum, summarizeLines, type Order, type Payment } from '@stopwash/shared';
+import {
+  businessDate,
+  sum,
+  summarizeLines,
+  toCsv,
+  toRupeesString,
+  type Order,
+  type Payment,
+} from '@stopwash/shared';
 import type { Ctx } from '../lib/context';
 import { eq, type Repositories } from '../repos';
 import { getSettings } from './config';
@@ -83,4 +91,74 @@ export async function dailyReport(
     },
     target: settings.dailyVehicleTarget,
   };
+}
+
+const time = (iso: string | null, tz: string) =>
+  iso
+    ? new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      }).format(new Date(iso))
+    : '';
+
+/** SWOMS master CSV: one row per completed order. Amounts in rupees with two decimals. */
+export async function ordersCsv(
+  repos: Repositories,
+  ctx: Ctx,
+  locationId: string,
+  from?: string,
+  to?: string,
+) {
+  const tz = await locationTimezone(repos, ctx.actor.brandId, locationId);
+  const where = [
+    eq<Order>('brandId', ctx.actor.brandId),
+    eq<Order>('locationId', locationId),
+    eq<Order>('status', 'COMPLETED'),
+  ];
+  if (from) where.push({ field: 'businessDate', op: '>=', value: from });
+  if (to) where.push({ field: 'businessDate', op: '<=', value: to });
+  const [orders, payments] = await Promise.all([
+    repos.orders.find({ where, orderBy: { field: 'completedAt' } }),
+    repos.payments.find({
+      where: [eq<Payment>('brandId', ctx.actor.brandId), eq<Payment>('locationId', locationId)],
+    }),
+  ]);
+  const methods = new Map<string, Set<string>>();
+  for (const p of payments)
+    if (p.amountCents > 0)
+      methods.set(p.orderId, (methods.get(p.orderId) ?? new Set()).add(p.method));
+  const r = (c: number) => toRupeesString(c);
+  return toCsv(
+    [
+      'DATE',
+      'TIME IN',
+      'NUMBER PLATE',
+      'CUSTOMER NAME',
+      'CUSTOMER PHONE',
+      'SERVICES',
+      'CALCULATED PRICE (LKR)',
+      'FINAL PAID PRICE (LKR)',
+      'DISCOUNT (LKR)',
+      'PAYMENT METHOD',
+      'INVOICE NUMBER',
+    ],
+    orders.map((o) => {
+      const m = [...(methods.get(o.id) ?? [])];
+      return [
+        o.businessDate,
+        time(o.createdAt, tz),
+        o.plateDisplay,
+        o.customerName ?? '',
+        o.customerPhone ?? '',
+        summarizeLines(o.lines),
+        r(o.subtotalCents),
+        r(o.totalCents),
+        r(o.discountCents + o.loyaltyDiscountCents),
+        m.length > 1 ? 'SPLIT' : (m[0] ?? ''),
+        o.number ?? '',
+      ];
+    }),
+  );
 }

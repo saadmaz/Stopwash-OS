@@ -1,5 +1,6 @@
 import { Tabs } from '@stopwash/ui';
 import { useTranslation } from 'react-i18next';
+import { IncentiveRulesTab } from './IncentiveRulesTab';
 import { PayrollRunTab } from './PayrollRunTab';
 
 export function PayrollPage() {
@@ -9,7 +10,10 @@ export function PayrollPage() {
       <h1 className="font-display text-3xl font-bold">{t('legacy.runPayroll')}</h1>
       <Tabs
         aria-label={t('nav.payroll')}
-        items={[{ value: 'run', label: t('payroll.tabs.run'), content: <PayrollRunTab /> }]}
+        items={[
+          { value: 'run', label: t('payroll.tabs.run'), content: <PayrollRunTab /> },
+          { value: 'rules', label: t('payroll.tabs.rules'), content: <IncentiveRulesTab /> },
+        ]}
       />
     </div>
   );

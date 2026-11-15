@@ -474,5 +474,20 @@
     "date": "Date",
     "vehicles": "Vehicles",
     "tier": "Tier"
+  },
+  "rules": {
+    "add": "Add rule",
+    "edit": "Edit rule",
+    "none": "No incentive rules yet",
+    "name": "Rule name",
+    "help": "Each day, the shop's completed vehicles are compared with the tiers. The highest tier reached pays its bonus.",
+    "weekday": "Weekday tiers",
+    "weekend": "Weekend tiers",
+    "target": "Vehicles (at least)",
+    "bonus": "Bonus (LKR)",
+    "addTier": "Add tier",
+    "removeTier": "Remove tier",
+    "noTiers": "none",
+    "archive": "Archive {{name}}"
   }
 }

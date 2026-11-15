@@ -203,33 +203,33 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| AN1 | Retention periods WEEKLY (7d), MONTHLY, QUARTERLY, YEARLY, CUSTOM range | `calculateRetention` 3245 | Customers analytics | TODO | |
-| AN2 | Unique normalized plates in period; returning = seen before period start; new otherwise; excludes CANCELLED | 3245 | `retention()` in shared, tested | TODO | |
-| AN3 | Shows returning count, new count, retention %, growth %, bars, insight sentence, period label | 3245 | Same | TODO | |
-| AN4 | Sales periods WEEKLY/MONTHLY/QUARTERLY/CUSTOM, product filter ALL/WASH/WAX/VACUUM/AIR_FRESHENER/WIPER_FLUID | `calculateSalesStats` 3025 | Sales analytics with item filter (any catalog item) | TODO | YEARLY tab existed in UI but fell through to "now" window — BUG FIXED |
-| AN5 | Revenue (final paid else calculated), count, average ticket, vs previous equal period with ↑/↓ | 3025 | Same + daily series chart | TODO | |
-| AN6 | Chart: current vs previous revenue bars | `updateChartUI` 3137 | Recharts | TODO | |
-| AN7 | Summary sentence | 3025 | Same (translated) | TODO | |
+| AN1 | Retention periods WEEKLY (7d), MONTHLY, QUARTERLY, YEARLY, CUSTOM range | `calculateRetention` 3245 | Customers analytics | DONE | |
+| AN2 | Unique normalized plates in period; returning = seen before period start; new otherwise; excludes CANCELLED | 3245 | `retention()` in shared, tested | DONE | |
+| AN3 | Shows returning count, new count, retention %, growth %, bars, insight sentence, period label | 3245 | Same | DONE | |
+| AN4 | Sales periods WEEKLY/MONTHLY/QUARTERLY/CUSTOM, product filter ALL/WASH/WAX/VACUUM/AIR_FRESHENER/WIPER_FLUID | `calculateSalesStats` 3025 | Sales analytics with item filter (any catalog item) | DONE | YEARLY tab existed in UI but fell through to "now" window — BUG FIXED |
+| AN5 | Revenue (final paid else calculated), count, average ticket, vs previous equal period with ↑/↓ | 3025 | Same + daily series chart | DONE | |
+| AN6 | Chart: current vs previous revenue bars | `updateChartUI` 3137 | Recharts | DONE | |
+| AN7 | Summary sentence | 3025 | Same (translated) | DONE | |
 
 ## 16. Reports & exports
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| RP1 | Today's revenue PDF: company header, list (time, plate & customer, services, payment, amount), totals (count, card, cash, grand) | `exportOrdersToPDF` 8989 | Reports → Daily revenue PDF | TODO | |
-| RP2 | Previous-day report (date picker) | 8989 | Same, any date | TODO | |
-| RP3 | Master CSV of all completed orders: date, time in, plate, name, phone, services, calculated, final, discount, method, invoice no. | `exportCompletedOrdersToCSV` 8930 | CSV export with date range (default all) | TODO | Old values not escaped for quotes — fixed |
-| RP4 | Session PDF re-download | 7310 | Shift detail | TODO | |
+| RP1 | Today's revenue PDF: company header, list (time, plate & customer, services, payment, amount), totals (count, card, cash, grand) | `exportOrdersToPDF` 8989 | Reports → Daily revenue PDF | DONE | |
+| RP2 | Previous-day report (date picker) | 8989 | Same, any date | DONE | |
+| RP3 | Master CSV of all completed orders: date, time in, plate, name, phone, services, calculated, final, discount, method, invoice no. | `exportCompletedOrdersToCSV` 8930 | CSV export with date range (default all) | DONE | Old values not escaped for quotes — fixed |
+| RP4 | Session PDF re-download | 7310 | Shift detail | DONE | |
 
 ## 17. Custom invoices (B2B)
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| IN1 | New invoice: customer name, address (autocomplete from `invoice_customers` + orders), date, number (starts 55100), line items (desc, qty, unit), discount, paid/unpaid | 9595–9903 | Invoices page | TODO | |
-| IN2 | Saves `invoice_customers` (name, address) if new/changed | `saveCustomerIfNeeded` 9889 | `billingCustomers` | TODO | |
-| IN3 | History: reprint, re-edit, toggle paid, delete | 9653–9762 | Reprint; "void + reissue" instead of edit/delete; payments recorded as settlements | TODO | CHANGED: append-only |
-| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | WIP | |
-| IN5 | PDF via html2canvas → jsPDF | 9903 | Vector PDF (pdf-lib / jsPDF text) | TODO | |
-| IN6 | `nextNumber` default 55100 | 9606 | Counter seeded from settings | WIP | |
+| IN1 | New invoice: customer name, address (autocomplete from `invoice_customers` + orders), date, number (starts 55100), line items (desc, qty, unit), discount, paid/unpaid | 9595–9903 | Invoices page | DONE | |
+| IN2 | Saves `invoice_customers` (name, address) if new/changed | `saveCustomerIfNeeded` 9889 | `billingCustomers` | DONE | |
+| IN3 | History: reprint, re-edit, toggle paid, delete | 9653–9762 | Reprint; "void + reissue" instead of edit/delete; payments recorded as settlements | DONE | CHANGED: append-only |
+| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | PARTIAL | Logo upload waits on Storage (Needs Saad) |
+| IN5 | PDF via html2canvas → jsPDF | 9903 | Vector PDF (pdf-lib / jsPDF text) | DONE | |
+| IN6 | `nextNumber` default 55100 | 9606 | Counter seeded from settings | DONE | |
 
 ## 18. Audit trail
 

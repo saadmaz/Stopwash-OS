@@ -4,7 +4,7 @@
 
 ## Current state
 - **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections), Phase 5 (checklist, open/close shift, cash-outs, reconciliation, accounts approval, history and corrections), Phase 6 (employees, incentive rules, deductions/bonuses, leave, attendance, payroll engine + runs + salary slips).
-- **Next:** Phase 7, step 7.1 (daily / previous-day revenue PDF). The last line of the step log is always the latest step.
+- **Next:** Phase 8, step 8.1 (wall TV queue board). The last line of the step log is always the latest step.
 - **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
 - **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
@@ -57,7 +57,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 6.7 | Docs: PARITY statuses for HR, incentives, payroll, leave and attendance rows; PROGRESS current state after Phase 6 | 6293156 |
 | 7.5 | Owner dashboard (/): today revenue / avg ticket vs same day last week, vehicles vs target, cars in queue; sales performance (7/30/quarter/year, item filter, daily revenue bars with tooltip); retention split bar with legend + direct labels and insight sentence; 7×24 revenue-per-hour heatmap (single-hue sequential, accessible table); chart tokens validated with the palette script for light and dark (navy surface); EN/SI/TA; 2 tests | 0a00534 |
 | 7.5.1 | Home route by role: owners/managers/accounts see the dashboard, counter staff are sent to their first permitted screen (New order) instead of a no-access page; 1 test | a3dd5f1 |
-| 7.6c | Settings > Business tab: business name, address, phone, email, tax ID, bank details (printed on receipts, invoices, slips) and first invoice number; EN/SI/TA; 1 test | (next) |
+| 7.7 | Docs: PARITY reports (RP1-4), analytics (AN1-7), invoices (IN1-6) updated; Phase 7 complete | (next) |
+| 7.6c | Settings > Business tab: business name, address, phone, email, tax ID, bank details (printed on receipts, invoices, slips) and first invoice number; EN/SI/TA; 1 test | 0d58256 |
 | 7.6b | Invoices screen (/invoices): new invoice (customer autocomplete from billing customers, date, line items, discount, paid-now), history with status, record payment, void with reason, vector A4 invoice PDF with business + bank details; EN/SI/TA; 1 test | 845e3ca |
 | 7.6a | Custom invoices API: billing-customer and invoice-settlement repos (memory + Firestore stubs), POST /invoices (server counter from 55100, line totals, discount, remembered customer, optional paid-on-issue), POST /invoices/:id/settle (append-only, part payments), POST /invoices/:id/void (void record, no delete), GET /invoices (derived UNPAID/PARTIAL/PAID/VOID), GET /billing-customers; 3 tests | c4d6724 |
 | 7.3b | Analytics + dashboard API: GET /analytics (period/custom, item filter; sales vs previous + daily series; retention), GET /dashboard (today vs same weekday last week up to the same hour, target, open cars, 7×24 revenue-per-hour heatmap for 4 weeks in Colombo time); 3 tests | d06573e |

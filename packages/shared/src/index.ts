@@ -10,3 +10,4 @@ export * from './cash';
 export * from './reconciliation';
 export * from './payroll';
 export * from './csv';
+export * from './analytics';

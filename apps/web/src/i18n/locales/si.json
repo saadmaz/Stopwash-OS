@@ -508,5 +508,41 @@
       "PENALTY": "දඩ",
       "OTHER": "වෙනත්"
     }
+  },
+  "leave": {
+    "request": "නිවාඩු ඉල්ලන්න",
+    "start": "සිට",
+    "end": "දක්වා",
+    "endBeforeStart": "ආරම්භක දිනයට පසු විය යුතුයි",
+    "reason": "හේතුව",
+    "reasonHint": "කළමනාකරුවන්ට පමණක් දැකිය හැක.",
+    "submit": "ඉල්ලීම යවන්න",
+    "sent": "නිවාඩු ඉල්ලීම යවන ලදී",
+    "all": "සියලු ඉල්ලීම්",
+    "mine": "මගේ ඉල්ලීම්",
+    "none": "නිවාඩු ඉල්ලීම් නැත",
+    "days_one": "දින {{count}}",
+    "days_other": "දින {{count}}",
+    "approve": "{{name}} ගේ නිවාඩුව අනුමත කරන්න",
+    "reject": "{{name}} ගේ නිවාඩුව ප්‍රතික්ෂේප කරන්න",
+    "status": {
+      "PENDING": "බලාපොරොත්තුවෙන්",
+      "APPROVED": "අනුමතයි",
+      "REJECTED": "ප්‍රතික්ෂේපයි",
+      "CANCELLED": "අවලංගුයි"
+    }
+  },
+  "attendance": {
+    "saved_one": "වෙනස්කම් {{count}} සුරකින ලදී",
+    "saved_other": "වෙනස්කම් {{count}} සුරකින ලදී",
+    "monthPdf": "මාසික වාර්තාව PDF",
+    "statusFor": "{{name}} ගේ පැමිණීම",
+    "status": {
+      "PRESENT": "පැමිණ ඇත",
+      "LATE": "ප්‍රමාදයි",
+      "HALF_DAY": "අර්ධ දින",
+      "ABSENT": "නැත",
+      "LEAVE": "නිවාඩු"
+    }
   }
 }

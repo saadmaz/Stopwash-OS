@@ -508,5 +508,41 @@
       "PENALTY": "Fine / penalty",
       "OTHER": "Other"
     }
+  },
+  "leave": {
+    "request": "Request leave",
+    "start": "From",
+    "end": "To",
+    "endBeforeStart": "Must be on or after the start date",
+    "reason": "Reason",
+    "reasonHint": "Only managers can see this.",
+    "submit": "Send request",
+    "sent": "Leave request sent",
+    "all": "All requests",
+    "mine": "My requests",
+    "none": "No leave requests",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days",
+    "approve": "Approve leave for {{name}}",
+    "reject": "Reject leave for {{name}}",
+    "status": {
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "CANCELLED": "Cancelled"
+    }
+  },
+  "attendance": {
+    "saved_one": "{{count}} change saved",
+    "saved_other": "{{count}} changes saved",
+    "monthPdf": "Month report PDF",
+    "statusFor": "Attendance for {{name}}",
+    "status": {
+      "PRESENT": "Present",
+      "LATE": "Late",
+      "HALF_DAY": "Half-day",
+      "ABSENT": "Absent",
+      "LEAVE": "Leave"
+    }
   }
 }

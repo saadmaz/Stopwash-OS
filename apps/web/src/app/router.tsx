@@ -16,6 +16,8 @@ import { CashPage } from '@/features/cash/CashPage';
 import { ApprovalsPage } from '@/features/approvals/ApprovalsPage';
 import { StaffPage } from '@/features/staff/StaffPage';
 import { PayrollPage } from '@/features/payroll/PayrollPage';
+import { LeavePage } from '@/features/staff/LeavePage';
+import { AttendancePage } from '@/features/staff/AttendancePage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
@@ -27,6 +29,8 @@ const PAGES: Record<string, () => ReactNode> = {
   approvals: () => <ApprovalsPage />,
   staff: () => <StaffPage />,
   payroll: () => <PayrollPage />,
+  leave: () => <LeavePage />,
+  attendance: () => <AttendancePage />,
 };
 
 export function RequirePermission({

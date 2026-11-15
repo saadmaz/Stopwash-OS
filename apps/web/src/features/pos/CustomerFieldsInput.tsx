@@ -1,16 +1,35 @@
+import { visitsUntilReward, type Settings } from '@stopwash/shared';
 import { Badge, cn, Input } from '@stopwash/ui';
 import { useQuery } from '@tanstack/react-query';
-import { RotateCcw } from 'lucide-react';
+import { Gift, RotateCcw } from 'lucide-react';
 import { useEffect, useId, useState, type KeyboardEvent, type Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 import { api } from '@/lib/api';
 import type { CustomerFields, FieldName, FieldsAction } from './customerFields';
+
+export interface Returning {
+  visits: number;
+  completed: number;
+}
+
+function LoyaltyBadge({ completed, loyalty }: { completed: number; loyalty: Settings['loyalty'] }) {
+  const { t } = useTranslation();
+  const left = visitsUntilReward(completed, loyalty.everyNth);
+  return left === 0 ? (
+    <Badge tone="success">
+      <Gift aria-hidden /> {t('pos.rewardNow', { pct: loyalty.rewardPct })}
+    </Badge>
+  ) : (
+    <Badge>{t('pos.rewardIn', { count: left })}</Badge>
+  );
+}
 
 interface LookupResponse {
   vehicles: Array<{
     plateKey: string;
     plateDisplay: string;
     visitCount: number;
+    completedVisits: number;
     customer: { name: string | null; phone: string | null } | null;
   }>;
   customers: Array<{
@@ -29,6 +48,7 @@ interface Suggestion {
   value: string;
   fill: Partial<Record<FieldName, string | null>>;
   visits?: number;
+  completed?: number;
 }
 
 function useDebounced<T>(value: T, ms = 200): T {
@@ -50,6 +70,7 @@ function suggestionsFor(field: FieldName, data: LookupResponse | undefined): Sug
       value: v.plateDisplay,
       fill: { name: v.customer?.name ?? null, phone: v.customer?.phone ?? null },
       visits: v.visitCount,
+      completed: v.completedVisits,
     }));
   }
   return data.customers.map((c) => ({
@@ -81,7 +102,7 @@ function LookupField({
   dispatch: (a: FieldsAction) => void;
   size?: 'md' | 'xl';
   inputRef?: Ref<HTMLInputElement>;
-  onReturning?: (visits: number | null) => void;
+  onReturning?: (r: Returning | null) => void;
 }) {
   const { t } = useTranslation();
   const id = useId();
@@ -102,7 +123,8 @@ function LookupField({
 
   const pick = (s: Suggestion) => {
     dispatch({ type: 'pick', field, value: s.value, fill: s.fill });
-    if (field === 'plate') onReturning?.(s.visits ?? null);
+    if (field === 'plate')
+      onReturning?.(s.visits ? { visits: s.visits, completed: s.completed ?? 0 } : null);
     setOpen(false);
   };
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -186,14 +208,16 @@ export function CustomerFieldsInput({
   state,
   dispatch,
   plateRef,
-  returningVisits,
+  returning,
+  loyalty,
   onReturning,
 }: {
   state: CustomerFields;
   dispatch: (a: FieldsAction) => void;
   plateRef?: Ref<HTMLInputElement>;
-  returningVisits: number | null;
-  onReturning: (visits: number | null) => void;
+  returning: Returning | null;
+  onReturning: (r: Returning | null) => void;
+  loyalty?: Settings['loyalty'];
 }) {
   const { t } = useTranslation();
   return (
@@ -208,10 +232,13 @@ export function CustomerFieldsInput({
         onReturning={onReturning}
       />
       <div className="flex min-h-6 items-center gap-2">
-        {returningVisits !== null && returningVisits > 0 && (
+        {returning && returning.visits > 0 && (
           <Badge tone="success">
-            <RotateCcw aria-hidden /> {t('pos.returning', { count: returningVisits })}
+            <RotateCcw aria-hidden /> {t('pos.returning', { count: returning.visits })}
           </Badge>
+        )}
+        {returning && loyalty?.enabled && (
+          <LoyaltyBadge completed={returning.completed} loyalty={loyalty} />
         )}
       </div>
       <div className="grid gap-3 sm:grid-cols-2">

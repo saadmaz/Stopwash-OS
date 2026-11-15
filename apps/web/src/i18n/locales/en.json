@@ -226,7 +226,10 @@
       "UNKNOWN_ITEM": "An item is no longer available",
       "INACTIVE_ITEM": "An item is no longer available",
       "DISCOUNT_TOO_LARGE": "Discount is larger than the order"
-    }
+    },
+    "rewardNow": "Loyalty reward: {{pct}}% off this wash",
+    "rewardIn_one": "{{count}} visit to next reward",
+    "rewardIn_other": "{{count}} visits to next reward"
   },
   "queue": {
     "target": "Today’s target",
@@ -637,5 +640,15 @@
     "firstSeen": "First visit",
     "lastSeen": "Last visit",
     "noOrders": "No orders recorded"
+  },
+  "loyalty": {
+    "tab": "Loyalty",
+    "hint": "Reward regular customers automatically. The discount is applied to the wash at checkout.",
+    "enabled": "Loyalty rewards on",
+    "everyNth": "Reward every Nth visit",
+    "rewardPct": "Discount on the wash",
+    "nthError": "Use a whole number from 2 to 50",
+    "pctError": "Use 1 to 100",
+    "example": "Every {{n}}th completed visit of a vehicle gets {{pct}}% off its wash."
   }
 }

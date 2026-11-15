@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
 import { CatalogEditor } from './CatalogEditor';
 import { BusinessProfileForm } from './BusinessProfileForm';
+import { LoyaltyForm } from './LoyaltyForm';
 import { GeneralSettingsForm } from './GeneralSettingsForm';
 import { CashCategoryEditor, ChecklistEditor } from './ListEditors';
 import { useConfig } from './useConfig';
@@ -46,6 +47,11 @@ export function SettingsPage() {
             value: 'business',
             label: t('business.tab'),
             content: <BusinessProfileForm settings={config.data.settings} />,
+          },
+          {
+            value: 'loyalty',
+            label: t('loyalty.tab'),
+            content: <LoyaltyForm settings={config.data.settings} />,
           },
           {
             value: 'catalog',

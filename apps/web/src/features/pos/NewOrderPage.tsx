@@ -16,7 +16,7 @@ import { api, errorKey } from '@/lib/api';
 import { shortcutLabel, useHotkeys } from '@/lib/hotkeys';
 import { useConfig } from '@/features/settings/useConfig';
 import { emptyFields, fieldsReducer } from './customerFields';
-import { CustomerFieldsInput } from './CustomerFieldsInput';
+import { CustomerFieldsInput, type Returning } from './CustomerFieldsInput';
 
 const ICONS: Record<string, ReactNode> = {
   bike: <Bike />,
@@ -37,7 +37,7 @@ export function NewOrderPage() {
   const [fields, dispatch] = useReducer(fieldsReducer, emptyFields);
   const [vehicleClassId, setVehicleClassId] = useState<string | null>(null);
   const [qty, setQty] = useState<Record<string, number>>({});
-  const [returning, setReturning] = useState<number | null>(null);
+  const [returning, setReturning] = useState<Returning | null>(null);
   const [idemKey, setIdemKey] = useState(() => crypto.randomUUID());
 
   const catalog = useMemo(() => config.data?.catalog ?? [], [config.data]);
@@ -159,7 +159,8 @@ export function NewOrderPage() {
           state={fields}
           dispatch={dispatch}
           plateRef={plateRef}
-          returningVisits={returning}
+          returning={returning}
+          loyalty={config.data?.settings.loyalty}
           onReturning={setReturning}
         />
         <section aria-labelledby="pos-class" className="flex flex-col gap-3">

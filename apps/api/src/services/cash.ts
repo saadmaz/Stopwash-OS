@@ -59,9 +59,13 @@ export async function recordCashMovement(
   locationId: string,
   input: CashMovementInput,
   approver: Employee | null,
+  /** Back-dated entry onto a closed, unapproved shift (managers only, checked by the route). */
+  targetShiftId?: string,
 ): Promise<CashMovement> {
   const brandId = ctx.actor.brandId;
-  const shift = await openShiftFor(tx, brandId, locationId);
+  const shift = targetShiftId
+    ? await closedShiftFor(tx, brandId, locationId, targetShiftId)
+    : await openShiftFor(tx, brandId, locationId);
   const category = await tx.cashCategories.get(input.categoryId);
   if (
     !category ||
@@ -82,7 +86,9 @@ export async function recordCashMovement(
     createdAt: at,
     createdBy: ctx.actor.id,
     shiftId: shift.id,
-    businessDate: businessDate(ctx.now, await locationTimezone(tx, brandId, locationId)),
+    businessDate: targetShiftId
+      ? shift.businessDate
+      : businessDate(ctx.now, await locationTimezone(tx, brandId, locationId)),
     type: input.type,
     categoryId: category.id,
     categoryCode: category.code,
@@ -93,7 +99,7 @@ export async function recordCashMovement(
     approvedByEmployeeId: approver?.id ?? null,
     reversesId: null,
     reason: null,
-    backdated: false,
+    backdated: !!targetShiftId,
   };
   await tx.cashMovements.insert(movement);
   await audit(tx, ctx, {
@@ -161,4 +167,23 @@ export async function listCashMovements(
     where: [eq('brandId', brandId), eq('shiftId', shiftId)],
     orderBy: { field: 'createdAt', dir: 'desc' },
   });
+}
+
+async function closedShiftFor(
+  tx: Repositories,
+  brandId: string,
+  locationId: string,
+  shiftId: string,
+) {
+  const shift = await tx.shifts.get(shiftId);
+  if (!shift || shift.brandId !== brandId || shift.locationId !== locationId) {
+    throw new AppError('NOT_FOUND', 'Shift not found');
+  }
+  if (shift.status !== 'CLOSED' && shift.status !== 'QUERIED') {
+    throw new AppError(
+      'CONFLICT',
+      'Back-dated entries go on closed shifts that are not yet approved',
+    );
+  }
+  return shift;
 }

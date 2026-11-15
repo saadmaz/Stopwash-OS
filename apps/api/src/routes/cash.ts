@@ -1,4 +1,6 @@
+import { can } from '@stopwash/shared';
 import type { FastifyInstance } from 'fastify';
+import { AppError } from '../lib/errors';
 import { z } from 'zod';
 import { ctxOf, guard, resolveLocation } from '../lib/guard';
 import { idempotencyKeyOf, idempotent } from '../lib/idempotency';
@@ -14,6 +16,7 @@ import { verifyOverride } from '../services/override';
 import { currentShift } from '../services/shifts';
 
 const Loc = z.object({ locationId: z.string().optional() });
+const Target = z.object({ targetShiftId: z.string().optional() });
 
 export async function cashRoutes(app: FastifyInstance): Promise<void> {
   const policy = () => ({
@@ -24,8 +27,11 @@ export async function cashRoutes(app: FastifyInstance): Promise<void> {
   app.post('/cash-movements', { preHandler: guard('cash.create') }, async (req, reply) => {
     const ctx = ctxOf(req);
     const key = idempotencyKeyOf(req);
-    const body = validate(CashMovementInput.extend(Loc.shape), req.body);
+    const body = validate(CashMovementInput.extend(Loc.shape).extend(Target.shape), req.body);
     const locationId = resolveLocation(ctx, body.locationId);
+    if (body.targetShiftId && !can(ctx.actor.role, 'shift.backdate')) {
+      throw new AppError('FORBIDDEN', 'Only a manager can add back-dated entries');
+    }
     const needs = await needsCashApproval(
       app.store,
       ctx.actor.brandId,
@@ -42,7 +48,7 @@ export async function cashRoutes(app: FastifyInstance): Promise<void> {
       'POST /cash-movements',
       key,
       req.body,
-      (tx) => recordCashMovement(tx, ctx, locationId, body, approver),
+      (tx) => recordCashMovement(tx, ctx, locationId, body, approver, body.targetShiftId),
     );
     return reply.status(201).send(result);
   });

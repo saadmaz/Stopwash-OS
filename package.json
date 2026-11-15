@@ -20,8 +20,7 @@
     "test": "pnpm -r --filter \"!@stopwash/firebase\" test",
     "test:rules": "pnpm --filter @stopwash/firebase test",
     "e2e": "pnpm --filter @stopwash/web e2e",
-    "emulators": "docker compose up emulators",
-    "seed": "pnpm --filter @stopwash/api seed"
+    "emulators": "docker compose up emulators"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

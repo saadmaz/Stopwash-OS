@@ -147,57 +147,57 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| EM1 | Fields: code (req), name (req), phone (req), role Washer/Supervisor/Trainee/Manager, base salary (req), recurring deduction, recurring addition, PIN, incentive rule, canOpenShift, skip recurring this month | `saveEmployee` 5833 | Employee form | TODO | PIN hashed; job title separate from system role |
-| EM2 | "Skip recurring" stored as `exemptMonths` [YYYY-MM] list; current month toggled | 5833 | Same (period keys) | TODO | |
-| EM3 | Directory: name, code, salary, recurring addition, deductions this month (one-off + recurring), basic net, "Paused" | `loadEmployeeList` 5751 | Staff table | TODO | |
-| EM4 | Delete employee (hard delete) | `deleteEmployee` 5992 | Deactivate (soft) — history keeps references | TODO | CHANGED |
-| EM5 | One-off deductions per employee: date, category (Food/Meals, Accommodation, Salary Advance, Fine/Penalty, Other), amount; list + delete | 9303–9430, 10231 | `payrollAdjustments` kind DEDUCTION; reverse instead of delete | TODO | |
-| EM6 | Bonus adjustments: date, reason, amount (±); list + delete | 9431–9594 | `payrollAdjustments` kind BONUS | TODO | |
-| EM7 | Staff dropdowns refreshed app-wide | `updateStaffDropdowns` 6420 | Live query hooks | TODO | |
+| EM1 | Fields: code (req), name (req), phone (req), role Washer/Supervisor/Trainee/Manager, base salary (req), recurring deduction, recurring addition, PIN, incentive rule, canOpenShift, skip recurring this month | `saveEmployee` 5833 | Employee form | DONE | PIN hashed; job title separate from system role |
+| EM2 | "Skip recurring" stored as `exemptMonths` [YYYY-MM] list; current month toggled | 5833 | Same (period keys) | DONE | |
+| EM3 | Directory: name, code, salary, recurring addition, deductions this month (one-off + recurring), basic net, "Paused" | `loadEmployeeList` 5751 | Staff table | DONE | |
+| EM4 | Delete employee (hard delete) | `deleteEmployee` 5992 | Deactivate (soft) — history keeps references | DONE | CHANGED |
+| EM5 | One-off deductions per employee: date, category (Food/Meals, Accommodation, Salary Advance, Fine/Penalty, Other), amount; list + delete | 9303–9430, 10231 | `payrollAdjustments` kind DEDUCTION; reverse instead of delete | DONE | |
+| EM6 | Bonus adjustments: date, reason, amount (±); list + delete | 9431–9594 | `payrollAdjustments` kind BONUS | DONE | |
+| EM7 | Staff dropdowns refreshed app-wide | `updateStaffDropdowns` 6420 | Live query hooks | DONE | |
 
 ## 11. Incentive rules
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| I1 | Named rule with weekday tiers and weekend tiers [{target, bonus}], sorted by target | `saveIncentiveRule` 6105 | Incentive rules screen | TODO | |
+| I1 | Named rule with weekday tiers and weekend tiers [{target, bonus}], sorted by target | `saveIncentiveRule` 6105 | Incentive rules screen | DONE | |
 | I2 | Legacy single weekdayTarget/Bonus, weekendTarget/Bonus fields supported | `editIncentiveRule` 6186, payroll | Legacy import converts to tiers | TODO | |
-| I3 | Delete rule (employees keep dangling id; payroll skips) | 6216 | Archive rule; payroll shows "rule archived" | TODO | |
-| I4 | List shows tiers as "10+: LKR 250, …" | 6156 | Same | TODO | |
+| I3 | Delete rule (employees keep dangling id; payroll skips) | 6216 | Archive rule; payroll shows "rule archived" | DONE | |
+| I4 | List shows tiers as "10+: LKR 250, …" | 6156 | Same | DONE | |
 
 ## 12. Payroll
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| PY1 | Month + year selector | `showPayrollModal` 6555 | Period picker | TODO | |
-| PY2 | Shop daily count = COMPLETED orders per calendar day (date taken from ISO string prefix = UTC date) | 6566 | Count by `businessDate` in Asia/Colombo | TODO | BUG FIXED: UTC date put orders after 18:30 SL time on the wrong day |
-| PY3 | Weekend = Sat/Sun | `isWeekend` | Configurable weekend days (default Sat, Sun) | WIP | |
-| PY4 | Per day: highest tier whose target ≤ daily count gives that tier's bonus (not cumulative) | 6566 | `dailyIncentive()` in shared, tested | TODO | |
-| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | WIP | D-017 |
-| PY6 | Net = base + bonus + bonus adjustments + recurring addition − (one-off deductions + recurring deduction); recurring skipped if month exempt | 6566 | `computePayslip()` in shared, tested | TODO | |
-| PY7 | Grand total of all net pay | 6566 | Run total | TODO | |
-| PY8 | Bonus breakdown modal: date, count, tier, bonus | `showBonusBreakdown` 6836 | Payslip detail | TODO | |
-| PY9 | Deductions breakdown modal | `showDeductionsBreakdown` 6868 | Payslip detail | TODO | |
-| PY10 | Salary slip PDF: navy header, employee, code, role, period, base, itemised bonus by date, deductions, adjustments, net; `SalarySlip_{name}_{month}.pdf`; audit | `generateSalarySlip` 6895 | Salary slip PDF from a finalized payroll run | TODO | |
-| PY11 | "Process all payroll" button only shows an alert and reloads (not implemented) | `processAllPayroll` 7042 | Finalize payroll run (append-only snapshot) + bulk slips ZIP | TODO | Implemented properly |
-| PY12 | Payroll is recalculated live every time (no stored run) | 6566 | Draft preview → Finalize → immutable `payrollRuns`; corrections = supplementary run | TODO | CHANGED. D-018 |
-| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | WIP | New, configurable. D-019 |
+| PY1 | Month + year selector | `showPayrollModal` 6555 | Period picker | DONE | |
+| PY2 | Shop daily count = COMPLETED orders per calendar day (date taken from ISO string prefix = UTC date) | 6566 | Count by `businessDate` in Asia/Colombo | DONE | BUG FIXED: UTC date put orders after 18:30 SL time on the wrong day |
+| PY3 | Weekend = Sat/Sun | `isWeekend` | Configurable weekend days (default Sat, Sun) | DONE | |
+| PY4 | Per day: highest tier whose target ≤ daily count gives that tier's bonus (not cumulative) | 6566 | `dailyIncentive()` in shared, tested | DONE | |
+| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | DONE | D-017 |
+| PY6 | Net = base + bonus + bonus adjustments + recurring addition − (one-off deductions + recurring deduction); recurring skipped if month exempt | 6566 | `computePayslip()` in shared, tested | DONE | |
+| PY7 | Grand total of all net pay | 6566 | Run total | DONE | |
+| PY8 | Bonus breakdown modal: date, count, tier, bonus | `showBonusBreakdown` 6836 | Payslip detail | DONE | |
+| PY9 | Deductions breakdown modal | `showDeductionsBreakdown` 6868 | Payslip detail | DONE | |
+| PY10 | Salary slip PDF: navy header, employee, code, role, period, base, itemised bonus by date, deductions, adjustments, net; `SalarySlip_{name}_{month}.pdf`; audit | `generateSalarySlip` 6895 | Salary slip PDF from a finalized payroll run | DONE | |
+| PY11 | "Process all payroll" button only shows an alert and reloads (not implemented) | `processAllPayroll` 7042 | Finalize payroll run (append-only snapshot) + bulk slips ZIP | DONE | Implemented properly |
+| PY12 | Payroll is recalculated live every time (no stored run) | 6566 | Draft preview → Finalize → immutable `payrollRuns`; corrections = supplementary run | DONE | CHANGED. D-018 |
+| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | DONE | New, configurable. D-019 |
 
 ## 13. Leave
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| L1 | Any role can open leave; staff mode vs admin mode badge | `showLeaveModal` 6240 | Leave page: "My leave" for staff, "Requests" for managers | TODO | |
-| L2 | Request: employee, start, end, reason (all required) → PENDING | `submitLeaveRequest` 6286 | Same + end ≥ start validation | TODO | Old had no end ≥ start check |
-| L3 | Admin list (last 100) with Approve / Reject when PENDING, "PROCESSED" otherwise, delete | 6317 | Same; delete → withdraw/cancel | TODO | |
-| L4 | Staff history filtered by selected employee | 6317 | Own requests (by signed-in employee) | TODO | |
-| L5 | Process sets status + processedAt (HR auth) | 6394 | + processedBy, audit | TODO | |
+| L1 | Any role can open leave; staff mode vs admin mode badge | `showLeaveModal` 6240 | Leave page: "My leave" for staff, "Requests" for managers | DONE | |
+| L2 | Request: employee, start, end, reason (all required) → PENDING | `submitLeaveRequest` 6286 | Same + end ≥ start validation | DONE | Old had no end ≥ start check |
+| L3 | Admin list (last 100) with Approve / Reject when PENDING, "PROCESSED" otherwise, delete | 6317 | Same; delete → withdraw/cancel | DONE | |
+| L4 | Staff history filtered by selected employee | 6317 | Own requests (by signed-in employee) | DONE | |
+| L5 | Process sets status + processedAt (HR auth) | 6394 | + processedBy, audit | DONE | |
 
 ## 14. Attendance
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| AT1 | Attendance checker (Present / Late / Half-Day / Absent, "All present" button, one-click edit) existed before 2.5; only i18n keys remain in 2.5 | 3411 keys; SYSTEM_SUMMARY | Attendance page: daily roster, statuses, clock-in on PIN sign-in, "mark all present" | TODO | Restored |
-| AT2 | Branded attendance PDF for date range, colour-coded statuses (green/yellow/orange/red) | attendance_implementation.md | Attendance report PDF | TODO | |
+| AT1 | Attendance checker (Present / Late / Half-Day / Absent, "All present" button, one-click edit) existed before 2.5; only i18n keys remain in 2.5 | 3411 keys; SYSTEM_SUMMARY | Attendance page: daily roster, statuses, clock-in on PIN sign-in, "mark all present" | DONE | Restored |
+| AT2 | Branded attendance PDF for date range, colour-coded statuses (green/yellow/orange/red) | attendance_implementation.md | Attendance report PDF | DONE | |
 
 ## 15. Analytics (HR)
 

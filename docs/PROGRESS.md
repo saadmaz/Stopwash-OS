@@ -3,8 +3,8 @@
 > A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
 ## Current state
-- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections), Phase 5 (checklist, open/close shift, cash-outs, reconciliation, accounts approval, history and corrections).
-- **Next:** Phase 6, step 6.1 (employees). The last line of the step log is always the latest step.
+- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections), Phase 5 (checklist, open/close shift, cash-outs, reconciliation, accounts approval, history and corrections), Phase 6 (employees, incentive rules, deductions/bonuses, leave, attendance, payroll engine + runs + salary slips).
+- **Next:** Phase 7, step 7.1 (daily / previous-day revenue PDF). The last line of the step log is always the latest step.
 - **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
 - **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
@@ -54,7 +54,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 5.9 | Docs: PARITY statuses for shift, cash, reconciliation, accounts and history rows; PROGRESS current state after Phase 5 | 1c82c2e |
 | 6.3 | Payroll adjustments API: deductions (Food, Accommodation, Advance, Penalty, Other) and ± bonus adjustments by date → pay period, append-only with one-time reversal, blocked once the period is finalized, audited; GET /payroll-adjustments; 3 tests | 3f61b75 |
 | 6.5 | Payroll engine in shared: dailyIncentive (highest tier met, order-independent), computePayslip (weekday/weekend tiers on shop daily counts, optional attendance weighting, exempt months, one-off deductions and ± bonus adjustments incl. reversals, optional EPF 8/12 and ETF 3, itemised breakdowns), payrollTotals; 7 tests | 66bfcf0 |
-| 6.4c | Leave & attendance screens: /leave (request form with end ≥ start, own or any-employee for managers, request list with approve/reject/cancel, status badges) and /attendance (date roster, one-tap status chips, All Present keeping leave, save, colour-coded month PDF as in SWOMS); EN/SI/TA; 2 tests | (next) |
+| 6.7 | Docs: PARITY statuses for HR, incentives, payroll, leave and attendance rows; PROGRESS current state after Phase 6 | (next) |
+| 6.4c | Leave & attendance screens: /leave (request form with end ≥ start, own or any-employee for managers, request list with approve/reject/cancel, status badges) and /attendance (date roster, one-tap status chips, All Present keeping leave, save, colour-coded month PDF as in SWOMS); EN/SI/TA; 2 tests | 0983479 |
 | 6.4b | Attendance API (restored from pre-2.5 SWOMS): GET /attendance day roster (all active staff + status), PUT /attendance bulk marks (Present/Late/Half-day/Absent/Leave, unchanged rows skipped, audited), GET /attendance/report date range; 2 tests | d37edb8 |
 | 6.4a | Leave API: request (self, or anyone for managers; end ≥ start; inclusive days), list (own unless manager), approve/reject (not your own; approval marks the days LEAVE in attendance), cancel pending; audited; 3 tests | ebcadd5 |
 | 6.3b | Deductions & bonuses tab on the payroll screen: add deduction (SWOMS categories) or ± bonus adjustment per employee and date with reason (rupees → cents), month list with one-click reversal, refreshes payroll preview, EN/SI/TA | 761cd9a |

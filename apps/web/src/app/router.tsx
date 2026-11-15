@@ -21,6 +21,7 @@ import { AttendancePage } from '@/features/staff/AttendancePage';
 import { ReportsPage } from '@/features/reports/ReportsPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { InvoicesPage } from '@/features/invoices/InvoicesPage';
+import { TvBoardPage } from '@/features/tv/TvBoardPage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
@@ -76,6 +77,14 @@ function Placeholder({ navKey }: { navKey: string }) {
 }
 
 export const routes: RouteObject[] = [
+  {
+    path: '/tv',
+    element: (
+      <RequirePermission permission="order.read">
+        <TvBoardPage />
+      </RequirePermission>
+    ),
+  },
   {
     path: '/',
     element: <AppShell />,

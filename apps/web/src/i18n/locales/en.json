@@ -612,5 +612,11 @@
     "invoiceSeed": "First invoice number",
     "invoiceSeedHint": "Only used before the first invoice is issued.",
     "tab": "Business"
+  },
+  "tv": {
+    "subtitle": "Your vehicle's status",
+    "fullscreen": "Full screen",
+    "offline": "Reconnecting…",
+    "open": "Open TV board"
   }
 }

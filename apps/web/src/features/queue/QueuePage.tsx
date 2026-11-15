@@ -21,6 +21,7 @@ import {
   ReceiptText,
   RotateCcw,
   Search,
+  Tv,
   Undo2,
   Wallet,
 } from 'lucide-react';
@@ -236,7 +237,18 @@ export function QueuePage() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-end justify-between gap-4">
-        <h1 className="font-display text-3xl font-bold">{t('nav.queue')}</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-3xl font-bold">{t('nav.queue')}</h1>
+          <a
+            href="/tv"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center gap-1 text-sm font-medium text-link underline-offset-4 hover:underline"
+          >
+            <Tv aria-hidden className="size-4" />
+            {t('tv.open')}
+          </a>
+        </div>
         <StatCard
           className="w-full sm:w-72"
           label={t('queue.target')}

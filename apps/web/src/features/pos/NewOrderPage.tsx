@@ -10,6 +10,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Bike, Car, CarFront, Package, Truck } from 'lucide-react';
 import { useMemo, useReducer, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCustomerDisplay } from '@/features/display/channel';
+import { orderDisplay } from '@/features/display/toDisplay';
 import { api, errorKey } from '@/lib/api';
 import { shortcutLabel, useHotkeys } from '@/lib/hotkeys';
 import { useConfig } from '@/features/settings/useConfig';
@@ -57,6 +59,9 @@ export function NewOrderPage() {
     }
   }
   const priced = preview && !(preview instanceof PricingError) ? preview : null;
+  useCustomerDisplay(
+    priced ? orderDisplay(fields.values.plate.trim().toUpperCase(), priced.lines, priced) : null,
+  );
   const ready = !!fields.values.plate.trim() && !!priced;
 
   const reset = () => {
@@ -139,7 +144,17 @@ export function NewOrderPage() {
       }}
     >
       <div className="flex flex-col gap-6">
-        <h1 className="font-display text-3xl font-bold">{t('nav.newOrder')}</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-display text-3xl font-bold">{t('nav.newOrder')}</h1>
+          <a
+            href="/display"
+            target="_blank"
+            rel="noopener"
+            className="text-sm font-medium text-link underline-offset-4 hover:underline"
+          >
+            {t('display.open')}
+          </a>
+        </div>
         <CustomerFieldsInput
           state={fields}
           dispatch={dispatch}

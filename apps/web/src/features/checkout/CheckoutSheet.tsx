@@ -16,6 +16,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { isManager, useDeviceStaff } from '@/features/auth/useDeviceStaff';
 import { api, ApiError, errorKey } from '@/lib/api';
+import { publishDisplay, useCustomerDisplay } from '@/features/display/channel';
+import { orderDisplay } from '@/features/display/toDisplay';
 
 interface Quote {
   subtotalCents: number;
@@ -63,6 +65,7 @@ export function CheckoutSheet({
   });
   const q = quote.data;
   const total = q?.totalCents ?? 0;
+  useCustomerDisplay(q ? orderDisplay(order.plateDisplay, order.lines, q) : null);
   const needsApproval = !!q?.discountNeedsApproval;
   const staff = useDeviceStaff(needsApproval);
   const approvers = { data: staff.data?.filter(isManager) };
@@ -96,6 +99,7 @@ export function CheckoutSheet({
       }),
     onSuccess: (r) => {
       void qc.invalidateQueries({ queryKey: ['orders'] });
+      publishDisplay({ kind: 'paid', totalCents: r.order.totalCents });
       toast.success(t('checkout.paid', { number: r.order.number }));
       onPaid(r);
     },

@@ -618,5 +618,12 @@
     "fullscreen": "Full screen",
     "offline": "Reconnecting…",
     "open": "Open TV board"
+  },
+  "display": {
+    "total": "Total",
+    "thanks": "Thank you!",
+    "paid": "{{amount}} received",
+    "welcome": "Welcome — sit back while we make it shine",
+    "open": "Open customer display"
   }
 }

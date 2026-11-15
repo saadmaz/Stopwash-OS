@@ -22,6 +22,7 @@ import { ReportsPage } from '@/features/reports/ReportsPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { InvoicesPage } from '@/features/invoices/InvoicesPage';
 import { TvBoardPage } from '@/features/tv/TvBoardPage';
+import { CustomerDisplayPage } from '@/features/display/CustomerDisplayPage';
 
 /** Screens that are built; the rest show a placeholder. */
 const PAGES: Record<string, () => ReactNode> = {
@@ -77,6 +78,14 @@ function Placeholder({ navKey }: { navKey: string }) {
 }
 
 export const routes: RouteObject[] = [
+  {
+    path: '/display',
+    element: (
+      <RequirePermission permission="order.create">
+        <CustomerDisplayPage />
+      </RequirePermission>
+    ),
+  },
   {
     path: '/tv',
     element: (

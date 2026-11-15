@@ -10,7 +10,13 @@ import { verifyOverride } from '../services/override';
 import { closeShift, CloseShiftInput, loadShift, shiftSummary } from '../services/shift-close';
 import { getSettings } from '../services/config';
 import { ApprovalInput, decideShift, listApprovals } from '../services/approvals';
-import { adjustShift, AdjustInput, listShifts } from '../services/shift-history';
+import {
+  adjustShift,
+  AdjustInput,
+  BackdatedShiftInput,
+  createBackdatedShift,
+  listShifts,
+} from '../services/shift-history';
 import { eq } from '../repos';
 
 const Loc = z.object({ locationId: z.string().optional() });
@@ -167,5 +173,22 @@ export async function shiftRoutes(app: FastifyInstance): Promise<void> {
     return (
       await idempotent(app.store, ctx, route, key, req.body, (tx) => adjustShift(tx, ctx, id, body))
     ).result;
+  });
+
+  app.post('/shifts/backdated', { preHandler: guard('shift.backdate') }, async (req, reply) => {
+    const ctx = ctxOf(req);
+    const key = idempotencyKeyOf(req);
+    const raw = req.body as { locationId?: string } | undefined;
+    const body = validate(BackdatedShiftInput, req.body);
+    const locationId = resolveLocation(ctx, raw?.locationId);
+    const { result } = await idempotent(
+      app.store,
+      ctx,
+      'POST /shifts/backdated',
+      key,
+      req.body,
+      (tx) => createBackdatedShift(tx, ctx, locationId, body),
+    );
+    return reply.status(201).send(result);
   });
 }

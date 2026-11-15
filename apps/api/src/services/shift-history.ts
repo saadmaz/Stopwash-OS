@@ -1,4 +1,13 @@
-import { NonNegativeCents, type Shift, type ShiftClose } from '@stopwash/shared';
+import {
+  businessDate,
+  DenominationCountField,
+  denominationTotal,
+  NonNegativeCents,
+  type Shift,
+  type ShiftClose,
+} from '@stopwash/shared';
+import { getSettings } from './config';
+import { locationTimezone } from './orders';
 import { z } from 'zod';
 import type { Ctx } from '../lib/context';
 import { AppError } from '../lib/errors';
@@ -120,4 +129,102 @@ export async function adjustShift(
     reason: input.reason,
   });
   return adj;
+}
+
+export const BackdatedShiftInput = z
+  .object({
+    supervisorEmployeeId: z.string().min(1),
+    openedAt: z.iso.datetime({ offset: true }),
+    closedAt: z.iso.datetime({ offset: true }),
+    openingCount: DenominationCountField,
+    closingCount: DenominationCountField,
+    reason: z.string().trim().min(3).max(500),
+  })
+  .refine((v) => v.closedAt > v.openedAt, {
+    message: 'Close must be after open',
+    path: ['closedAt'],
+  });
+export type BackdatedShiftInput = z.infer<typeof BackdatedShiftInput>;
+
+/**
+ * Owner-only record of a past shift (SWOMS "manual session"), e.g. when the system was down.
+ * Created already closed; cash entries can then be back-dated onto it and an adjustment run.
+ */
+export async function createBackdatedShift(
+  tx: Repositories,
+  ctx: Ctx,
+  locationId: string,
+  input: BackdatedShiftInput,
+): Promise<Shift> {
+  if (ctx.actor.role !== 'owner')
+    throw new AppError('FORBIDDEN', 'Only the owner can add past shifts');
+  if (new Date(input.closedAt) > ctx.now)
+    throw new AppError('VALIDATION_FAILED', 'Past shifts must end in the past');
+  const supervisor = await tx.employees.get(input.supervisorEmployeeId);
+  if (!supervisor || supervisor.brandId !== ctx.actor.brandId)
+    throw new AppError('VALIDATION_FAILED', 'Unknown supervisor');
+  const settings = await getSettings(tx, ctx.actor.brandId, locationId);
+  const tz = await locationTimezone(tx, ctx.actor.brandId, locationId);
+  const opening = denominationTotal(settings.denominations, input.openingCount);
+  const counted = denominationTotal(settings.denominations, input.closingCount);
+  const at = ctx.now.toISOString();
+  const shift: Shift = {
+    id: newId(ctx.now),
+    brandId: ctx.actor.brandId,
+    locationId,
+    createdAt: at,
+    createdBy: ctx.actor.id,
+    updatedAt: null,
+    updatedBy: null,
+    status: 'CLOSED',
+    supervisorEmployeeId: supervisor.id,
+    supervisorName: supervisor.name,
+    openedAt: input.openedAt,
+    businessDate: businessDate(new Date(input.openedAt), tz),
+    checklistId: null,
+    openingCount: input.openingCount,
+    openingCents: opening,
+    carryoverNotes: null,
+    closeId: null,
+    closedAt: input.closedAt,
+    approvalId: null,
+    backdated: true,
+  };
+  const close: ShiftClose = {
+    id: newId(ctx.now),
+    brandId: ctx.actor.brandId,
+    locationId,
+    createdAt: at,
+    createdBy: ctx.actor.id,
+    shiftId: shift.id,
+    kind: 'CLOSE',
+    adjustsId: null,
+    openingCents: opening,
+    cashSalesCents: 0,
+    cardSalesCents: 0,
+    otherSalesCents: 0,
+    expensesCents: 0,
+    depositsCents: 0,
+    expectedCents: opening,
+    countedCents: counted,
+    varianceCents: counted - opening,
+    closingCount: input.closingCount,
+    vehicleCount: 0,
+    notes: input.reason,
+    overrideByEmployeeId: null,
+    handoverEmployeeId: null,
+    handoverName: null,
+    reason: input.reason,
+  };
+  await tx.shifts.insert({ ...shift, closeId: close.id });
+  await tx.shiftCloses.insert(close);
+  await audit(tx, ctx, {
+    action: 'shift.backdate',
+    entity: 'shift',
+    entityId: shift.id,
+    locationId,
+    after: { shift, close },
+    reason: input.reason,
+  });
+  return { ...shift, closeId: close.id };
 }

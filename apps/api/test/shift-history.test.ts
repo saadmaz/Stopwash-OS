@@ -80,3 +80,39 @@ describe('shift history and corrections', () => {
     expect(res.statusCode).toBe(409);
   });
 });
+
+describe('POST /shifts/backdated', () => {
+  const body = {
+    supervisorEmployeeId: 'e2',
+    openedAt: '2026-11-10T02:30:00.000Z',
+    closedAt: '2026-11-10T12:30:00.000Z',
+    openingCount: { notes: { '100000': 10 }, coinsCents: 0 },
+    closingCount: { notes: { '100000': 25 }, coinsCents: 0 },
+    reason: 'System was down on 10 Nov',
+  };
+
+  it('owner only; creates a closed, back-dated shift with its close record', async () => {
+    const { post, manager, app } = await setup();
+    expect((await post('/shifts/backdated', body, manager)).statusCode).toBe(403);
+    const owner = await authHeader(app, 'e4', '6142');
+    const res = await post('/shifts/backdated', body, owner);
+    expect(res.statusCode).toBe(201);
+    expect(res.json()).toMatchObject({
+      status: 'CLOSED',
+      backdated: true,
+      businessDate: '2026-11-10',
+      openingCents: 1000000,
+    });
+  });
+
+  it('rejects a close before the open', async () => {
+    const { post, app } = await setup();
+    const owner = await authHeader(app, 'e4', '6142');
+    const res = await post(
+      '/shifts/backdated',
+      { ...body, closedAt: '2026-11-10T01:00:00.000Z' },
+      owner,
+    );
+    expect(res.statusCode).toBe(400);
+  });
+});

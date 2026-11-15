@@ -417,5 +417,33 @@
     "reason": "Reason",
     "adjusted": "Adjustment recorded · variance {{variance}}",
     "adjustedTag": "adjusted"
+  },
+  "staff": {
+    "add": "Add employee",
+    "edit": "Edit employee",
+    "saved": "Saved",
+    "none": "No employees yet",
+    "code": "Code",
+    "name": "Full name",
+    "jobTitle": "Job title",
+    "access": "POS access",
+    "accessHint": "Who can sign in to the POS, and with which role.",
+    "noAccess": "No access",
+    "salary": "Monthly base salary",
+    "recurringAddition": "Fixed monthly addition",
+    "recurringDeduction": "Fixed monthly deduction",
+    "noRule": "No rule (no bonus)",
+    "pin": "PIN",
+    "pinHint": "4–6 digits. Easy PINs like 1234 are refused.",
+    "canOpenShift": "Can open and close shifts",
+    "basicNet": "Basic net (before bonus and one-off items): {{amount}}",
+    "skipThisMonth": "Skip recurring this month",
+    "skipThisMonthFor": "Skip recurring items this month for {{name}}",
+    "shiftLead": "Shift lead",
+    "noPin": "No PIN",
+    "resetPin": "Reset PIN",
+    "resetPinTitle": "New PIN for {{name}}",
+    "deactivate": "Deactivate {{name}}",
+    "deactivateConfirm": "Deactivate {{name}}? Their history stays; they can no longer sign in."
   }
 }

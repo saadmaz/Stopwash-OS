@@ -49,6 +49,7 @@ export const PERMISSIONS = [
   'report.export',
   'analytics.read',
   'audit.read',
+  'alert.read',
   // invoices
   'invoice.read',
   'invoice.write',
@@ -92,6 +93,7 @@ const ACCOUNTS: Permission[] = [
   'report.export',
   'analytics.read',
   'audit.read',
+  'alert.read',
   'invoice.read',
   'invoice.write',
   'settings.read',

@@ -6,6 +6,7 @@ import { NavLink, Outlet } from 'react-router';
 import { LANGUAGES } from '@/i18n';
 import { useOnline } from '@/lib/online';
 import { useSession } from '@/lib/session';
+import { AlertWatcher } from '@/features/alerts/AlertWatcher';
 import { useTheme, type ThemePref } from '@/lib/theme';
 import { NAV, NAV_GROUPS } from './nav';
 import { CommandPalette, openCommandPalette } from './CommandPalette';
@@ -179,6 +180,7 @@ export function AppShell() {
           </div>
         </header>
         <CommandPalette />
+        <AlertWatcher />
         <main id="main" className="flex-1 p-3 sm:p-5 lg:p-8">
           <Outlet />
         </main>

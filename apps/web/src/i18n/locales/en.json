@@ -650,5 +650,14 @@
     "nthError": "Use a whole number from 2 to 50",
     "pctError": "Use 1 to 100",
     "example": "Every {{n}}th completed visit of a vehicle gets {{pct}}% off its wash."
+  },
+  "alerts": {
+    "ack": "Got it",
+    "kind": {
+      "VARIANCE": "Cash variance",
+      "LOW_STOCK": "Low stock",
+      "EQUIPMENT_FAULT": "Equipment fault",
+      "LARGE_DISCOUNT": "Large discount"
+    }
   }
 }

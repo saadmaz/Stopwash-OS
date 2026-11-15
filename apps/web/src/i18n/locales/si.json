@@ -489,5 +489,24 @@
     "removeTier": "මට්ටම ඉවත් කරන්න",
     "noTiers": "නැත",
     "archive": "{{name}} සංරක්ෂණය කරන්න"
+  },
+  "adjustments": {
+    "kind": "වර්ගය",
+    "deduction": "අඩු කිරීම",
+    "bonus": "ප්‍රසාද ගැළපීම",
+    "employee": "සේවකයා",
+    "chooseEmployee": "සේවකයා තෝරන්න",
+    "category": "වර්ගය",
+    "label": "ලේබලය",
+    "labelHint": "උදා. ඉරිදා ආවරණය",
+    "bonusHint": "ප්‍රසාදය අඩු කිරීමට ඍණ ලකුණ භාවිතා කරන්න.",
+    "none": "මෙම මාසයේ අඩු කිරීම් හෝ ගැළපීම් නැත",
+    "categories": {
+      "FOOD": "ආහාර",
+      "ACCOMMODATION": "නවාතැන්",
+      "ADVANCE": "වැටුප් අත්තිකාරම",
+      "PENALTY": "දඩ",
+      "OTHER": "වෙනත්"
+    }
   }
 }

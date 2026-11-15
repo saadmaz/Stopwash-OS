@@ -489,5 +489,24 @@
     "removeTier": "Remove tier",
     "noTiers": "none",
     "archive": "Archive {{name}}"
+  },
+  "adjustments": {
+    "kind": "Type",
+    "deduction": "Deduction",
+    "bonus": "Bonus adjustment",
+    "employee": "Employee",
+    "chooseEmployee": "Choose employee",
+    "category": "Category",
+    "label": "Label",
+    "labelHint": "e.g. Sunday cover",
+    "bonusHint": "Use a minus sign to reduce the bonus.",
+    "none": "No deductions or adjustments this month",
+    "categories": {
+      "FOOD": "Food / meals",
+      "ACCOMMODATION": "Accommodation",
+      "ADVANCE": "Salary advance",
+      "PENALTY": "Fine / penalty",
+      "OTHER": "Other"
+    }
   }
 }

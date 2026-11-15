@@ -1,5 +1,6 @@
 import { Tabs } from '@stopwash/ui';
 import { useTranslation } from 'react-i18next';
+import { AdjustmentsTab } from './AdjustmentsTab';
 import { IncentiveRulesTab } from './IncentiveRulesTab';
 import { PayrollRunTab } from './PayrollRunTab';
 
@@ -13,6 +14,11 @@ export function PayrollPage() {
         items={[
           { value: 'run', label: t('payroll.tabs.run'), content: <PayrollRunTab /> },
           { value: 'rules', label: t('payroll.tabs.rules'), content: <IncentiveRulesTab /> },
+          {
+            value: 'adjustments',
+            label: t('payroll.tabs.adjustments'),
+            content: <AdjustmentsTab />,
+          },
         ]}
       />
     </div>

@@ -147,3 +147,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-036 Late payroll corrections go into the next period
 - **Decision:** once a period's REGULAR payroll run is finalized, new deductions and bonus adjustments dated in that period are refused. They are dated into the next month instead. A SUPPLEMENTARY run re-snapshots the period's lines (e.g. after late attendance or order corrections) and references the run it supersedes.
 - **Why:** a finalized payslip stays reproducible exactly as paid, which is the usual practice for small payrolls.
+
+### D-037 Route-level code splitting and lazy locales
+- **Decision:** every screen is a `React.lazy` chunk behind a Suspense skeleton, and jsPDF and Recharts load with the screens that use them. English ships in the main bundle. Sinhala and Tamil load on first switch through a small i18next backend, rendering English meanwhile (no suspense).
+- **Why:** the main chunk went from 1.33 MB (394 KB gz) to 578 KB (186 KB gz), which matters on counter tablets on mobile data. The PWA precache still stores every chunk, so offline use is unchanged.

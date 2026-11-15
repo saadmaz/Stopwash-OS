@@ -1,6 +1,6 @@
-import { Badge, Button, cn, Sheet } from '@stopwash/ui';
+import { Badge, Button, cn, Sheet, Skeleton } from '@stopwash/ui';
 import { LogOut, Menu, Monitor, Moon, Search, Sun, WifiOff } from 'lucide-react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, Outlet } from 'react-router';
 import { LANGUAGES } from '@/i18n';
@@ -182,7 +182,16 @@ export function AppShell() {
         <CommandPalette />
         <AlertWatcher />
         <main id="main" className="flex-1 p-3 sm:p-5 lg:p-8">
-          <Outlet />
+          <Suspense
+            fallback={
+              <div aria-busy="true" className="flex flex-col gap-4">
+                <Skeleton className="h-9 w-56" />
+                <Skeleton className="h-64" />
+              </div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
       </div>
       <Sheet

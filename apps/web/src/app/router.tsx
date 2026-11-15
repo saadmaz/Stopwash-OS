@@ -21,6 +21,7 @@ import { AttendancePage } from '@/features/staff/AttendancePage';
 import { ReportsPage } from '@/features/reports/ReportsPage';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
 import { InvoicesPage } from '@/features/invoices/InvoicesPage';
+import { VehiclesPage } from '@/features/vehicles/VehiclesPage';
 import { TvBoardPage } from '@/features/tv/TvBoardPage';
 import { CustomerDisplayPage } from '@/features/display/CustomerDisplayPage';
 
@@ -39,6 +40,7 @@ const PAGES: Record<string, () => ReactNode> = {
   reports: () => <ReportsPage />,
   dashboard: () => <DashboardPage />,
   invoices: () => <InvoicesPage />,
+  vehicles: () => <VehiclesPage />,
 };
 
 export function RequirePermission({

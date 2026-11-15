@@ -5,6 +5,7 @@ import {
   CarFront,
   ClipboardCheck,
   FileText,
+  History,
   LayoutDashboard,
   ListOrdered,
   Receipt,
@@ -35,6 +36,13 @@ export const NAV: NavItem[] = [
   },
   { to: '/pos', key: 'newOrder', icon: CarFront, permission: 'order.create', group: 'counter' },
   { to: '/queue', key: 'queue', icon: ListOrdered, permission: 'order.read', group: 'counter' },
+  {
+    to: '/vehicles',
+    key: 'vehicles',
+    icon: History,
+    permission: 'customer.read',
+    group: 'counter',
+  },
   { to: '/shift', key: 'shift', icon: ClipboardCheck, permission: 'shift.read', group: 'counter' },
   { to: '/cash', key: 'cash', icon: Wallet, permission: 'cash.read', group: 'counter' },
   {

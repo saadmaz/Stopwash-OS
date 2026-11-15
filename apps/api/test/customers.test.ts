@@ -1,8 +1,9 @@
+import { randomUUID } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import type { Ctx } from '../src/lib/context';
 import { createMemoryStore } from '../src/repos';
 import { lookup, recordVisit } from '../src/services/customers';
-import { authHeader, seedBasics, testApp } from './helpers';
+import { authHeader, openTestShift, seedBasics, testApp } from './helpers';
 
 const ctx = (at = '2026-11-15T04:00:00Z'): Ctx => ({
   actor: {
@@ -114,7 +115,30 @@ describe('customer routes', () => {
     const h = await authHeader(app, 'e1', '4826');
     const res = await app.inject({ url: '/lookup?plate=WPC', headers: h });
     expect(res.json().vehicles[0].plateDisplay).toBe('WP CAB-1234');
-    expect((await app.inject({ url: '/vehicles/wp%20cab-1234', headers: h })).statusCode).toBe(200);
+    const hist = await app.inject({ url: '/vehicles/wp%20cab-1234', headers: h });
+    expect(hist.statusCode).toBe(200);
+    expect(hist.json().orders).toEqual([]);
     expect((await app.inject({ url: '/vehicles/NOPE1', headers: h })).statusCode).toBe(404);
+  });
+});
+
+describe('vehicle history', () => {
+  it('lists the plate’s orders newest first, brand-scoped', async () => {
+    const { app, store } = await testApp();
+    await seedBasics(store);
+    await openTestShift(store);
+    const h = await authHeader(app, 'e1', '4826');
+    for (let i = 0; i < 2; i++) {
+      await app.inject({
+        method: 'POST',
+        url: '/orders',
+        headers: { ...h, 'idempotency-key': randomUUID() },
+        payload: { plate: 'CAB-1234', lines: [{ itemId: 'stopwash__small', qty: 1 }] },
+      });
+    }
+    const res = (await app.inject({ url: '/vehicles/cab1234', headers: h })).json();
+    expect(res.vehicle.visitCount).toBe(2);
+    expect(res.orders).toHaveLength(2);
+    expect(res.orders[0].ticket).toBeGreaterThan(res.orders[1].ticket);
   });
 });

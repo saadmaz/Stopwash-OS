@@ -20,7 +20,8 @@
     "audit": "Audit log",
     "settings": "Settings",
     "openMenu": "Open menu",
-    "menu": "Menu"
+    "menu": "Menu",
+    "vehicles": "Vehicles"
   },
   "shell": {
     "offline": "Offline",
@@ -625,5 +626,16 @@
     "paid": "{{amount}} received",
     "welcome": "Welcome — sit back while we make it shine",
     "open": "Open customer display"
+  },
+  "vehicles": {
+    "search": "Search by plate",
+    "matches": "Matching vehicles",
+    "prompt": "Enter a plate to see its visit history",
+    "unknown": "No visits for this plate yet",
+    "visits": "Visits",
+    "spent": "Total spent",
+    "firstSeen": "First visit",
+    "lastSeen": "Last visit",
+    "noOrders": "No orders recorded"
   }
 }

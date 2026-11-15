@@ -76,3 +76,13 @@ describe('command palette', () => {
     expect(dialog).not.toHaveTextContent('Payroll');
   });
 });
+
+describe('home route', () => {
+  it('sends cashiers to the new order screen', async () => {
+    vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{}', { status: 404 }));
+    renderAt('/', 'cashier');
+    const links = await screen.findAllByRole('link', { name: 'New order' });
+    expect(links.some((l) => l.getAttribute('aria-current') === 'page')).toBe(true);
+    vi.restoreAllMocks();
+  });
+});

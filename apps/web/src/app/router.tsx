@@ -3,7 +3,7 @@ import { EmptyState } from '@stopwash/ui';
 import { Construction, Lock } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createBrowserRouter, type RouteObject } from 'react-router';
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
 import { useSession } from '@/lib/session';
 import { AppShell } from './AppShell';
 import { NAV } from './nav';
@@ -81,14 +81,25 @@ export const routes: RouteObject[] = [
       { path: 'design-system', element: <DesignSystemPage /> },
       ...NAV.map((n) => ({
         ...(n.to === '/' ? { index: true } : { path: n.to.slice(1) }),
-        element: (
-          <RequirePermission permission={n.permission}>
-            {PAGES[n.key]?.() ?? <Placeholder navKey={n.key} />}
-          </RequirePermission>
-        ),
+        element:
+          n.to === '/' ? (
+            <Home />
+          ) : (
+            <RequirePermission permission={n.permission}>
+              {PAGES[n.key]?.() ?? <Placeholder navKey={n.key} />}
+            </RequirePermission>
+          ),
       })),
     ],
   },
 ];
+
+/** Owners/managers/accounts land on the dashboard; counter staff go straight to their first screen. */
+function Home() {
+  const { can } = useSession();
+  if (can('analytics.read')) return <>{PAGES.dashboard?.()}</>;
+  const first = NAV.find((n) => n.to !== '/' && can(n.permission));
+  return first ? <Navigate to={first.to} replace /> : <Placeholder navKey="dashboard" />;
+}
 
 export const createRouter = () => createBrowserRouter(routes);

@@ -2,13 +2,18 @@
 
 > A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
+## Summary (build complete, 2026-11-15)
+Phases 1–9 are done and pushed. Each step is one commit, gated on format, lint, typecheck and tests, and CI is green (checks, Playwright e2e, API image). Phase F (Figma) did not run because the Figma MCP was never connected. Everything works end to end on the in-memory backend. To run in production, Saad needs to wire up Firebase (below). The API refuses to start in production until he does.
+
+**What exists:** counter New Order with live pricing, typeahead and a loyalty indicator; queue with status flow, edits, cancels and refunds; checkout (cash/card/split, discounts with manager override, loyalty); receipts and PDFs; opening checklist and cash count; cash-outs with approvals; close and reconciliation with handover; accounts approvals and queries; shift history with corrections; staff, PINs, attendance and leave; incentive rules, deductions and bonuses; payroll runs with salary slips; daily reports, CSV and revenue PDF; owner dashboard (sales, retention, hourly heatmap); B2B invoices with settlements, voids and PDF; business profile and loyalty settings; vehicle history; wall TV board (`/tv`); customer display (`/display`); live manager alerts; offline order outbox; EN/SI/TA throughout.
+
 ## Current state
-- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections), Phase 5 (checklist, open/close shift, cash-outs, reconciliation, accounts approval, history and corrections), Phase 6 (employees, incentive rules, deductions/bonuses, leave, attendance, payroll engine + runs + salary slips).
-- **Next:** Phase 8, step 8.1 (wall TV queue board). The last line of the step log is always the latest step.
+- **Done:** Phases 1–9 (foundation through hardening). Phase F (Figma) blocked on the connector.
+- **Next:** Saad wires Firebase (see Needs Saad). After that: implement the Firestore adapters behind the existing repository interfaces, then run the rules tests and Phase F if Figma is connected. The last line of the step log is always the latest step.
 - **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
 - **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
-- **Figma:** not connected (checked 2026-11-15: no Figma MCP tools in the session). Check again at Phase F.
+- **Figma:** not connected (checked again at Phase F on 2026-11-15: no Figma MCP tools in the session).
 
 ## Environment notes (this machine)
 - Git over HTTPS needs `http.sslBackend=schannel` (set in this repo's local config).
@@ -69,7 +74,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 9.4 | API security review: GET /cash-movements?shiftId now checks the shift's brand and location; invoice settle/void assert location and the invoice list hides other locations; production refuses DEV_SEED and the memory backend (alongside the existing dev-token and emulator guards); reviewed :id routes, approvals, body limit (256 KB) and auth rate limits; 4 tests | d81c0b9 |
 | 9.5 | Playwright e2e (tablet viewport): register device, cashier opens shift (check + LKR 5,000 count), adds an order, moves it to the bay, takes cash with change, closes with a matched count and manager handover; accounts approves. Playwright starts the in-memory API + web itself; new CI e2e job uploads traces on failure. Passes locally (2 tests, ~12 s) | 239d6b7 |
 | 9.6 | README: layout, local run (in-memory API + dev seed, device registration, dev PINs), checks incl. e2e, configuration table, conventions, doc links; removed the dangling 'seed' scripts (pointed at a missing Firestore seed script) | 179663b |
-| 9.7 | API Dockerfile (multi-stage, pnpm deploy --prod, non-root, healthcheck) + .dockerignore (no env files/keys/web); CI api-image job builds it and smoke-tests /health; README section. Local docker build blocked by this machine's TLS interception (pnpm registry), so verification runs in CI | (next) |
+| 9.7 | API Dockerfile (multi-stage, pnpm deploy --prod, non-root, healthcheck) + .dockerignore (no env files/keys/web); CI api-image job builds it and smoke-tests /health; README section. Local docker build blocked by this machine's TLS interception (pnpm registry), so verification runs in CI | 0f5914f |
+| 9.8 | Docs: build summary at the top of PROGRESS, Phase F re-checked (Figma MCP still not connected), Needs Saad expanded (Firebase adapters/auth/rules/indexes incl. new vehicle-history and alerts indexes, production env, Figma, secret rotation, logo upload, translation review), known issues refreshed | (next) |
 | 7.6c | Settings > Business tab: business name, address, phone, email, tax ID, bank details (printed on receipts, invoices, slips) and first invoice number; EN/SI/TA; 1 test | 0d58256 |
 | 7.6b | Invoices screen (/invoices): new invoice (customer autocomplete from billing customers, date, line items, discount, paid-now), history with status, record payment, void with reason, vector A4 invoice PDF with business + bank details; EN/SI/TA; 1 test | 845e3ca |
 | 7.6a | Custom invoices API: billing-customer and invoice-settlement repos (memory + Firestore stubs), POST /invoices (server counter from 55100, line totals, discount, remembered customer, optional paid-on-issue), POST /invoices/:id/settle (append-only, part payments), POST /invoices/:id/void (void record, no delete), GET /invoices (derived UNPAID/PARTIAL/PAID/VOID), GET /billing-customers; 3 tests | c4d6724 |
@@ -136,12 +142,25 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 - The variance > LKR 2,000 supervisor override exists in the code but not in the old README.
 
 ## Needs Saad
-- **Firebase (all of it).** Firestore adapters for every repository (`apps/api/src/repos/firestore/*`, currently stubs that throw), Firebase Auth custom-token issuer (stub), `firestore.rules` / `storage.rules` beyond the deny-all baseline, `firestore.indexes.json` (indexes listed in `DATA_MODEL.md`), rules unit tests (`pnpm test:rules`, needs the emulator), the real project config and deploy.
-- **Figma:** the Figma MCP is not connected in this session. Expected account: w2053223@westminster.ac.uk (student team).
+- **Firebase (all of it).**
+  - Firestore adapters for every repository (`apps/api/src/repos/firestore.ts`, currently stubs that throw `NotImplementedError`).
+  - The Firebase Auth custom-token issuer (stub).
+  - `firestore.rules` / `storage.rules` beyond the deny-all baseline.
+  - `firestore.indexes.json`: the indexes listed in `DATA_MODEL.md`, plus orders `(brandId, plateKey, createdAt desc)` for vehicle history and alerts `(brandId, locationId, createdAt desc)`.
+  - Rules unit tests (`pnpm test:rules`, needs the emulator).
+  - The real project config, service account and deploy.
+- **Production env:** `NODE_ENV=production`, `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase`, `DEV_SEED=false`, `CORS_ORIGINS` for the real web origin, and `VITE_API_URL` for the web build. The API refuses to start in production without these.
+- **Figma (Phase F):** the Figma MCP was not connected. Expected account: w2053223@westminster.ac.uk. Once it is, Phase F (F.1–F.11) can run from the design tokens in `packages/ui`.
 - **Rotate the old secrets.** The old Firebase config (`stopwash-dashboard-001`), passcodes 5252/6225/0706 and WhatsApp number 94767885404 are public in `Stopwash-POS-HTML`.
-- Native-speaker review of the Sinhala/Tamil strings.
+- **Business logo upload** (PARITY IN4) waits on Firebase Storage. Name, address, tax ID and bank details already work.
+- Native-speaker review of the Sinhala/Tamil strings (`docs/i18n-review.md`).
 - Real logo files and photography (the website itself still uses a text wordmark and placeholder images).
 
 ## Known issues
-- The web app ships as one large chunk (Vite warns about chunk size). Route-level code splitting is planned for the Phase 9 performance step.
 - Without `AUTH_DEV_SECRET`, the API picks a random signing secret at start, so a restart signs everyone out (a warning is logged).
+- Live data (queue, TV board, alerts) polls every 5–30 s. Firestore listeners replace polling once the adapter exists (D-032).
+- Offline mode covers taking new orders only. Checkout, cash and shift actions need the connection (D-038).
+- Order-line edits after creation are API-only (no screen yet).
+- Late payroll corrections go into the next month (D-036).
+- The API image could not be built on this machine: its TLS interception blocks the pnpm registry inside Docker. CI builds and smoke-tests it.
+- The production build emits each lazy locale chunk twice (identical content, only one is fetched). This is a bundler quirk and harmless.

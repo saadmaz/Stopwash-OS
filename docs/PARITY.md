@@ -16,34 +16,34 @@ Line numbers refer to `SWOMS2.5.html`.
 | A3 | Anonymous Firebase auth; `userId` is a device id | 4283 | Real user identity (uid + employeeId) on every write | DONE | CHANGED: audit log now names the person |
 | A4 | "Switch" user button with confirm, clears role and session id | `logoutUser` 3672 | Header "Switch user" → PIN pad (keeps device registered) | DONE | |
 | A5 | Role-based UI: HR sees analytics, HR menus, quick actions; ACCOUNTS sees only EOD dashboard; EMPLOYEE sees order form + queue | `updateUIVisibilityByRole` 3601 | RBAC permission map in `packages/shared`; nav and routes filtered by permission; API + rules enforce | DONE | Roles map: EMPLOYEE→cashier, HR→owner/manager, ACCOUNTS→accounts. D-006 |
-| A6 | `checkHRAuth()` prompts for HR passcode to unlock HR features mid-session | 5710 | "Manager override" dialog: manager PIN re-auth that grants one action (step-up) | TODO | CHANGED: one-time elevation, not session-wide |
-| A7 | Supervisor passcode prompt to edit/delete session history, clear all history | `editSession` 7074, `deleteSession` 7406, `clearAllHistory` 7361 | Manager/owner permission + reason required; corrections as reversing entries | TODO | CHANGED: no delete of financial history. D-008 |
-| A8 | Resume session modal: finds OPEN session (localStorage id first, else newest OPEN) and offers Resume / Start new anyway (warning) | `updateStaffDropdowns` 6420, `resumeExistingSession` 6517, `startNewShiftAnyway` 6547 | Shift context loads the location's open shift from Firestore; only one open shift per location (API enforces); "Resume" is automatic | TODO | CHANGED: "start new anyway" removed because it caused double-open shifts; manager can force-close instead |
-| A9 | Supervisor login goes to stock checker first; HR/ACCOUNTS bypass | 3569 | Cashier with no open shift → Open Shift wizard (checklist → count → start); managers land on dashboard | TODO | |
-| A10 | Employee "can open/close shifts" flag; supervisor list = canOpenShift or role Manager/Supervisor/HR | 6420 | `employees.canOpenShift` + permission `shift.open` | WIP | |
+| A6 | `checkHRAuth()` prompts for HR passcode to unlock HR features mid-session | 5710 | "Manager override" dialog: manager PIN re-auth that grants one action (step-up) | DONE | CHANGED: one-time elevation, not session-wide |
+| A7 | Supervisor passcode prompt to edit/delete session history, clear all history | `editSession` 7074, `deleteSession` 7406, `clearAllHistory` 7361 | Manager/owner permission + reason required; corrections as reversing entries | DONE | CHANGED: no delete of financial history. D-008 |
+| A8 | Resume session modal: finds OPEN session (localStorage id first, else newest OPEN) and offers Resume / Start new anyway (warning) | `updateStaffDropdowns` 6420, `resumeExistingSession` 6517, `startNewShiftAnyway` 6547 | Shift context loads the location's open shift from Firestore; only one open shift per location (API enforces); "Resume" is automatic | DONE | CHANGED: "start new anyway" removed because it caused double-open shifts; manager can force-close instead |
+| A9 | Supervisor login goes to stock checker first; HR/ACCOUNTS bypass | 3569 | Cashier with no open shift → Open Shift wizard (checklist → count → start); managers land on dashboard | DONE | |
+| A10 | Employee "can open/close shifts" flag; supervisor list = canOpenShift or role Manager/Supervisor/HR | 6420 | `employees.canOpenShift` + permission `shift.open` | DONE | |
 
 ## 2. Pre-shift checklist & stock
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| S1 | Stock items: Shampoo, Tyre Shine, Glass Cleaner, Air Freshener, Wiper Fluid → HIGH ("Have Stock") / LOW ("Running Low") | 3741, 3796 | Configurable `stockItems` list in settings; checklist step 1 | WIP | CHANGED: items configurable |
-| S2 | Equipment: Vacuum (Working/Faulty), Pressure Gun (Working/Faulty), Mitts & Cloths (Clean/Need wash), Power & Water (Stable/Issues) | `selectEquip` 4811 | Configurable `equipmentItems` with ok/fault labels; checklist step 2 | WIP | |
-| S3 | "Mark all in stock" button | `markAllStockHigh` 4795 | "All good" button on each checklist step | TODO | |
-| S4 | Saves stock levels to `settings/stockLevels` (merge) with lastUpdated | 4875 | `checklists` (append-only) + derived `stockStatus` doc updated by API | TODO | |
-| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | WIP | Hardcoded number removed. D-011 |
-| S6 | Faulty equipment → separate "EQUIPMENT FAILURE ALERT" WhatsApp message | 4875 | Same, config numbers | WIP | BUG FIXED: old code only checked `=== 'FAULTY'`, so Mitts ("LOW") and Utilities ("ISSUE") never triggered the alert |
-| S7 | Request-stock mode from nav mid-shift: same modal, sends "STOCK REQUEST" WhatsApp, requires at least one LOW | `showStockChecker('REQUEST')` 3766 | "Request stock" sheet in Inventory | TODO | |
-| S8 | Red "Running low: …" banner on dashboard from live stock doc | `startStockListener` 8322 | Low-stock banner + real-time toast (premium) | TODO | |
+| S1 | Stock items: Shampoo, Tyre Shine, Glass Cleaner, Air Freshener, Wiper Fluid → HIGH ("Have Stock") / LOW ("Running Low") | 3741, 3796 | Configurable `stockItems` list in settings; checklist step 1 | DONE | CHANGED: items configurable |
+| S2 | Equipment: Vacuum (Working/Faulty), Pressure Gun (Working/Faulty), Mitts & Cloths (Clean/Need wash), Power & Water (Stable/Issues) | `selectEquip` 4811 | Configurable `equipmentItems` with ok/fault labels; checklist step 2 | DONE | |
+| S3 | "Mark all in stock" button | `markAllStockHigh` 4795 | "All good" button on each checklist step | DONE | |
+| S4 | Saves stock levels to `settings/stockLevels` (merge) with lastUpdated | 4875 | `checklists` (append-only) + derived `stockStatus` doc updated by API | DONE | |
+| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | DONE | Hardcoded number removed. D-011 |
+| S6 | Faulty equipment → separate "EQUIPMENT FAILURE ALERT" WhatsApp message | 4875 | Same, config numbers | DONE | BUG FIXED: old code only checked `=== 'FAULTY'`, so Mitts ("LOW") and Utilities ("ISSUE") never triggered the alert |
+| S7 | Request-stock mode from nav mid-shift: same modal, sends "STOCK REQUEST" WhatsApp, requires at least one LOW | `showStockChecker('REQUEST')` 3766 | "Request stock" sheet in Inventory | DONE | |
+| S8 | Red "Running low: …" banner on dashboard from live stock doc | `startStockListener` 8322 | Low-stock banner + real-time toast (premium) | DONE | |
 
 ## 3. Shift open & cash count
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| H1 | Start shift: live clock, select staff (supervisors), carryover notes | `confirmStartShift` 5200 | Open Shift wizard step 3 | TODO | |
-| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | WIP | CHANGED: LKR 2000 note added to defaults (legal tender). D-013 |
-| H3 | Opening total auto-calculated, per-denomination subtotal shown | 4853 | Same, integer cents | WIP | |
-| H4 | Session doc: startTime, openingBalance, staffName, shiftType LIVE, carryoverNotes, status OPEN, denominations | 5200 | `shifts` doc via API `POST /shifts` (transaction, idempotent) | TODO | |
-| H5 | Audit log CREATE/SESSION on open | 5200 | Audit log `shift.open` | TODO | |
+| H1 | Start shift: live clock, select staff (supervisors), carryover notes | `confirmStartShift` 5200 | Open Shift wizard step 3 | DONE | |
+| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | DONE | CHANGED: LKR 2000 note added to defaults (legal tender). D-013 |
+| H3 | Opening total auto-calculated, per-denomination subtotal shown | 4853 | Same, integer cents | DONE | |
+| H4 | Session doc: startTime, openingBalance, staffName, shiftType LIVE, carryoverNotes, status OPEN, denominations | 5200 | `shifts` doc via API `POST /shifts` (transaction, idempotent) | DONE | |
+| H5 | Audit log CREATE/SESSION on open | 5200 | Audit log `shift.open` | DONE | |
 | H6 | Duplicate `calculateOpeningBalance` definitions (second overrides first) | 4853, 5178 | Single tested function in `packages/shared` | DONE | |
 
 ## 4. Orders & queue
@@ -92,56 +92,56 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| C1 | Requires an active session | `showCashOutModal` 7456 | Requires open shift | TODO | |
-| C2 | Type EXPENSE or DEPOSIT; labels change ("Paid To (Vendor/Staff)" vs "Deposited By / Handed To") | `setCashOutType` 7603 | Same | TODO | |
-| C3 | Categories with codes: E001 Cleaning Supplies, E002 Equipment Repairs, E003 Utility top-up, E004 Staff Meals, E005 Transport/Delivery, E006 Minor Site Fixes, E007 Miscellaneous; D001 Bank Deposit, D002 Owner Withdrawal, D003 Safe Drop | 7406 `CASH_OUT_CATEGORIES` | Configurable categories (seeded with these) | WIP | |
-| C4 | Amount > 0, category, paidTo required; description optional | `validateCashOut` 7667 | Zod | TODO | |
-| C5 | Manager approval select + PIN verify UI exists but `approvedBy` is always saved as "N/A" | `verifyCashOutApproval` 7633, `saveCashOut` 7687 | Manager PIN approval required above configurable amount; approver stored | TODO | BUG FIXED |
-| C6 | HR can backdate (createdAt, sessionId null) | 7687 | Manager back-dated entry to a chosen shift, with reason | TODO | |
-| C7 | Recent transactions list for current session with edit + delete | `loadRecentExpenses` 7480, `editExpense`, `deleteExpense` | List with "Reverse" action (creates reversing entry) | TODO | CHANGED: append-only |
-| C8 | Audit CREATE/UPDATE EXPENSE | 7687 | Audit | TODO | |
+| C1 | Requires an active session | `showCashOutModal` 7456 | Requires open shift | DONE | |
+| C2 | Type EXPENSE or DEPOSIT; labels change ("Paid To (Vendor/Staff)" vs "Deposited By / Handed To") | `setCashOutType` 7603 | Same | DONE | |
+| C3 | Categories with codes: E001 Cleaning Supplies, E002 Equipment Repairs, E003 Utility top-up, E004 Staff Meals, E005 Transport/Delivery, E006 Minor Site Fixes, E007 Miscellaneous; D001 Bank Deposit, D002 Owner Withdrawal, D003 Safe Drop | 7406 `CASH_OUT_CATEGORIES` | Configurable categories (seeded with these) | DONE | |
+| C4 | Amount > 0, category, paidTo required; description optional | `validateCashOut` 7667 | Zod | DONE | |
+| C5 | Manager approval select + PIN verify UI exists but `approvedBy` is always saved as "N/A" | `verifyCashOutApproval` 7633, `saveCashOut` 7687 | Manager PIN approval required above configurable amount; approver stored | DONE | BUG FIXED |
+| C6 | HR can backdate (createdAt, sessionId null) | 7687 | Manager back-dated entry to a chosen shift, with reason | DONE | |
+| C7 | Recent transactions list for current session with edit + delete | `loadRecentExpenses` 7480, `editExpense`, `deleteExpense` | List with "Reverse" action (creates reversing entry) | DONE | CHANGED: append-only |
+| C8 | Audit CREATE/UPDATE EXPENSE | 7687 | Audit | DONE | |
 | C9 | `calculateCashOutDenoms` stub returns 0 | 7662 | Dropped (unused stub) | DROPPED | Dead code |
 
 ## 7. End shift & reconciliation
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| R1 | Shows opening, cash sales, card sales, expenses, deposits, expected cash, vehicle count | `showEndShiftModal` 5348 | Close Shift screen (API computes) | TODO | |
-| R2 | Sales & cash-outs gathered by sessionId PLUS any orphan record whose time falls in the shift window | 5348 | Every order/payment/cash movement carries `shiftId` set by the API; no time-window guessing | TODO | CHANGED. Legacy import maps orphans once. D-016 |
-| R3 | Expected = opening + cash sales − expenses − deposits | 5348 | `expectedCash()` in shared, tested | TODO | |
-| R4 | Closing denomination count → physical total | `calculateClosingBalance` 5268 | Same component | TODO | |
-| R5 | Variance = physical − expected; label Matched (<1), Shortage (<0), Overage (>0), coloured box | `calculateVariance` 5323 | Same; exact 0 = Matched (integer cents) | TODO | |
-| R6 | |variance| > 500 → explanation mandatory | `finalizeCloseShift` 5547 | Threshold from settings (default LKR 500) | WIP | |
-| R7 | |variance| > 2000 → supervisor passcode override required | 5547 | Second threshold from settings (default LKR 2,000) → manager PIN override, override recorded | WIP | Not in old README; found in source |
-| R8 | Handover: incoming manager selects name + PIN → "Verified by" | `verifyHandover` 5283 | Incoming manager PIN verification via API (hashed PIN, rate-limited) | TODO | Old compared plain-text PIN client-side |
-| R9 | Close blocked without handover verification; confirm dialog | 5547 | Same | TODO | |
-| R10 | Close writes endTime, closingBalance, expectedBalance, variance, cash/card/total sales, totalExpenses, totalDeposits, vehicleCount, closingNotes, handoverManager, closingDenominations, status CLOSED | 5547 | `shiftCloses` append-only record + shift status CLOSED (API transaction) | TODO | |
+| R1 | Shows opening, cash sales, card sales, expenses, deposits, expected cash, vehicle count | `showEndShiftModal` 5348 | Close Shift screen (API computes) | DONE | |
+| R2 | Sales & cash-outs gathered by sessionId PLUS any orphan record whose time falls in the shift window | 5348 | Every order/payment/cash movement carries `shiftId` set by the API; no time-window guessing | DONE | CHANGED. Legacy import maps orphans once. D-016 |
+| R3 | Expected = opening + cash sales − expenses − deposits | 5348 | `expectedCash()` in shared, tested | DONE | |
+| R4 | Closing denomination count → physical total | `calculateClosingBalance` 5268 | Same component | DONE | |
+| R5 | Variance = physical − expected; label Matched (<1), Shortage (<0), Overage (>0), coloured box | `calculateVariance` 5323 | Same; exact 0 = Matched (integer cents) | DONE | |
+| R6 | |variance| > 500 → explanation mandatory | `finalizeCloseShift` 5547 | Threshold from settings (default LKR 500) | DONE | |
+| R7 | |variance| > 2000 → supervisor passcode override required | 5547 | Second threshold from settings (default LKR 2,000) → manager PIN override, override recorded | DONE | Not in old README; found in source |
+| R8 | Handover: incoming manager selects name + PIN → "Verified by" | `verifyHandover` 5283 | Incoming manager PIN verification via API (hashed PIN, rate-limited) | DONE | Old compared plain-text PIN client-side |
+| R9 | Close blocked without handover verification; confirm dialog | 5547 | Same | DONE | |
+| R10 | Close writes endTime, closingBalance, expectedBalance, variance, cash/card/total sales, totalExpenses, totalDeposits, vehicleCount, closingNotes, handoverManager, closingDenominations, status CLOSED | 5547 | `shiftCloses` append-only record + shift status CLOSED (API transaction) | DONE | |
 | R11 | After close, back-links orphan orders/expenses in window to the session | 5547 | Not needed (R2) | CHANGED | |
-| R12 | Audit CLOSE/SESSION with before/after | 5547 | Audit | TODO | |
-| R13 | Auto-download reconciliation PDF: header, generated time, staff, session id, period, line items, expense table, deposit table, variance analysis, notes, opening/closing denomination table, footer "Internal Document" | `generateReconciliationPDF` 7891 | Same content, branded | TODO | |
-| R14 | After close: clears session + passcode, returns to login | 5547 | Returns to PIN pad | TODO | |
-| R15 | Close any session from history (not only current) | 5547 | Manager can close a stale shift from Shifts page | TODO | |
+| R12 | Audit CLOSE/SESSION with before/after | 5547 | Audit | DONE | |
+| R13 | Auto-download reconciliation PDF: header, generated time, staff, session id, period, line items, expense table, deposit table, variance analysis, notes, opening/closing denomination table, footer "Internal Document" | `generateReconciliationPDF` 7891 | Same content, branded | DONE | |
+| R14 | After close: clears session + passcode, returns to login | 5547 | Returns to PIN pad | DONE | |
+| R15 | Close any session from history (not only current) | 5547 | Manager can close a stale shift from Shifts page | DONE | |
 
 ## 8. Session history (HR)
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| SH1 | Last 50 sessions: date, time, staff, opening, cash, card, closing, variance (colour: <−10 red, >10 yellow, else green), notes | `loadSessionHistory` 8189 | Shifts page (paginated, filterable) | TODO | |
-| SH2 | Manual session open (backdated): staff, start, optional end (required if >24h ago), opening; shiftType MANUAL, openedBy HR_MANUAL | `openManualSession` 5495 | "Back-dated shift" (manager), audited | TODO | |
-| SH3 | Edit session: times, opening/closing, cash/card sales, expenses, deposits, notes, variance (manual override), opening/closing denominations; recalc from list; auto-calc sales from time window | `editSession` 7074, `autoCalculateSalesFromTimes` 7171, `saveSessionChanges` 7238 | Shift close "adjustment" entry (append-only) with reason; recalculation is a report, not an edit | TODO | CHANGED: no in-place edits. D-008 |
-| SH4 | Edit-session transaction list: add/edit transactions for that session, sync totals | 7768–7890 | Add back-dated cash movement to a closed shift → creates adjustment | TODO | |
-| SH5 | Redownload reconciliation PDF for any session | `redownloadReport` 7310 | "Download PDF" on shift detail | TODO | |
+| SH1 | Last 50 sessions: date, time, staff, opening, cash, card, closing, variance (colour: <−10 red, >10 yellow, else green), notes | `loadSessionHistory` 8189 | Shifts page (paginated, filterable) | DONE | |
+| SH2 | Manual session open (backdated): staff, start, optional end (required if >24h ago), opening; shiftType MANUAL, openedBy HR_MANUAL | `openManualSession` 5495 | "Back-dated shift" (manager), audited | DONE | |
+| SH3 | Edit session: times, opening/closing, cash/card sales, expenses, deposits, notes, variance (manual override), opening/closing denominations; recalc from list; auto-calc sales from time window | `editSession` 7074, `autoCalculateSalesFromTimes` 7171, `saveSessionChanges` 7238 | Shift close "adjustment" entry (append-only) with reason; recalculation is a report, not an edit | DONE | CHANGED: no in-place edits. D-008 |
+| SH4 | Edit-session transaction list: add/edit transactions for that session, sync totals | 7768–7890 | Add back-dated cash movement to a closed shift → creates adjustment | DONE | |
+| SH5 | Redownload reconciliation PDF for any session | `redownloadReport` 7310 | "Download PDF" on shift detail | DONE | |
 | SH6 | Delete session (passcode) / Clear all history (passcode, double confirm) | 7361, 7406 | Not allowed on financial records | DROPPED | Replaced by void/adjustment entries. D-008 |
 
 ## 9. Accounts EOD approval
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| E1 | Lists CLOSED and APPROVED_BY_ACCOUNTS sessions, newest first | `loadEodApprovals` 4967 | Accounts → Approvals queue | TODO | |
-| E2 | KPIs over unapproved: count, system cash (expected), actual cash, expenses | 4967 | Same + variance total | TODO | Old read `s.expenses` (undefined; field is `totalExpenses`) so expenses KPI was always 0 — BUG FIXED |
-| E3 | Row: shift name/time, managers, gross sales, system balance, drawer count, difference, status, actions | 4967 | Table | TODO | |
-| E4 | Expand row: vehicles in shift with time, services, price, payment method; vehicle count | `toggleEodDetails` 5073 | Shift detail drawer | TODO | |
-| E5 | Approve (confirm) → status APPROVED_BY_ACCOUNTS, approvedAt, audit EOD_APPROVED | `approveEOD` 5161 | `shiftApprovals` append-only + shift status APPROVED; can also "Query" (send back with note) | TODO | Query is new |
+| E1 | Lists CLOSED and APPROVED_BY_ACCOUNTS sessions, newest first | `loadEodApprovals` 4967 | Accounts → Approvals queue | DONE | |
+| E2 | KPIs over unapproved: count, system cash (expected), actual cash, expenses | 4967 | Same + variance total | DONE | Old read `s.expenses` (undefined; field is `totalExpenses`) so expenses KPI was always 0 — BUG FIXED |
+| E3 | Row: shift name/time, managers, gross sales, system balance, drawer count, difference, status, actions | 4967 | Table | DONE | |
+| E4 | Expand row: vehicles in shift with time, services, price, payment method; vehicle count | `toggleEodDetails` 5073 | Shift detail drawer | DONE | |
+| E5 | Approve (confirm) → status APPROVED_BY_ACCOUNTS, approvedAt, audit EOD_APPROVED | `approveEOD` 5161 | `shiftApprovals` append-only + shift status APPROVED; can also "Query" (send back with note) | DONE | Query is new |
 
 ## 10. Employees & HR
 
@@ -235,7 +235,7 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
-| AU1 | `logAuditAction(action, category, targetId, before, after, reason)` writes timestamp, userId, userRole | 2981 | API writes audit in the same transaction as the change | WIP | |
+| AU1 | `logAuditAction(action, category, targetId, before, after, reason)` writes timestamp, userId, userRole | 2981 | API writes audit in the same transaction as the change | DONE | |
 | AU2 | Viewer: filter by action and date; latest 100; colour by action | `loadAuditLogs` 6011 | Audit page: filter by actor, entity, action, date; paginated; before/after diff | TODO | |
 | AU3 | Many writes were NOT audited (order create/pay/edit, employee save/delete, leave, rules) | various | Every write that matters audited | WIP | Gap closed |
 

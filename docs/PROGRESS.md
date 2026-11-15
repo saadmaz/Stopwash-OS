@@ -3,8 +3,8 @@
 > A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
 
 ## Current state
-- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections).
-- **Next:** Phase 5, step 5.1 (pre-shift checklist). Until 5.2 lands, checkout needs a shift opened by the test helper or the coming shift API. The last line of the step log is always the latest step.
+- **Done:** Phase 1 (foundation), Phase 2 (design system + app shell), Phase 3 (data layer, auth, RBAC, config), Phase 4 (orders, queue, checkout, receipts, corrections), Phase 5 (checklist, open/close shift, cash-outs, reconciliation, accounts approval, history and corrections).
+- **Next:** Phase 6, step 6.1 (employees). The last line of the step log is always the latest step.
 - **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
 - **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
 - **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
@@ -51,7 +51,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 4.10 | Docs: PARITY statuses for orders and payments (P6 now DDMM+seq per D-033), PROGRESS current state after Phase 4 | 4f34ace |
 | 5.4 | Reconciliation engine in shared: cash/card/other sales from payments (refunds net), expenses/deposits from cash movements (reversals net), expected = opening + cash sales − expenses − deposits, variance label, explanation > LKR 500 and override > LKR 2,000 (strict, as SWOMS); 12 tests | 583932f |
 | 5.6 | Reconciliation report: GET /shifts/:id/report (summary, close records, cash entries, business, denominations); A4 PDF with the SWOMS sections (header, period, summary, expense and deposit tables, variance analysis, notes, handover, opening/closing denominations, internal-document footer); download from the closed-shift panel; 3 tests | c650e6d |
-| 5.8c | Shift history on the shift screen (managers/accounts): paginated table (opened, supervisor, opening, cash, card, counted, colour-coded variance, adjusted tag, back-dated badge, status), report PDF, manager adjustment dialog (optional corrected count in rupees + reason), EN/SI/TA; 1 test | (next) |
+| 5.9 | Docs: PARITY statuses for shift, cash, reconciliation, accounts and history rows; PROGRESS current state after Phase 5 | (next) |
+| 5.8c | Shift history on the shift screen (managers/accounts): paginated table (opened, supervisor, opening, cash, card, counted, colour-coded variance, adjusted tag, back-dated badge, status), report PDF, manager adjustment dialog (optional corrected count in rupees + reason), EN/SI/TA; 1 test | 3c6573e |
 | 5.8b | Owner-only back-dated shift API (SWOMS manual session): POST /shifts/backdated creates a closed, back-dated shift + close record from opening/closing counts with a reason, audited; 2 tests | 25afc71 |
 | 5.8a | Shift history + corrections API: GET /shifts (paginated, close + latest figures), back-dated cash entries onto closed unapproved shifts (manager), POST /shifts/:id/adjust appends an ADJUSTMENT close recomputed from the ledger with optional corrected count and reason (original never edited; approved shifts locked; queried → pending); 3 tests | 9018c00 |
 | 5.7b | Accounts approval screen (/approvals): KPI cards, pending/approved/all filter, closed-shift table (sales, expected, counted, colour-coded variance, notes, status), approve, query dialog with note, report PDF; fixed report button label; EN/SI/TA; 2 tests | a4cc86b |

@@ -124,7 +124,7 @@ export function ShiftPage() {
               )
             }
           >
-            {t('legacy.dailyRevenuePdf')}
+            {t('closeShift.reportPdf')}
           </Button>
           <Button onClick={signOut}>{t('shell.switchUser')}</Button>
           <Button variant="outline" onClick={() => setClosed(null)}>

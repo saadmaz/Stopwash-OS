@@ -376,6 +376,32 @@
     "needsOverride": "වෙනස {{amount}} ට වැඩියි: කළමනාකරු අනුමැතිය අවශ්‍යයි.",
     "handover": "භාර දීම",
     "incoming": "පැමිණෙන අධීක්ෂක",
-    "incomingPin": "ඔවුන්ගේ PIN"
+    "incomingPin": "ඔවුන්ගේ PIN",
+    "reportPdf": "සැසඳුම් වාර්තාව PDF"
+  },
+  "approvals": {
+    "pending": "සමාලෝචනයට",
+    "systemCash": "පද්ධති මුදල් (අපේක්ෂිත)",
+    "actualCash": "සැබෑ මුදල් (ගණන් කළ)",
+    "expenses": "සටහන් කළ වියදම්",
+    "closed": "වසා දැමූ",
+    "sales": "මුළු විකුණුම්",
+    "actions": "ක්‍රියා",
+    "approve": "අනුමත කරන්න",
+    "approved": "මාරුව අනුමත විය",
+    "query": "විමසන්න",
+    "queried": "විමසුම යවන ලදී",
+    "queryTitle": "{{name}} ගේ මාරුව විමසන්න",
+    "queryNote": "පරීක්ෂා කළ යුත්තේ කුමක්ද?",
+    "allDone": "අනුමැතියට කිසිවක් නැත",
+    "none": "මාරු නැත",
+    "vehicles_one": "වාහන {{count}}",
+    "vehicles_other": "වාහන {{count}}",
+    "status": {
+      "OPEN": "විවෘත",
+      "CLOSED": "බලාපොරොත්තුවෙන්",
+      "QUERIED": "විමසා ඇත",
+      "APPROVED": "අනුමතයි"
+    }
   }
 }

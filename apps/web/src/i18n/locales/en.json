@@ -376,6 +376,32 @@
     "needsOverride": "Difference over {{amount}}: a manager must approve.",
     "handover": "Handover",
     "incoming": "Incoming supervisor",
-    "incomingPin": "Their PIN"
+    "incomingPin": "Their PIN",
+    "reportPdf": "Reconciliation PDF"
+  },
+  "approvals": {
+    "pending": "Pending review",
+    "systemCash": "System cash (expected)",
+    "actualCash": "Actual cash (counted)",
+    "expenses": "Logged expenses",
+    "closed": "Closed",
+    "sales": "Gross sales",
+    "actions": "Actions",
+    "approve": "Approve",
+    "approved": "Shift approved",
+    "query": "Query",
+    "queried": "Query sent to the shift",
+    "queryTitle": "Query {{name}}’s shift",
+    "queryNote": "What needs checking?",
+    "allDone": "Nothing waiting for approval",
+    "none": "No shifts",
+    "vehicles_one": "{{count}} vehicle",
+    "vehicles_other": "{{count}} vehicles",
+    "status": {
+      "OPEN": "Open",
+      "CLOSED": "Pending",
+      "QUERIED": "Queried",
+      "APPROVED": "Approved"
+    }
   }
 }

@@ -578,5 +578,27 @@
       "QUARTERLY": "Quarter",
       "YEARLY": "Year"
     }
+  },
+  "invoices": {
+    "customer": "Customer / company",
+    "address": "Address",
+    "description": "Description",
+    "qty": "Qty",
+    "unit": "Unit price (LKR)",
+    "addLine": "Add line",
+    "paidNow": "Already paid",
+    "issue": "Issue invoice",
+    "created": "Invoice #{{number}} issued",
+    "none": "No invoices yet",
+    "pdf": "Download invoice {{number}}",
+    "markPaid": "Record full payment for invoice {{number}}",
+    "void": "Void invoice {{number}}",
+    "voidReason": "Why is this invoice void?",
+    "status": {
+      "UNPAID": "Unpaid",
+      "PARTIAL": "Part paid",
+      "PAID": "Paid",
+      "VOID": "Void"
+    }
   }
 }

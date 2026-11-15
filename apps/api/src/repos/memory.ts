@@ -159,6 +159,8 @@ class MemoryEngine {
       payrollAdjustments: col('payrollAdjustments'),
       payrollRuns: col('payrollRuns'),
       invoices: col('invoices'),
+      billingCustomers: col('billingCustomers'),
+      invoiceSettlements: col('invoiceSettlements'),
       audit: col('audit'),
       idempotency: col('idempotency'),
       counters,

@@ -64,6 +64,8 @@ const COLLECTIONS: Exclude<keyof Repositories, 'counters'>[] = [
   'payrollAdjustments',
   'payrollRuns',
   'invoices',
+  'billingCustomers',
+  'invoiceSettlements',
   'audit',
   'idempotency',
 ];

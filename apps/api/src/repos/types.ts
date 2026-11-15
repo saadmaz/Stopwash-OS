@@ -141,6 +141,28 @@ export type IncentiveRuleRepo = MutableRepo<IncentiveRule>;
 export type PayrollAdjustmentRepo = AppendOnlyRepo<PayrollAdjustment>;
 export type PayrollRunRepo = AppendOnlyRepo<PayrollRun>;
 export type InvoiceRepo = AppendOnlyRepo<Invoice>;
+
+export interface BillingCustomer extends Identified {
+  brandId: string;
+  name: string;
+  nameKey: string;
+  address: string | null;
+  createdAt: string;
+  updatedAt: string | null;
+}
+
+export interface InvoiceSettlement extends Identified {
+  brandId: string;
+  invoiceId: string;
+  amountCents: number;
+  method: string;
+  note: string | null;
+  reversesId: string | null;
+  createdAt: string;
+  createdBy: string;
+}
+export type BillingCustomerRepo = MutableRepo<BillingCustomer>;
+export type InvoiceSettlementRepo = AppendOnlyRepo<InvoiceSettlement>;
 export type AuditRepo = AppendOnlyRepo<AuditEntry>;
 export type IdempotencyRepo = MutableRepo<IdempotencyRecord>;
 
@@ -175,6 +197,8 @@ export interface Repositories {
   payrollAdjustments: PayrollAdjustmentRepo;
   payrollRuns: PayrollRunRepo;
   invoices: InvoiceRepo;
+  billingCustomers: BillingCustomerRepo;
+  invoiceSettlements: InvoiceSettlementRepo;
   audit: AuditRepo;
   idempotency: IdempotencyRepo;
   counters: CounterRepo;
@@ -195,5 +219,6 @@ export const APPEND_ONLY: ReadonlySet<keyof Repositories> = new Set([
   'payrollAdjustments',
   'payrollRuns',
   'invoices',
+  'invoiceSettlements',
   'audit',
 ]);

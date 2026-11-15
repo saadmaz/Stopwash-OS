@@ -21,6 +21,7 @@ import { payrollRoutes } from './routes/payroll';
 import { leaveRoutes } from './routes/leave';
 import { attendanceRoutes } from './routes/attendance';
 import { reportRoutes } from './routes/reports';
+import { invoiceRoutes } from './routes/invoices';
 import { createTokenIssuer, type AuthTokenIssuer } from './services/tokens';
 import { createDataStore, type DataStore } from './repos';
 
@@ -132,6 +133,7 @@ export async function buildApp({
   await app.register(leaveRoutes);
   await app.register(attendanceRoutes);
   await app.register(reportRoutes);
+  await app.register(invoiceRoutes);
   for (const plugin of plugins) await app.register(plugin);
 
   return app;

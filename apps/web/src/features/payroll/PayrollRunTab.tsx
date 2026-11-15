@@ -18,6 +18,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { FileDown, Lock } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useConfirm } from '@/lib/confirm';
 import { downloadBlob } from '@/features/receipt/receiptPdf';
 import { useConfig } from '@/features/settings/useConfig';
 import { api, errorKey } from '@/lib/api';
@@ -78,6 +79,7 @@ function Breakdown({ line, onClose }: { line: PayslipLine; onClose: () => void }
 
 export function PayrollRunTab() {
   const { t } = useTranslation();
+  const confirm = useConfirm();
   const { can } = useSession();
   const qc = useQueryClient();
   const config = useConfig();
@@ -140,7 +142,9 @@ export function PayrollRunTab() {
               variant="outline"
               loading={finalize.isPending}
               onClick={() =>
-                window.confirm(t('payroll.suppConfirm')) && finalize.mutate('SUPPLEMENTARY')
+                void confirm({ title: t('payroll.suppConfirm') }).then(
+                  (ok) => ok !== false && finalize.mutate('SUPPLEMENTARY'),
+                )
               }
             >
               {t('payroll.runSupplementary')}
@@ -150,8 +154,9 @@ export function PayrollRunTab() {
               loading={finalize.isPending}
               disabled={!preview.data?.lines.length}
               onClick={() =>
-                window.confirm(t('payroll.finalizeConfirm', { period: periodLabel(period) })) &&
-                finalize.mutate('REGULAR')
+                void confirm({
+                  title: t('payroll.finalizeConfirm', { period: periodLabel(period) }),
+                }).then((ok) => ok !== false && finalize.mutate('REGULAR'))
               }
             >
               {t('payroll.finalize')}

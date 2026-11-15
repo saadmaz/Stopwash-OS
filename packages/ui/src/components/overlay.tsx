@@ -2,8 +2,12 @@ import * as DialogPrimitive from '@radix-ui/react-dialog';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { cva } from 'class-variance-authority';
 import { X } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 import { cn } from '../cn';
+
+/** App-supplied translations for the few labels the kit renders itself. */
+const UiStrings = createContext({ close: 'Close' });
+export const UiStringsProvider = UiStrings.Provider;
 
 const overlayClass = 'fixed inset-0 z-50 bg-ink/50 backdrop-blur-[2px]';
 
@@ -43,10 +47,11 @@ function Header({
 }
 
 function CloseButton() {
+  const { close } = useContext(UiStrings);
   return (
     <DialogPrimitive.Close
       className="absolute top-3 right-3 grid size-11 place-items-center rounded-md text-fg-muted hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-ring"
-      aria-label="Close"
+      aria-label={close}
     >
       <X className="size-5" aria-hidden />
     </DialogPrimitive.Close>

@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Ban, FileDown, Plus, Trash2, Wallet } from 'lucide-react';
 import { useId, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useConfirm } from '@/lib/confirm';
 import { downloadBlob } from '@/features/receipt/receiptPdf';
 import { useConfig } from '@/features/settings/useConfig';
 import { api, errorKey } from '@/lib/api';
@@ -188,6 +189,7 @@ export function InvoicesPage() {
   const { can } = useSession();
   const qc = useQueryClient();
   const config = useConfig();
+  const confirm = useConfirm();
   const q = useQuery({
     queryKey: ['invoices'],
     queryFn: () => api<{ items: View[] }>('/invoices'),
@@ -262,11 +264,16 @@ export function InvoicesPage() {
                       variant="ghost"
                       size="icon"
                       aria-label={t('invoices.void', { number: inv.number })}
-                      onClick={() => {
-                        const reason = window.prompt(t('invoices.voidReason'));
-                        if (reason?.trim())
-                          act.mutate({ url: `/invoices/${inv.id}/void`, body: { reason } });
-                      }}
+                      onClick={() =>
+                        void confirm({
+                          title: t('invoices.void', { number: inv.number }),
+                          reasonLabel: t('invoices.voidReason'),
+                          tone: 'danger',
+                        }).then((reason) => {
+                          if (reason)
+                            act.mutate({ url: `/invoices/${inv.id}/void`, body: { reason } });
+                        })
+                      }
                     >
                       <Ban aria-hidden />
                     </Button>

@@ -20,6 +20,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { KeyRound, Pencil, Plus, UserX, Users } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useConfirm } from '@/lib/confirm';
 import { api, errorKey } from '@/lib/api';
 import { useSession } from '@/lib/session';
 import { EmployeeDialog, type RuleOption } from './EmployeeDialog';
@@ -89,6 +90,7 @@ function PinDialog({ employee, onClose }: { employee: Employee; onClose: () => v
 
 export function StaffPage() {
   const { t } = useTranslation();
+  const confirm = useConfirm();
   const { can } = useSession();
   const [editing, setEditing] = useState<Employee | 'new' | null>(null);
   const [pinFor, setPinFor] = useState<Employee | null>(null);
@@ -205,12 +207,18 @@ export function StaffPage() {
                         size="icon"
                         aria-label={t('staff.deactivate', { name: e.name })}
                         onClick={() =>
-                          window.confirm(t('staff.deactivateConfirm', { name: e.name })) &&
-                          action.mutate({
-                            url: `/employees/${e.id}`,
-                            method: 'PATCH',
-                            body: { active: false },
-                          })
+                          void confirm({
+                            title: t('staff.deactivateConfirm', { name: e.name }),
+                            tone: 'danger',
+                          }).then(
+                            (ok) =>
+                              ok !== false &&
+                              action.mutate({
+                                url: `/employees/${e.id}`,
+                                method: 'PATCH',
+                                body: { active: false },
+                              }),
+                          )
                         }
                       >
                         <UserX aria-hidden />

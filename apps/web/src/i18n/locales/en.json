@@ -600,5 +600,17 @@
       "PAID": "Paid",
       "VOID": "Void"
     }
+  },
+  "business": {
+    "hint": "Printed on receipts, invoices, salary slips and reports.",
+    "name": "Registered business name",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "taxId": "Tax / VAT ID",
+    "bankDetails": "Bank details (shown on invoices)",
+    "invoiceSeed": "First invoice number",
+    "invoiceSeedHint": "Only used before the first invoice is issued.",
+    "tab": "Business"
   }
 }

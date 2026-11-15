@@ -2,6 +2,7 @@ import { Button, EmptyState, Skeleton, Tabs } from '@stopwash/ui';
 import { useTranslation } from 'react-i18next';
 import { errorKey } from '@/lib/api';
 import { CatalogEditor } from './CatalogEditor';
+import { BusinessProfileForm } from './BusinessProfileForm';
 import { GeneralSettingsForm } from './GeneralSettingsForm';
 import { CashCategoryEditor, ChecklistEditor } from './ListEditors';
 import { useConfig } from './useConfig';
@@ -40,6 +41,11 @@ export function SettingsPage() {
             value: 'general',
             label: t('settings.tabs.general'),
             content: <GeneralSettingsForm settings={config.data.settings} />,
+          },
+          {
+            value: 'business',
+            label: t('business.tab'),
+            content: <BusinessProfileForm settings={config.data.settings} />,
           },
           {
             value: 'catalog',

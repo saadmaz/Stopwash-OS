@@ -12,7 +12,8 @@ import { useMemo, useReducer, useRef, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCustomerDisplay } from '@/features/display/channel';
 import { orderDisplay } from '@/features/display/toDisplay';
-import { api, errorKey } from '@/lib/api';
+import { api, ApiError, errorKey } from '@/lib/api';
+import { enqueue } from '@/lib/outbox';
 import { shortcutLabel, useHotkeys } from '@/lib/hotkeys';
 import { useConfig } from '@/features/settings/useConfig';
 import { emptyFields, fieldsReducer } from './customerFields';
@@ -72,15 +73,16 @@ export function NewOrderPage() {
     plateRef.current?.focus();
   };
 
+  const orderBody = () => ({
+    plate: fields.values.plate,
+    customerName: fields.values.name,
+    customerPhone: fields.values.phone,
+    lines,
+  });
   const create = useMutation({
     mutationFn: () =>
       api<Order>('/orders', {
-        body: {
-          plate: fields.values.plate,
-          customerName: fields.values.name,
-          customerPhone: fields.values.phone,
-          lines,
-        },
+        body: orderBody(),
         idempotencyKey: idemKey,
       }),
     onSuccess: (o) => {
@@ -89,7 +91,15 @@ export function NewOrderPage() {
       void qc.invalidateQueries({ queryKey: ['orders'] });
       reset();
     },
-    onError: (e) => toast.error(t(errorKey(e))),
+    onError: (e) => {
+      if (!(e instanceof ApiError && e.status === 0)) return toast.error(t(errorKey(e)));
+      // Offline: keep the order on this device; the outbox replays it with the same key.
+      const plate = fields.values.plate.trim().toUpperCase();
+      void enqueue({ key: idemKey, path: '/orders', body: orderBody(), label: plate });
+      toast.info(t('outbox.queued', { plate }));
+      setIdemKey(crypto.randomUUID());
+      reset();
+    },
   });
   const submit = () => ready && !create.isPending && create.mutate();
 

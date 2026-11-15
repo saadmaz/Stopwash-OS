@@ -659,5 +659,17 @@
       "EQUIPMENT_FAULT": "Equipment fault",
       "LARGE_DISCOUNT": "Large discount"
     }
+  },
+  "outbox": {
+    "queued": "No connection: {{plate}} saved on this device and will be sent automatically",
+    "sent_one": "{{count}} offline order sent",
+    "sent_other": "{{count}} offline orders sent",
+    "pending_one": "{{count}} order waiting to send",
+    "pending_other": "{{count}} orders waiting to send",
+    "title": "Orders saved offline",
+    "body": "These were taken while the connection was down. They send automatically when it returns; each is sent exactly once.",
+    "retry": "Try sending now",
+    "discard": "Discard",
+    "waiting": "Waiting"
   }
 }

@@ -151,3 +151,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-037 Route-level code splitting and lazy locales
 - **Decision:** every screen is a `React.lazy` chunk behind a Suspense skeleton, and jsPDF and Recharts load with the screens that use them. English ships in the main bundle. Sinhala and Tamil load on first switch through a small i18next backend, rendering English meanwhile (no suspense).
 - **Why:** the main chunk went from 1.33 MB (394 KB gz) to 578 KB (186 KB gz), which matters on counter tablets on mobile data. The PWA precache still stores every chunk, so offline use is unchanged.
+
+### D-038 Offline orders: device outbox, server assigns on arrival
+- **Decision:** when New Order cannot reach the API, the order is stored in an IndexedDB outbox on the device with the idempotency key it was first sent with. It replays in order when the connection returns (on the `online` event, then every 30 s) and stops at the first network failure. A server rejection (e.g. no open shift) is kept and flagged for the cashier to resolve or discard, never retried blindly. The ticket number, business date and price are assigned by the server when the order arrives. Checkout, cash and shift actions stay online-only.
+- **Why:** taking cars in must not stop during an outage. Money movements need the server's checks (pricing, overrides, drawer totals), and the reused key guarantees exactly-once creation.

@@ -7,6 +7,7 @@ import { LANGUAGES } from '@/i18n';
 import { useOnline } from '@/lib/online';
 import { useSession } from '@/lib/session';
 import { AlertWatcher } from '@/features/alerts/AlertWatcher';
+import { OutboxStatus } from '@/features/outbox/OutboxStatus';
 import { useTheme, type ThemePref } from '@/lib/theme';
 import { NAV, NAV_GROUPS } from './nav';
 import { CommandPalette, openCommandPalette } from './CommandPalette';
@@ -159,6 +160,7 @@ export function AppShell() {
           </Button>
           <div className="ml-auto flex items-center gap-2">
             <OfflineBadge />
+            <OutboxStatus />
             <LanguageSwitcher />
             <ThemeToggle />
             {user && (

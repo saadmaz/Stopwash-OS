@@ -30,6 +30,7 @@
     "react-hook-form": "^7.92.0",
     "react-i18next": "^18",
     "react-router": "^7",
+    "recharts": "^3",
     "zod": "^4"
   },
   "devDependencies": {

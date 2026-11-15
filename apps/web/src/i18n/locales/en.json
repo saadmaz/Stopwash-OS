@@ -553,5 +553,30 @@
     "card": "Card revenue",
     "total": "Grand total",
     "csvHint": "All completed orders, or pick a date range. Opens in Excel with Sinhala and Tamil names intact."
+  },
+  "dashboard": {
+    "revenueToday": "Revenue today",
+    "vehicles": "Vehicles vs target",
+    "avgTicket": "Average ticket",
+    "inQueue": "Cars in the queue",
+    "vsLastWeek": "vs same day last week",
+    "vsPrevious": "vs previous period",
+    "sales": "Sales performance",
+    "item": "Service or product",
+    "allItems": "All services",
+    "dailyRevenue": "Daily revenue",
+    "retention": "Customer retention",
+    "returning": "Returning",
+    "new": "New",
+    "noVisits": "No vehicles in this period yet.",
+    "retentionInsight": "{{total}} unique vehicles: {{returning}} came back ({{pct}}% retention).",
+    "heatmap": "Revenue by hour (last 4 weeks)",
+    "heatmapCaption": "Revenue per weekday and hour since {{since}}; darker is higher.",
+    "periods": {
+      "WEEKLY": "7 days",
+      "MONTHLY": "30 days",
+      "QUARTERLY": "Quarter",
+      "YEARLY": "Year"
+    }
   }
 }

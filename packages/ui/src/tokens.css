@@ -48,6 +48,8 @@
   --color-info: var(--sw-info);
   --color-info-subtle: var(--sw-info-subtle);
   --color-info-fg: var(--sw-info-fg);
+  --color-chart-1: var(--sw-chart-1);
+  --color-chart-2: var(--sw-chart-2);
 
   /* type */
   --font-display:
@@ -134,6 +136,9 @@
   --sw-info: #1d5fbf;
   --sw-info-subtle: #e2edfc;
   --sw-info-fg: #123f80;
+  /* Charts: validated categorical pair (light surface); sequential = chart-1 mixed with surface. */
+  --sw-chart-1: #1d5fbf;
+  --sw-chart-2: #7fb800;
 }
 
 :root[data-theme='dark'] {
@@ -168,6 +173,8 @@
   --sw-info: #5c9cff;
   --sw-info-subtle: rgb(92 156 255 / 0.14);
   --sw-info-fg: #a8c9ff;
+  --sw-chart-1: #3987e5;
+  --sw-chart-2: #5e8c00;
 }
 
 @layer base {

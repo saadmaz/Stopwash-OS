@@ -445,5 +445,34 @@
     "resetPinTitle": "New PIN for {{name}}",
     "deactivate": "Deactivate {{name}}",
     "deactivateConfirm": "Deactivate {{name}}? Their history stays; they can no longer sign in."
+  },
+  "payroll": {
+    "tabs": {
+      "run": "Payroll",
+      "rules": "Incentive rules",
+      "adjustments": "Deductions & bonuses"
+    },
+    "period": "Month",
+    "draft": "Draft",
+    "final": "Finalized",
+    "supplementary": "Finalized + supplementary",
+    "finalize": "Finalize payroll",
+    "finalizeConfirm": "Finalize payroll for {{period}}? It cannot be changed afterwards; late corrections go into next month.",
+    "runSupplementary": "Run supplementary",
+    "suppConfirm": "Create a supplementary run with the latest figures?",
+    "finalized": "Payroll for {{period}} finalized",
+    "none": "No employees to pay for this month",
+    "base": "Base",
+    "bonus": "Bonus",
+    "additions": "Additions",
+    "deductions": "Deductions",
+    "net": "Net pay",
+    "slip": "Salary slip",
+    "slipFor": "Salary slip for {{name}}",
+    "breakdownTitle": "Bonus breakdown · {{name}}",
+    "noBonus": "No bonus days this month.",
+    "date": "Date",
+    "vehicles": "Vehicles",
+    "tier": "Tier"
   }
 }

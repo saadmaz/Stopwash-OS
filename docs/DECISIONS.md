@@ -143,3 +143,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-035 Shift handover must be signed by someone else
 - **Decision:** closing a shift requires the PIN of an incoming supervisor (anyone allowed to open shifts) who is not the person closing. Above the override threshold, a manager PIN is also required. Both are verified before the close transaction (D-034).
 - **Why:** SWOMS's handover was meant as a countersignature. Letting the closer sign their own handover would make it meaningless.
+
+### D-036 Late payroll corrections go into the next period
+- **Decision:** once a period's REGULAR payroll run is finalized, new deductions and bonus adjustments dated in that period are refused. They are dated into the next month instead. A SUPPLEMENTARY run re-snapshots the period's lines (e.g. after late attendance or order corrections) and references the run it supersedes.
+- **Why:** a finalized payslip stays reproducible exactly as paid, which is the usual practice for small payrolls.

@@ -4,10 +4,32 @@ import { z } from 'zod';
 import { ctxOf, guard, resolveLocation } from '../lib/guard';
 import { validate } from '../lib/validate';
 import { dailyReport, ordersCsv } from '../services/reports';
+import { analytics, dashboard } from '../services/analytics';
 
 const Q = z.object({ locationId: z.string().optional(), date: DateKeyField.optional() });
 
 export async function reportRoutes(app: FastifyInstance): Promise<void> {
+  app.get('/analytics', { preHandler: guard('analytics.read') }, async (req) => {
+    const ctx = ctxOf(req);
+    const q = validate(
+      z.object({
+        locationId: z.string().optional(),
+        period: z.enum(['WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY', 'CUSTOM']).default('WEEKLY'),
+        from: DateKeyField.optional(),
+        to: DateKeyField.optional(),
+        item: z.string().max(32).optional(),
+      }),
+      req.query,
+    );
+    return analytics(app.store, ctx, resolveLocation(ctx, q.locationId), q);
+  });
+
+  app.get('/dashboard', { preHandler: guard('analytics.read') }, async (req) => {
+    const ctx = ctxOf(req);
+    const q = validate(z.object({ locationId: z.string().optional() }), req.query);
+    return dashboard(app.store, ctx, resolveLocation(ctx, q.locationId));
+  });
+
   app.get('/reports/daily', { preHandler: guard('report.read') }, async (req) => {
     const ctx = ctxOf(req);
     const q = validate(Q, req.query);

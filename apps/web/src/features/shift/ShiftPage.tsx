@@ -10,6 +10,7 @@ import { AlertLinks, ChecklistForm, type ChecklistResult } from './ChecklistForm
 import { OpenShiftForm } from './OpenShiftForm';
 import { CloseShiftSheet, VarianceLinks, type CloseResult } from './CloseShiftSheet';
 import { downloadShiftReport } from './reconciliationPdf';
+import { ShiftHistory } from './ShiftHistory';
 import { useCurrentShift } from './useShift';
 
 const time = (iso: string) =>
@@ -180,6 +181,7 @@ export function ShiftPage() {
     <div className="flex flex-col gap-6">
       <h1 className="font-display text-3xl font-bold">{t('nav.shift')}</h1>
       {body}
+      {can('shift.adjust') || can('shift.approve') ? <ShiftHistory /> : null}
       {requesting && config.data && (
         <Sheet open onOpenChange={setRequesting} title={t('legacy.requestStock')}>
           {requested ? (

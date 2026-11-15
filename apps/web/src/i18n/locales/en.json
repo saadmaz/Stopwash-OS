@@ -403,5 +403,19 @@
       "QUERIED": "Queried",
       "APPROVED": "Approved"
     }
+  },
+  "history": {
+    "none": "No shifts yet",
+    "opened": "Opened",
+    "card": "Card sales",
+    "backdated": "Back-dated",
+    "adjust": "Adjust",
+    "adjustTitle": "Adjust shift figures",
+    "adjustBody": "Adds an adjustment record recalculated from the ledger (including back-dated entries). The original close stays unchanged.",
+    "correctedCount": "Corrected cash count (optional)",
+    "correctedHint": "Leave empty to keep the counted amount.",
+    "reason": "Reason",
+    "adjusted": "Adjustment recorded · variance {{variance}}",
+    "adjustedTag": "adjusted"
   }
 }

@@ -18,7 +18,7 @@ Closes #
 
 ## Checklist
 
-- [ ] Checks pass locally: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`
+- [ ] Checks pass locally: `pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build`
 - [ ] Checked on a phone-width screen as well as desktop
 - [ ] No secrets, credentials or personal data added
 - [ ] Permissions and data rules reviewed for any new endpoint or collection

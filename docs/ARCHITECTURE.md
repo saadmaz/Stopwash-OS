@@ -113,3 +113,10 @@ Manager override (variance > override threshold, big discount, cash-out approval
 1. Firestore rules: brand/location scoping, role checks, append-only collections, field-level checks on the few client writes.
 2. API: token verification, RBAC, zod validation, rate limiting (`@fastify/rate-limit`), helmet headers, CORS allow-list, request size limits, idempotency.
 3. Secrets: only through env (`.env`, never committed). The service account is used in prod only; emulators need none.
+
+## Conventions
+
+- Money is integer LKR cents. Times are stored in UTC, and business days are Asia/Colombo dates.
+- Every record carries `brandId` and `locationId`. Writes take an `Idempotency-Key`.
+- Financial records are append-only. Corrections are reversing entries, and every change is audit-logged.
+- One conventional commit per change. Never commit `.env` files or keys.

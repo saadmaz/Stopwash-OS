@@ -28,8 +28,9 @@ First pre-production release. Feature-complete on the in-memory backend; product
 - Multi-stage, non-root API container with a `/health` check.
 - Firestore and Storage deny-all baseline rules and emulator configuration.
 - Design system and screen designs in Figma.
-- Continuous integration: type check, lint, formatting, unit and API tests, build, Playwright end-to-end shift day and container smoke test.
+- Continuous integration on every push and pull request: type check, lint, formatting, unit and API tests, build, Playwright end-to-end shift day and container smoke test.
 - Project governance: proprietary licence, security policy, contribution guidelines, code of conduct, issue forms, pull request template, CODEOWNERS and Dependabot.
+- Standard documentation layout shared by every STTPS repository: architecture, configuration, deployment, decision records (ADRs) and release and rollback runbooks, indexed in `docs/README.md`.
 
 [Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/saadmaz/Stopwash-POS/releases/tag/v0.1.0

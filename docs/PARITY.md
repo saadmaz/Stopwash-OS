@@ -1,7 +1,7 @@
 # Parity: SWOMS 2.5 → Stopwash POS
 
 Source of truth for the old system: `SWOMS2.5.html` (10,594 lines) in `Stopwash-POS-HTML`, plus its README, SYSTEM_SUMMARY and attendance notes.
-Every row below is a feature, screen, field, calculation or edge case found in the old app. Nothing is dropped silently. A row that is intentionally changed says so in **Notes** and links to a decision in `DECISIONS.md`.
+Every row below is a feature, screen, field, calculation or edge case found in the old app. Nothing is dropped silently. A row that is intentionally changed says so in **Notes** and links to a decision in `docs/adr/`.
 
 Status legend: `TODO` not started · `WIP` in progress · `DONE` built and tested · `CHANGED` built differently on purpose (see notes) · `DROPPED` removed on purpose (see notes)
 
@@ -11,13 +11,13 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where (old) | New home | Status | Notes |
 |---|---|---|---|---|---|
-| A1 | Three shared 4-digit passcodes decide role: Supervisor → EMPLOYEE, HR → HR, Accounts → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | WIP | CHANGED: shared passcodes are compromised and give no individual accountability. D-004, D-005 |
+| A1 | Three shared 4-digit passcodes decide role: Supervisor → EMPLOYEE, HR → HR, Accounts → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | WIP | CHANGED: shared passcodes are compromised and give no individual accountability. ADR-0004, ADR-0005 |
 | A2 | Role kept in `sessionStorage.swPasscode` across refresh | 3569, 4290 | Firebase Auth session persistence + custom claims | DONE | |
 | A3 | Anonymous Firebase auth; `userId` is a device id | 4283 | Real user identity (uid + employeeId) on every write | DONE | CHANGED: audit log now names the person |
 | A4 | "Switch" user button with confirm, clears role and session id | `logoutUser` 3672 | Header "Switch user" → PIN pad (keeps device registered) | DONE | |
-| A5 | Role-based UI: HR sees analytics, HR menus, quick actions; ACCOUNTS sees only EOD dashboard; EMPLOYEE sees order form + queue | `updateUIVisibilityByRole` 3601 | RBAC permission map in `packages/shared`; nav and routes filtered by permission; API + rules enforce | DONE | Roles map: EMPLOYEE→cashier, HR→owner/manager, ACCOUNTS→accounts. D-006 |
+| A5 | Role-based UI: HR sees analytics, HR menus, quick actions; ACCOUNTS sees only EOD dashboard; EMPLOYEE sees order form + queue | `updateUIVisibilityByRole` 3601 | RBAC permission map in `packages/shared`; nav and routes filtered by permission; API + rules enforce | DONE | Roles map: EMPLOYEE→cashier, HR→owner/manager, ACCOUNTS→accounts. ADR-0006 |
 | A6 | `checkHRAuth()` prompts for HR passcode to unlock HR features mid-session | 5710 | "Manager override" dialog: manager PIN re-auth that grants one action (step-up) | DONE | CHANGED: one-time elevation, not session-wide |
-| A7 | Supervisor passcode prompt to edit/delete session history, clear all history | `editSession` 7074, `deleteSession` 7406, `clearAllHistory` 7361 | Manager/owner permission + reason required; corrections as reversing entries | DONE | CHANGED: no delete of financial history. D-008 |
+| A7 | Supervisor passcode prompt to edit/delete session history, clear all history | `editSession` 7074, `deleteSession` 7406, `clearAllHistory` 7361 | Manager/owner permission + reason required; corrections as reversing entries | DONE | CHANGED: no delete of financial history. ADR-0008 |
 | A8 | Resume session modal: finds OPEN session (localStorage id first, else newest OPEN) and offers Resume / Start new anyway (warning) | `updateStaffDropdowns` 6420, `resumeExistingSession` 6517, `startNewShiftAnyway` 6547 | Shift context loads the location's open shift from Firestore; only one open shift per location (API enforces); "Resume" is automatic | DONE | CHANGED: "start new anyway" removed because it caused double-open shifts; manager can force-close instead |
 | A9 | Supervisor login goes to stock checker first; HR/ACCOUNTS bypass | 3569 | Cashier with no open shift → Open Shift wizard (checklist → count → start); managers land on dashboard | DONE | |
 | A10 | Employee "can open/close shifts" flag; supervisor list = canOpenShift or role Manager/Supervisor/HR | 6420 | `employees.canOpenShift` + permission `shift.open` | DONE | |
@@ -30,7 +30,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | S2 | Equipment: Vacuum (Working/Faulty), Pressure Gun (Working/Faulty), Mitts & Cloths (Clean/Need wash), Power & Water (Stable/Issues) | `selectEquip` 4811 | Configurable `equipmentItems` with ok/fault labels; checklist step 2 | DONE | |
 | S3 | "Mark all in stock" button | `markAllStockHigh` 4795 | "All good" button on each checklist step | DONE | |
 | S4 | Saves stock levels to `settings/stockLevels` (merge) with lastUpdated | 4875 | `checklists` (append-only) + derived `stockStatus` doc updated by API | DONE | |
-| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | DONE | Hardcoded number removed. D-011 |
+| S5 | Low stock → WhatsApp `wa.me` message to hardcoded number, timestamped list | 4875 | wa.me click-to-chat to number(s) from settings + in-app alert + toast | DONE | Hardcoded number removed. ADR-0011 |
 | S6 | Faulty equipment → separate "EQUIPMENT FAILURE ALERT" WhatsApp message | 4875 | Same, config numbers | DONE | BUG FIXED: old code only checked `=== 'FAULTY'`, so Mitts ("LOW") and Utilities ("ISSUE") never triggered the alert |
 | S7 | Request-stock mode from nav mid-shift: same modal, sends "STOCK REQUEST" WhatsApp, requires at least one LOW | `showStockChecker('REQUEST')` 3766 | "Request stock" sheet in Inventory | DONE | |
 | S8 | Red "Running low: …" banner on dashboard from live stock doc | `startStockListener` 8322 | Low-stock banner + real-time toast (premium) | DONE | |
@@ -40,7 +40,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
 | H1 | Start shift: live clock, select staff (supervisors), carryover notes | `confirmStartShift` 5200 | Open Shift wizard step 3 | DONE | |
-| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | DONE | CHANGED: LKR 2000 note added to defaults (legal tender). D-013 |
+| H2 | Denominations LKR 5000/1000/500/100/50/20 + coins (coins entered as total value) | 4853, 5178 | Denomination counter component; denominations configurable (default adds 2000 note; coins kept as value) | DONE | CHANGED: LKR 2000 note added to defaults (legal tender). ADR-0013 |
 | H3 | Opening total auto-calculated, per-denomination subtotal shown | 4853 | Same, integer cents | DONE | |
 | H4 | Session doc: startTime, openingBalance, staffName, shiftType LIVE, carryoverNotes, status OPEN, denominations | 5200 | `shifts` doc via API `POST /shifts` (transaction, idempotent) | DONE | |
 | H5 | Audit log CREATE/SESSION on open | 5200 | Audit log `shift.open` | DONE | |
@@ -66,8 +66,8 @@ Line numbers refer to `SWOMS2.5.html`.
 | O14 | Pagination 10/page with numbered pages, ellipsis, "Showing x to y of z" | 8350, 8522–8550 | Paginated table (desktop) / card list (mobile) | DONE | |
 | O15 | Daily target progress (DAILY_TARGET=15), counts COMPLETED orders completed today; bar colour red <5, orange <10, green ≥10 | `renderOrders` | Target progress, target from settings; colour thresholds as % of target | DONE | CHANGED: thresholds scale with target |
 | O16 | Row shows date/time, plate, phone, services string, price, discount note, status badge, payment info, actions | `renderOrders` | Queue card/row | DONE | |
-| O17 | Status values in use: QUEUED, COMPLETED, CANCELLED (filtered in analytics) | various | QUEUED → IN_PROGRESS → READY → COMPLETED; CANCELLED with reason | DONE | CHANGED: richer flow for bay board. D-015 |
-| O18 | Edit order modal: customer, plate, size, add-ons, products; recalculates price; for COMPLETED also final price, payment method, split amounts | `showEditModal` 4041, `saveOrderChanges` 8556 | Edit before payment; after payment, corrections via payment reversal + re-tender | DONE | CHANGED: append-only payments. D-008 |
+| O17 | Status values in use: QUEUED, COMPLETED, CANCELLED (filtered in analytics) | various | QUEUED → IN_PROGRESS → READY → COMPLETED; CANCELLED with reason | DONE | CHANGED: richer flow for bay board. ADR-0015 |
+| O18 | Edit order modal: customer, plate, size, add-ons, products; recalculates price; for COMPLETED also final price, payment method, split amounts | `showEditModal` 4041, `saveOrderChanges` 8556 | Edit before payment; after payment, corrections via payment reversal + re-tender | DONE | CHANGED: append-only payments. ADR-0008 |
 | O19 | HR can backdate order date (sets createdAt/completedAt, clears sessionId) | 4041, 8556 | Manager "back-dated entry" with reason, assigned to a target shift; audited | TODO | |
 | O20 | Delete order (confirm) — hard delete | `deleteOrder` 8914 | Cancel with reason (permission `order.cancel`); paid orders need refund first | DONE | CHANGED: no hard deletes |
 | O21 | Edit/delete icons per row | `renderOrders` | Row actions menu | DONE | |
@@ -84,7 +84,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | P3 | discountAmount = calculated − final; shown as "(LKR x Discount)" | 4168, 8350 | Discount line with reason; above configurable % needs manager override | DONE | Override threshold new |
 | P4 | Final price must be ≥ 0 | 4168 | Zod + API | DONE | |
 | P5 | On pay: status COMPLETED, paymentMethod, cashAmount, cardAmount, completedAt, invoiceNumber, finalPaidPrice, discountAmount, sessionId | 4168 | API `POST /orders/:id/checkout` transaction writes `payments` + order status + invoice | DONE | |
-| P6 | Invoice number = DDMM + 3-digit sequence of today's completed orders (client-side count, race-prone) | 4168 | Same DDMM+seq format from a server counter per location per day, in the checkout transaction | DONE | Race-free. D-033 |
+| P6 | Invoice number = DDMM + 3-digit sequence of today's completed orders (client-side count, race-prone) | 4168 | Same DDMM+seq format from a server counter per location per day, in the checkout transaction | DONE | Race-free. ADR-0033 |
 | P7 | "View invoice" → per-order invoice PDF `Invoice_{plate}_{no}.pdf` | `generateInvoicePDF` 9148 | Receipt view + PDF download + WhatsApp share | DONE | |
 | P8 | Sales split: SPLIT counts cashAmount to cash and cardAmount to card | 5348 | Payments ledger sums by method | DONE | |
 
@@ -107,7 +107,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | # | Old behaviour | Where | New home | Status | Notes |
 |---|---|---|---|---|---|
 | R1 | Shows opening, cash sales, card sales, expenses, deposits, expected cash, vehicle count | `showEndShiftModal` 5348 | Close Shift screen (API computes) | DONE | |
-| R2 | Sales & cash-outs gathered by sessionId PLUS any orphan record whose time falls in the shift window | 5348 | Every order/payment/cash movement carries `shiftId` set by the API; no time-window guessing | DONE | CHANGED. Legacy import maps orphans once. D-016 |
+| R2 | Sales & cash-outs gathered by sessionId PLUS any orphan record whose time falls in the shift window | 5348 | Every order/payment/cash movement carries `shiftId` set by the API; no time-window guessing | DONE | CHANGED. Legacy import maps orphans once. ADR-0016 |
 | R3 | Expected = opening + cash sales − expenses − deposits | 5348 | `expectedCash()` in shared, tested | DONE | |
 | R4 | Closing denomination count → physical total | `calculateClosingBalance` 5268 | Same component | DONE | |
 | R5 | Variance = physical − expected; label Matched (<1), Shortage (<0), Overage (>0), coloured box | `calculateVariance` 5323 | Same; exact 0 = Matched (integer cents) | DONE | |
@@ -128,10 +128,10 @@ Line numbers refer to `SWOMS2.5.html`.
 |---|---|---|---|---|---|
 | SH1 | Last 50 sessions: date, time, staff, opening, cash, card, closing, variance (colour: <−10 red, >10 yellow, else green), notes | `loadSessionHistory` 8189 | Shifts page (paginated, filterable) | DONE | |
 | SH2 | Manual session open (backdated): staff, start, optional end (required if >24h ago), opening; shiftType MANUAL, openedBy HR_MANUAL | `openManualSession` 5495 | "Back-dated shift" (manager), audited | DONE | |
-| SH3 | Edit session: times, opening/closing, cash/card sales, expenses, deposits, notes, variance (manual override), opening/closing denominations; recalc from list; auto-calc sales from time window | `editSession` 7074, `autoCalculateSalesFromTimes` 7171, `saveSessionChanges` 7238 | Shift close "adjustment" entry (append-only) with reason; recalculation is a report, not an edit | DONE | CHANGED: no in-place edits. D-008 |
+| SH3 | Edit session: times, opening/closing, cash/card sales, expenses, deposits, notes, variance (manual override), opening/closing denominations; recalc from list; auto-calc sales from time window | `editSession` 7074, `autoCalculateSalesFromTimes` 7171, `saveSessionChanges` 7238 | Shift close "adjustment" entry (append-only) with reason; recalculation is a report, not an edit | DONE | CHANGED: no in-place edits. ADR-0008 |
 | SH4 | Edit-session transaction list: add/edit transactions for that session, sync totals | 7768–7890 | Add back-dated cash movement to a closed shift → creates adjustment | DONE | |
 | SH5 | Redownload reconciliation PDF for any session | `redownloadReport` 7310 | "Download PDF" on shift detail | DONE | |
-| SH6 | Delete session (passcode) / Clear all history (passcode, double confirm) | 7361, 7406 | Not allowed on financial records | DROPPED | Replaced by void/adjustment entries. D-008 |
+| SH6 | Delete session (passcode) / Clear all history (passcode, double confirm) | 7361, 7406 | Not allowed on financial records | DROPPED | Replaced by void/adjustment entries. ADR-0008 |
 
 ## 9. Accounts EOD approval
 
@@ -172,15 +172,15 @@ Line numbers refer to `SWOMS2.5.html`.
 | PY2 | Shop daily count = COMPLETED orders per calendar day (date taken from ISO string prefix = UTC date) | 6566 | Count by `businessDate` in Asia/Colombo | DONE | BUG FIXED: UTC date put orders after 18:30 SL time on the wrong day |
 | PY3 | Weekend = Sat/Sun | `isWeekend` | Configurable weekend days (default Sat, Sun) | DONE | |
 | PY4 | Per day: highest tier whose target ≤ daily count gives that tier's bonus (not cumulative) | 6566 | `dailyIncentive()` in shared, tested | DONE | |
-| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | DONE | D-017 |
+| PY5 | Attendance multiplier removed in 2.5 (always 1.0) | 6687, 6727 | Configurable: off by default (parity); can enable Present 1.0 / Half-day 0.5 / Absent 0 | DONE | ADR-0017 |
 | PY6 | Net = base + bonus + bonus adjustments + recurring addition − (one-off deductions + recurring deduction); recurring skipped if month exempt | 6566 | `computePayslip()` in shared, tested | DONE | |
 | PY7 | Grand total of all net pay | 6566 | Run total | DONE | |
 | PY8 | Bonus breakdown modal: date, count, tier, bonus | `showBonusBreakdown` 6836 | Payslip detail | DONE | |
 | PY9 | Deductions breakdown modal | `showDeductionsBreakdown` 6868 | Payslip detail | DONE | |
 | PY10 | Salary slip PDF: navy header, employee, code, role, period, base, itemised bonus by date, deductions, adjustments, net; `SalarySlip_{name}_{month}.pdf`; audit | `generateSalarySlip` 6895 | Salary slip PDF from a finalized payroll run | DONE | |
 | PY11 | "Process all payroll" button only shows an alert and reloads (not implemented) | `processAllPayroll` 7042 | Finalize payroll run (append-only snapshot) + bulk slips ZIP | DONE | Implemented properly |
-| PY12 | Payroll is recalculated live every time (no stored run) | 6566 | Draft preview → Finalize → immutable `payrollRuns`; corrections = supplementary run | DONE | CHANGED. D-018 |
-| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | DONE | New, configurable. D-019 |
+| PY12 | Payroll is recalculated live every time (no stored run) | 6566 | Draft preview → Finalize → immutable `payrollRuns`; corrections = supplementary run | DONE | CHANGED. ADR-0018 |
+| PY13 | EPF/ETF not handled | — | Optional statutory deductions (EPF employee 8%, employer EPF 12%, ETF 3%), off by default | DONE | New, configurable. ADR-0019 |
 
 ## 13. Leave
 

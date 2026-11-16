@@ -10,7 +10,7 @@ import type {
 
 /**
  * Firestore backend: interface only for now. Saad wires this up once the Firebase project exists:
- * each collection maps to a top-level Firestore collection of the same name (see docs/DATA_MODEL.md),
+ * each collection maps to a top-level Firestore collection of the same name (see docs/DATA-MODEL.md),
  * `transaction` maps to `db.runTransaction`, timestamps convert ISO string ⇄ Firestore Timestamp.
  */
 class FirestoreCollection<T extends Identified> implements MutableRepo<T> {

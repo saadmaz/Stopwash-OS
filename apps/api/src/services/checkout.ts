@@ -20,7 +20,7 @@ import { getSettings } from './config';
 import { vehicleId } from './customers';
 import { asAppError, loadCatalog, locationTimezone } from './orders';
 
-/** Receipt number in the SWOMS format: DDMM + 3-digit sequence for the location's day (D-033). */
+/** Receipt number in the SWOMS format: DDMM + 3-digit sequence for the location's day (ADR-0033). */
 export function receiptNumber(day: string, seq: number): string {
   const [, mm, dd] = day.split('-');
   return `${dd}${mm}${String(seq).padStart(3, '0')}`;

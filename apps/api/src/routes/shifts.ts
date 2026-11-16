@@ -79,7 +79,7 @@ export async function shiftRoutes(app: FastifyInstance): Promise<void> {
       maxAttempts: app.env.PIN_MAX_ATTEMPTS,
       lockoutMinutes: app.env.PIN_LOCKOUT_MINUTES,
     };
-    // PINs are checked before the transaction so failed attempts count (D-034).
+    // PINs are checked before the transaction so failed attempts count (ADR-0034).
     const handover = await verifyOverride(
       app.store,
       ctx,

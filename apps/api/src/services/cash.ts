@@ -41,7 +41,7 @@ async function openShiftFor(tx: Repositories, brandId: string, locationId: strin
   return shift;
 }
 
-/** Whether this amount needs a manager PIN (checked before the transaction, see D-034). */
+/** Whether this amount needs a manager PIN (checked before the transaction, see ADR-0034). */
 export async function needsCashApproval(
   repos: Repositories,
   brandId: string,

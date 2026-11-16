@@ -18,7 +18,7 @@ export interface QueueFilter {
   pageSize?: number;
 }
 
-/** Live queue. Polls every 5 s until Firestore listeners replace it (D-032). */
+/** Live queue. Polls every 5 s until Firestore listeners replace it (ADR-0032). */
 export function useQueue(f: QueueFilter) {
   const params = new URLSearchParams({ page: String(f.page), pageSize: String(f.pageSize ?? 10) });
   if (f.status !== 'ALL') params.set('status', f.status);

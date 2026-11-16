@@ -1,55 +1,55 @@
-        # Security Policy
+# Security Policy
 
-        ## Supported versions
+## Supported versions
 
-        Only the version currently deployed to production, built from the `main` branch, receives security fixes.
+Only the version currently deployed to production, built from the `main` branch, receives security fixes.
 
-        | Version | Supported |
-        | --- | --- |
-        | Latest release on `main` | Yes |
-        | Older releases | No |
+| Version | Supported |
+| --- | --- |
+| Latest release on `main` | Yes |
+| Older releases | No |
 
-        ## Reporting a vulnerability
+## Reporting a vulnerability
 
-        Please **do not** open a public issue, pull request or discussion for a security problem.
+Please **do not** open a public issue, pull request or discussion for a security problem.
 
-        Report it privately by email to **[hello@stopwash.lk](mailto:hello@stopwash.lk)** with the subject line `Security report`, or use GitHub's [private vulnerability reporting](https://github.com/saadmaz/Stopwash-POS/security/advisories/new). Include:
+Report it privately by email to **[hello@stopwash.lk](mailto:hello@stopwash.lk)** with the subject line `Security report`, or use GitHub's [private vulnerability reporting](https://github.com/saadmaz/Stopwash-POS/security/advisories/new). Include:
 
-        - a description of the issue and its potential impact,
-        - the affected URL, screen, endpoint or file,
-        - steps to reproduce, or a proof of concept,
-        - any suggested fix.
+- a description of the issue and its potential impact,
+- the affected URL, screen, endpoint or file,
+- steps to reproduce, or a proof of concept,
+- any suggested fix.
 
-        ### What to expect
+### What to expect
 
-        | Stage | Target |
-        | --- | --- |
-        | Acknowledgement | Within 3 business days |
-        | Initial assessment | Within 7 business days |
-        | Fix or mitigation | Based on severity; critical issues are prioritised immediately |
+| Stage | Target |
+| --- | --- |
+| Acknowledgement | Within 3 business days |
+| Initial assessment | Within 7 business days |
+| Fix or mitigation | Based on severity; critical issues are prioritised immediately |
 
-        We will keep you informed throughout and let you know when the issue is resolved.
+We will keep you informed throughout and let you know when the issue is resolved.
 
-        ## Scope
+## Scope
 
-        In scope:
+In scope:
 
-        - stopwash.lk and its subdomains,
-        - the application, its API and its authentication and payment flows,
+- stopwash.lk and its subdomains,
+- the application, its API and its authentication and payment flows,
 - the deployment and infrastructure configuration in this repository,
-        - the source code in this repository.
+- the source code in this repository.
 
-        Out of scope:
+Out of scope:
 
-        - denial-of-service and volumetric attacks,
-        - social engineering of STOPWASH staff or customers,
-        - findings from automated scanners without a demonstrated impact,
-        - third-party services (for example Cloudflare, Firebase or the hosting provider). Report those to the provider directly.
+- denial-of-service and volumetric attacks,
+- social engineering of STOPWASH staff or customers,
+- findings from automated scanners without a demonstrated impact,
+- third-party services (for example Cloudflare, Firebase or the hosting provider). Report those to the provider directly.
 
-        ## Handling secrets
+## Handling secrets
 
-        Credentials, API keys and service-account files are never committed to this repository. They live in the hosting provider's secret store or in GitHub Actions secrets. If you find a secret in the code or its history, report it as a vulnerability.
+Credentials, API keys and service-account files are never committed to this repository. They live in the hosting provider's secret store or in GitHub Actions secrets. If you find a secret in the code or its history, report it as a vulnerability.
 
-        ## Safe harbour
+## Safe harbour
 
-        We will not pursue action against anyone who reports a vulnerability in good faith, avoids privacy violations and service disruption, does not access or modify other people's data, and gives us reasonable time to fix the issue before disclosing it.
+We will not pursue action against anyone who reports a vulnerability in good faith, avoids privacy violations and service disruption, does not access or modify other people's data, and gives us reasonable time to fix the issue before disclosing it.

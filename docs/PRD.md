@@ -63,7 +63,7 @@ Card terminal integration, SMS, online booking, accounting-system sync, multi-cu
 - **Theming:** light and dark, brand tokens from stopwash.lk.
 
 ## 7. Open questions (defaults chosen, see DECISIONS)
-- VAT registration: tax is off by default (D-019 area / settings.tax).
-- EPF/ETF on slips: off by default (D-019).
-- Attendance-weighted incentives: off by default (D-017).
+- VAT registration: tax is off by default (ADR-0019 area / settings.tax).
+- EPF/ETF on slips: off by default (ADR-0019).
+- Attendance-weighted incentives: off by default (ADR-0017).
 - Loyalty rule: off by default; suggested 6th wash at 50%.

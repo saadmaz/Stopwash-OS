@@ -2,8 +2,16 @@
   "name": "stopwash-pos",
   "private": true,
   "version": "0.1.0",
-  "description": "Point-of-sale and operations system for STOPWASH car wash",
-  "author": "Saad Mazhar",
+  "description": "Point-of-sale and operations platform for the STOPWASH vehicle-care network",
+  "homepage": "https://github.com/saadmaz/Stopwash-POS#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saadmaz/Stopwash-POS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saadmaz/Stopwash-POS/issues"
+  },
+  "author": "Saad Mazhar (https://github.com/saadmaz)",
   "license": "UNLICENSED",
   "type": "module",
   "packageManager": "pnpm@9.15.4",

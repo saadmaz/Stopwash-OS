@@ -1,6 +1,8 @@
 {
   "name": "@stopwash/api",
   "version": "0.1.0",
+  "description": "STOPWASH POS API: pricing, money, permissions and persistence (Fastify)",
+  "license": "UNLICENSED",
   "private": true,
   "type": "module",
   "scripts": {

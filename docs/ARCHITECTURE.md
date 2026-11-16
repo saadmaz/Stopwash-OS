@@ -107,7 +107,7 @@ Manager override (variance > override threshold, big discount, cash-out approval
 |---|---|---|
 | dev | Emulator Suite in Docker, project `demo-stopwash` | `pnpm --filter api dev` on :8080 |
 | test/CI | Emulators (Docker) | in-process Fastify `inject()` |
-| prod | real project (Saad to create) | container (Cloud Run suggested) |
+| prod | real project (to be created) | container (Cloud Run suggested) |
 
 ## Security layers
 1. Firestore rules: brand/location scoping, role checks, append-only collections, field-level checks on the few client writes.

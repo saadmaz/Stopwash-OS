@@ -1,8 +1,32 @@
-# Stopwash POS
+<div align="center">
 
-Point-of-sale and operations system for the STOPWASH car wash in Katubedda, Sri Lanka. It covers counter orders, the live queue, checkout, shifts and cash reconciliation, approvals, staff, attendance, leave and payroll, reports, the owner dashboard, B2B invoices, the TV board, the customer display and loyalty. It runs in English, Sinhala and Tamil.
+# STOPWASH POS
 
-Status and next steps: [docs/PROGRESS.md](docs/PROGRESS.md), including the **Needs Saad** list.
+**Point-of-sale and operations platform for the STOPWASH vehicle-care network.**
+
+Counter orders, the live queue, checkout, shifts and cash reconciliation, staff and payroll, reports and loyalty, in English, Sinhala and Tamil.
+
+[![CI](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml/badge.svg)](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/saadmaz/Stopwash-POS?include_prereleases&style=flat-square&labelColor=0B1728&color=B2E04C)](https://github.com/saadmaz/Stopwash-POS/releases)
+![Node](https://img.shields.io/badge/node-22-0B1728?style=flat-square)
+![License](https://img.shields.io/badge/license-proprietary-0B1728?style=flat-square)
+
+[Project status](docs/PROGRESS.md) · [Architecture](docs/ARCHITECTURE.md) · [Report a bug](https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml)
+
+</div>
+
+---
+
+## About
+
+STOPWASH POS runs the STOPWASH outlet in Katubedda, Sri Lanka, and is built to scale across the network. It covers counter orders, the live queue, checkout, shifts and cash reconciliation, approvals, staff, attendance, leave and payroll, reports, the owner dashboard, B2B invoices, the TV board, the customer display and loyalty.
+
+| | |
+| --- | --- |
+| **Organisation** | STOPWASH PVT LTD |
+| **Status** | Feature-complete on the in-memory backend; Firebase integration pending. See [docs/PROGRESS.md](docs/PROGRESS.md) |
+| **Contact** | [hello@stopwash.lk](mailto:hello@stopwash.lk) |
+| **Maintainer** | [Saad Mazhar](https://github.com/saadmaz) |
 
 ## Layout
 
@@ -82,6 +106,7 @@ Business settings (prices, thresholds, receipt footer, business profile, loyalty
 
 ## Docs
 
+- [Project status](docs/PROGRESS.md)
 - [Product requirements](docs/PRD.md)
 - [Parity with SWOMS 2.5](docs/PARITY.md)
 - [Architecture](docs/ARCHITECTURE.md)
@@ -95,4 +120,22 @@ Business settings (prices, thresholds, receipt footer, business profile, loyalty
 docker build -f apps/api/Dockerfile -t stopwash-api .
 ```
 
-This is a multi-stage image with production dependencies only. It runs as the non-root `node` user, listens on port 8080 and has a `/health` healthcheck. All configuration comes from environment variables at run time. In production (`NODE_ENV=production`) the API refuses to start until Firebase is wired: it needs `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase` and `DEV_SEED=false` (see **Needs Saad** in PROGRESS). CI builds the image and smoke-tests `/health`.
+This is a multi-stage image with production dependencies only. It runs as the non-root `node` user, listens on port 8080 and has a `/health` healthcheck. All configuration comes from environment variables at run time. In production (`NODE_ENV=production`) the API refuses to start until Firebase is wired: it needs `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase` and `DEV_SEED=false` (see **Owner actions** in [PROGRESS](docs/PROGRESS.md#owner-actions)). CI builds the image and smoke-tests `/health`.
+
+## Releases and versioning
+
+The project follows [Semantic Versioning](https://semver.org). Releases are tagged `vX.Y.Z` and published on the [Releases](https://github.com/saadmaz/Stopwash-POS/releases) page; versions below `1.0.0` are pre-production. Notable changes are recorded in [CHANGELOG.md](CHANGELOG.md).
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the branching model, commit conventions and pull request checklist. All participants are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Please do not report security issues in public issues. See [SECURITY.md](SECURITY.md) for how to report a vulnerability privately.
+
+## License
+
+Copyright © 2026 STOPWASH PVT LTD. All rights reserved.
+
+This is proprietary software. The source is publicly visible, but no permission is granted to use, copy, modify or distribute it without prior written consent. See [LICENSE](LICENSE).

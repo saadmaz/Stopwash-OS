@@ -4,13 +4,18 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   check:
+    name: Type check, lint, format, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -34,6 +39,7 @@ jobs:
         run: pnpm build
 
   e2e:
+    name: End-to-end
     # Browser run of the core day: in-memory API with the dev seed, no Firebase involved.
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -58,6 +64,7 @@ jobs:
           retention-days: 7
 
   api-image:
+    name: API container
     # Builds the API container and checks it answers /health (in-memory, no seed, no Firebase).
     runs-on: ubuntu-latest
     timeout-minutes: 15

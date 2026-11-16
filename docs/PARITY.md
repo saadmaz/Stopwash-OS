@@ -11,7 +11,7 @@ Line numbers refer to `SWOMS2.5.html`.
 
 | # | Old behaviour | Where (old) | New home | Status | Notes |
 |---|---|---|---|---|---|
-| A1 | Three shared 4-digit passcodes decide role: Supervisor 5252 → EMPLOYEE, HR 6225 → HR, Accounts 0706 → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | WIP | CHANGED: shared passcodes are compromised and give no individual accountability. D-004, D-005 |
+| A1 | Three shared 4-digit passcodes decide role: Supervisor → EMPLOYEE, HR → HR, Accounts → ACCOUNTS | 2883–2885, `attemptPasscodeLogin` 3569 | Email sign-in (owner/manager/accounts) + per-employee PIN on a registered device (cashier/attendant) → Firebase custom token | WIP | CHANGED: shared passcodes are compromised and give no individual accountability. D-004, D-005 |
 | A2 | Role kept in `sessionStorage.swPasscode` across refresh | 3569, 4290 | Firebase Auth session persistence + custom claims | DONE | |
 | A3 | Anonymous Firebase auth; `userId` is a device id | 4283 | Real user identity (uid + employeeId) on every write | DONE | CHANGED: audit log now names the person |
 | A4 | "Switch" user button with confirm, clears role and session id | `logoutUser` 3672 | Header "Switch user" → PIN pad (keeps device registered) | DONE | |
@@ -227,7 +227,7 @@ Line numbers refer to `SWOMS2.5.html`.
 | IN1 | New invoice: customer name, address (autocomplete from `invoice_customers` + orders), date, number (starts 55100), line items (desc, qty, unit), discount, paid/unpaid | 9595–9903 | Invoices page | DONE | |
 | IN2 | Saves `invoice_customers` (name, address) if new/changed | `saveCustomerIfNeeded` 9889 | `billingCustomers` | DONE | |
 | IN3 | History: reprint, re-edit, toggle paid, delete | 9653–9762 | Reprint; "void + reissue" instead of edit/delete; payments recorded as settlements | DONE | CHANGED: append-only |
-| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | PARTIAL | Logo upload waits on Storage (Needs Saad) |
+| IN4 | Settings: company name, address, phone, tax id, logo (base64), bank details | 9803 | Settings → Business profile (logo in Storage) | PARTIAL | Logo upload waits on Storage (Needs the owner) |
 | IN5 | PDF via html2canvas → jsPDF | 9903 | Vector PDF (pdf-lib / jsPDF text) | DONE | |
 | IN6 | `nextNumber` default 55100 | 9606 | Counter seeded from settings | DONE | |
 

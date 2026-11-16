@@ -1,25 +1,19 @@
-# Progress
+# Project status
 
-> A fresh session starts here. Read this file, then `DECISIONS.md`, then `PARITY.md`.
+The current state of STOPWASH POS: what is built, what is next, and the full build log.
 
 ## Summary (build complete, 2026-11-15)
-Phases 1–9 are done and pushed. Each step is one commit, gated on format, lint, typecheck and tests, and CI is green (checks, Playwright e2e, API image). Phase F (Figma) is done: the Stopwash Figma file has the design system, all 12 website routes at 1440 and 390, the POS tablet flows, back office, phone, TV/customer display and the empty/loading/error/offline states. Everything works end to end on the in-memory backend. To run in production, Saad needs to wire up Firebase (below). The API refuses to start in production until he does.
+Phases 1–9 are done and pushed. Each step is one commit, gated on format, lint, typecheck and tests, and CI is green (checks, Playwright e2e, API image). Phase F (Figma) is done: the Stopwash Figma file has the design system, all 12 website routes at 1440 and 390, the POS tablet flows, back office, phone, TV/customer display and the empty/loading/error/offline states. Everything works end to end on the in-memory backend. To run in production, Firebase must be wired up (see Owner actions). The API refuses to start in production until it is.
 
 **What exists:** counter New Order with live pricing, typeahead and a loyalty indicator; queue with status flow, edits, cancels and refunds; checkout (cash/card/split, discounts with manager override, loyalty); receipts and PDFs; opening checklist and cash count; cash-outs with approvals; close and reconciliation with handover; accounts approvals and queries; shift history with corrections; staff, PINs, attendance and leave; incentive rules, deductions and bonuses; payroll runs with salary slips; daily reports, CSV and revenue PDF; owner dashboard (sales, retention, hourly heatmap); B2B invoices with settlements, voids and PDF; business profile and loyalty settings; vehicle history; wall TV board (`/tv`); customer display (`/display`); live manager alerts; offline order outbox; EN/SI/TA throughout.
 
 ## Current state
-- **Done:** Phases 1–9 (foundation through hardening) and Phase F (Figma, F.1–F.11).
-- **Next:** Saad wires Firebase (see Needs Saad). After that: implement the Firestore adapters behind the existing repository interfaces, then run the rules tests. The last line of the step log is always the latest step.
-- **Run it locally:** `pnpm install`, then `pnpm --filter @stopwash/api dev` (in-memory data with the dev seed; credentials are logged on start) and `pnpm --filter @stopwash/web dev`. On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Dev PINs: owner 6142, manager 7391, accounts 5038, cashier 4826, attendant 3517.
-- **Working mode:** small steps (about 300 lines or fewer), one commit + push per step, gated on format, lint, typecheck and tests.
-- **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs, and Saad wires up Firebase himself.
-- **Figma:** connected 2026-11-15 as w2053223@westminster.ac.uk. File: https://www.figma.com/design/RnJfFPpquWIoqOakwScmsL (Phase F complete: Cover, Design System, Website, POS pages).
-
-## Environment notes (this machine)
-- Git over HTTPS needs `http.sslBackend=schannel` (set in this repo's local config).
-- pnpm 9.15.4 via corepack. TypeScript 6.0 (typescript-eslint does not support 7 yet).
-- Reference repos are cloned read-only in `../_ref/`.
-- Do NOT start the emulators or run the firebase CLI (Saad handles Firebase).
+- **Done:** Phases 1–9 (foundation through hardening) and Phase F (Figma design file, F.1–F.11).
+- **Next:** wire up Firebase (see [Owner actions](#owner-actions)). After that: implement the Firestore adapters behind the existing repository interfaces, then run the rules tests.
+- **Data backend:** in-memory repositories (`DATA_BACKEND=memory`). The Firestore adapters are stubs until Firebase is configured.
+- **Design:** the [Stopwash Figma file](https://www.figma.com/design/RnJfFPpquWIoqOakwScmsL) holds the cover, design system, website and POS pages.
+- **Run it locally:** see the [README](../README.md#run-it-locally).
+- **Ways of working:** small steps, one conventional commit per step, each gated on format, lint, type check and tests. The last line of the step log is always the latest step.
 
 ## Step log
 Each line: step · what changed · commit. A commit can't contain its own hash, so the hash is filled in by the next step's commit (D-025).
@@ -65,7 +59,7 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 7.7 | Docs: PARITY reports (RP1-4), analytics (AN1-7), invoices (IN1-6) updated; Phase 7 complete | 1ad501e |
 | 8.1 | Wall TV board at /tv (full-screen, outside the shell): Queued / In progress / Ready columns with ticket + plate only (no names), clock, fullscreen button, 5 s polling, reconnect banner; link from Queue; EN/SI/TA; 1 test | 3699399 |
 | 8.2 | Customer-facing display at /display (second screen on the counter machine, via BroadcastChannel - stays on-device): live cart from New Order, quote with discount at checkout, 8 s thank-you after payment, idle welcome; EN/SI/TA; 2 tests | 1977e1d |
-| 8.3 | Vehicle history: GET /vehicles/:plate now returns the last 50 orders (brand-scoped, newest first); Vehicles screen with plate typeahead, visit/spend stats and order list; EN/SI/TA; 2 tests. Firestore will need an orders (brandId, plateKey, createdAt desc) index (Needs Saad) | f470e6c |
+| 8.3 | Vehicle history: GET /vehicles/:plate now returns the last 50 orders (brand-scoped, newest first); Vehicles screen with plate typeahead, visit/spend stats and order list; EN/SI/TA; 2 tests. Firestore will need an orders (brandId, plateKey, createdAt desc) index (Needs the owner) | f470e6c |
 | 8.4 | Loyalty: Settings > Loyalty tab (on/off, every Nth visit, % off the wash, live example); New Order shows 'reward this visit' or 'N visits to next reward' for known plates (checkout + receipt already show the discount); EN/SI/TA; 2 tests | 0e9f83f |
 | 8.6 | Live alerts: new alert.read permission (owner, manager, accounts); GET /alerts (last 7 days, location-scoped, hides ones I acknowledged) and POST /alerts/:id/ack (per person, idempotent, audited); AlertWatcher polls every 30 s and raises a persistent toast per new variance/low-stock/fault alert with 'Got it'; EN/SI/TA; 4 tests. (8.5 revenue-per-hour heatmap shipped earlier with the dashboard in 0a00534.) | 20304a3 |
 | 9.1 | Accessibility pass: native window.confirm/prompt replaced by a focus-trapped, translated ConfirmProvider/useConfirm dialog (staff deactivate, payroll finalize/supplementary, invoice void with required reason); dialog close button label now translated via UiStringsProvider; 2 tests | 08b8edb |
@@ -75,8 +69,8 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 | 9.5 | Playwright e2e (tablet viewport): register device, cashier opens shift (check + LKR 5,000 count), adds an order, moves it to the bay, takes cash with change, closes with a matched count and manager handover; accounts approves. Playwright starts the in-memory API + web itself; new CI e2e job uploads traces on failure. Passes locally (2 tests, ~12 s) | 239d6b7 |
 | 9.6 | README: layout, local run (in-memory API + dev seed, device registration, dev PINs), checks incl. e2e, configuration table, conventions, doc links; removed the dangling 'seed' scripts (pointed at a missing Firestore seed script) | 179663b |
 | 9.7 | API Dockerfile (multi-stage, pnpm deploy --prod, non-root, healthcheck) + .dockerignore (no env files/keys/web); CI api-image job builds it and smoke-tests /health; README section. Local docker build blocked by this machine's TLS interception (pnpm registry), so verification runs in CI | 0f5914f |
-| 9.8 | Docs: build summary at the top of PROGRESS, Phase F re-checked (Figma MCP still not connected), Needs Saad expanded (Firebase adapters/auth/rules/indexes incl. new vehicle-history and alerts indexes, production env, Figma, secret rotation, logo upload, translation review), known issues refreshed | 65e6a3e |
-| F.1 | Figma file "Stopwash" created in Saad's team (signed in as w2053223@westminster.ac.uk) with pages Cover, Design System, Website, POS: https://www.figma.com/design/RnJfFPpquWIoqOakwScmsL | 128a59d |
+| 9.8 | Docs: build summary at the top of PROGRESS, Phase F re-checked (Figma file still to be linked), Owner actions expanded (Firebase adapters/auth/rules/indexes incl. new vehicle-history and alerts indexes, production env, Figma, secret rotation, logo upload, translation review), known issues refreshed | 65e6a3e |
+| F.1 | Figma file "Stopwash" created with pages Cover, Design System, Website, POS: https://www.figma.com/design/RnJfFPpquWIoqOakwScmsL | 128a59d |
 | F.2 | Cover frame 1920×1080 (navy, lime rings, STOPWASH wordmark in Space Grotesk, page index, set as the first frame): https://www.figma.com/design/RnJfFPpquWIoqOakwScmsL?node-id=2-24 | 11a0af5 |
 | F.3 | Figma foundations from packages/ui: variable collections Primitives (49, hidden), Color (32 semantic, Light/Dark aliases), Spacing (12 + 2 touch sizes), Radius (6), all scoped with WEB code syntax; 16 text styles (Display, Heading, Body, Label, Numeric, Mono) and 5 effect styles (Shadow xs–lg, Focus ring bound to color/ring); D-039 | ad6b4ed |
 | F.4a | Figma components (part 1) on Design System: 80 lucide icon components (stroke bound to color/fg), Button set (6 variants × 4 sizes + Hover/Focus/Disabled at md = 42; Label, Show icon, Icon swap, Loading props; fills, padding, radius bound to variables; Button text styles), Icon Button set (primary/outline/ghost × 4 states, 44 px via size/touch); D-040 | ba8c45f |
@@ -194,7 +188,7 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 - Receipt numbers were computed client-side and could collide.
 - The variance > LKR 2,000 supervisor override exists in the code but not in the old README.
 
-## Needs Saad
+## Owner actions
 - **Firebase (all of it).**
   - Firestore adapters for every repository (`apps/api/src/repos/firestore.ts`, currently stubs that throw `NotImplementedError`).
   - The Firebase Auth custom-token issuer (stub).
@@ -204,7 +198,7 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
   - The real project config, service account and deploy.
 - **Production env:** `NODE_ENV=production`, `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase`, `DEV_SEED=false`, `CORS_ORIGINS` for the real web origin, and `VITE_API_URL` for the web build. The API refuses to start in production without these.
 - **Figma follow-ups:** staff names, phone numbers, figures and the Lanka Logistics / Colombo Cabs customers in the POS frames are sample data. Real logo files and photography are still needed (the site has four photos; the rest are placeholders). Sinhala labels use Yaldevi because Figma has no Noto Sans Sinhala. Dark mode is wired through the Color variables, but only the Design System preview was checked in Dark.
-- **Rotate the old secrets.** The old Firebase config (`stopwash-dashboard-001`), passcodes 5252/6225/0706 and WhatsApp number 94767885404 are public in `Stopwash-POS-HTML`.
+- **Rotate the old secrets.** The legacy `Stopwash-POS-HTML` system exposed its Firebase config, staff passcodes and alert number. Retire that Firebase project and change every passcode before go-live.
 - **Business logo upload** (PARITY IN4) waits on Firebase Storage. Name, address, tax ID and bank details already work.
 - Native-speaker review of the Sinhala/Tamil strings (`docs/i18n-review.md`).
 - Real logo files and photography (the website itself still uses a text wordmark and placeholder images).
@@ -215,6 +209,6 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
 - Offline mode covers taking new orders only. Checkout, cash and shift actions need the connection (D-038).
 - Order-line edits after creation are API-only (no screen yet).
 - Late payroll corrections go into the next month (D-036).
-- The API image could not be built on this machine: its TLS interception blocks the pnpm registry inside Docker. CI builds and smoke-tests it.
+- The API image is built and smoke-tested in CI; some local networks with TLS interception block the pnpm registry inside Docker.
 - The production build emits each lazy locale chunk twice (identical content, only one is fetched). This is a bundler quirk and harmless.
 - `Badge` with `tone="accent"` and `outline` renders white text on a transparent background (the outline keeps `text-accent-fg`). Nothing uses it yet. Figma shows that variant in `color/accent`, which is what the code should do if it's ever needed.

@@ -22,7 +22,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 ### D-004 Staff sign in with their own PIN on a registered device
 - **Decision:** a manager registers a tablet or phone once, which stores a device id + secret. Staff then pick their name or type their employee code, and enter a 4–6 digit PIN. The API checks the device secret and the bcrypt PIN hash, rate-limits, locks out after 5 failures for 15 minutes, and returns a Firebase custom token with claims `{role, brandId, locationIds, employeeId}`.
 - **Alternatives:** shared role passcodes (old); email + password for everyone; Firebase phone auth (SMS costs, slow at the counter).
-- **Why:** it's individual and auditable, and fast enough for the counter (about 3 seconds). Old passcodes 5252/6225/0706 are treated as compromised and are not used anywhere.
+- **Why:** it's individual and auditable, and fast enough for the counter (about 3 seconds). The old shared passcodes are treated as compromised and are not used anywhere.
 
 ### D-005 Email sign-in for owner, manager, accounts
 - **Decision:** Firebase email/password, with roles in custom claims set by the API (`POST /admin/users`). Managers may also hold a PIN, for on-floor overrides.
@@ -30,7 +30,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-006 Roles and permission map
 - **Decision:** roles are `owner`, `manager`, `cashier` (counter + floor attendant), `accounts`. Permissions are strings like `order.create`, `shift.close`, `payroll.finalize`. `ROLE_PERMISSIONS` in `packages/shared/src/rbac.ts` is the single source. The API checks `can(role, perm)`, and the rules mirror it per collection.
-- **Mapping from old:** EMPLOYEE (5252) → cashier, HR (6225) → manager/owner, ACCOUNTS (0706) → accounts.
+- **Mapping from old:** EMPLOYEE → cashier, HR → manager/owner, ACCOUNTS → accounts.
 - **Alternatives:** separate attendant role. An `attendant` alias can be added later; today a cashier and an attendant need the same permissions (queue + status).
 
 ### D-007 All money and state writes go through the API
@@ -87,7 +87,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-020 Local dev on emulators in Docker
 - **Decision:** the Firebase Emulator Suite runs in a Docker container (`docker compose up emulators`), because the dev machine has no JDK. CI uses the same image. The project id is `demo-stopwash` (the `demo-` prefix means the emulators never touch a real project).
-- **Why:** this was Saad's choice, and it gives the same setup on every machine.
+- **Why:** the owner chose it, and it gives the same setup on every machine.
 
 ### D-021 PDFs generated client-side with jsPDF (vector text)
 - **Decision:** receipts, daily revenue, reconciliation, salary slips, attendance and invoices are built with `jspdf` + `jspdf-autotable` in a lazily loaded chunk. Fonts are embedded for Sinhala/Tamil names.
@@ -107,8 +107,8 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 - **Decision:** work ships in small steps (about 300 changed lines or fewer), one conventional commit and one push per step, with a line in `PROGRESS.md`. The commit hash for a step is filled in by the next step's commit, because a commit can't contain its own hash and history is never rewritten.
 
 ### D-026 Repository layer with in-memory adapters (supersedes the Firestore-first parts of D-007/D-020)
-- **Decision:** the API talks to storage only through repository interfaces. `DATA_BACKEND=memory` (default) uses full in-memory adapters for dev and tests. `DATA_BACKEND=firestore` selects stub adapters that throw `NotImplementedError` until Saad wires up Firebase. Token issuance sits behind `AuthTokenIssuer` (dev JWT now, Firebase custom token later).
-- **Why:** Saad handles Firebase himself. The domain rules (cents, idempotency, append-only, audit) are enforced in the service layer above the repositories, so they hold for both adapters.
+- **Decision:** the API talks to storage only through repository interfaces. `DATA_BACKEND=memory` (default) uses full in-memory adapters for dev and tests. `DATA_BACKEND=firestore` selects stub adapters that throw `NotImplementedError` until the owner wires up Firebase. Token issuance sits behind `AuthTokenIssuer` (dev JWT now, Firebase custom token later).
+- **Why:** Firebase is configured separately by the owner. The domain rules (cents, idempotency, append-only, audit) are enforced in the service layer above the repositories, so they hold for both adapters.
 
 ### D-027 TypeScript 6.0
 - **Decision:** pin `typescript ~6.0.3`. TS 7 (native compiler) is out, but typescript-eslint 8.x supports `<6.1`. Revisit when typescript-eslint supports 7.
@@ -134,7 +134,7 @@ Each entry: the decision, the alternatives considered, and why. Newest at the bo
 
 ### D-033 Receipt numbers keep the SWOMS format (supersedes the format in D-014)
 - **Decision:** receipt number = `DDMM` + 3-digit daily sequence (e.g. `1511007`), from a server counter per location per business day, assigned in the checkout transaction. The order id stays the unique key; the number is what staff and customers read.
-- **Why:** Saad's plan asks for DDMM+seq. Moving the counter to the server removes the old collision risk.
+- **Why:** The product plan asks for DDMM+seq. Moving the counter to the server removes the old collision risk.
 
 ### D-034 Manager approvals are verified outside the write transaction
 - **Decision:** when a request carries a manager override, the PIN is checked before the business transaction starts, and the transaction receives the verified approver.

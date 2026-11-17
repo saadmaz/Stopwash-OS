@@ -31,6 +31,8 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-17
+
 ### Changed
 
 - Contributing, Security Policy, Code of Conduct, License and Changelog redesigned with branded headers, navigation, tables, diagrams and callouts; the licence is now LICENSE.md.
@@ -73,7 +75,8 @@ First pre-production release. Feature-complete on the in-memory backend; product
 - Project governance: proprietary licence, security policy, contribution guidelines, code of conduct, issue forms, pull request template, CODEOWNERS and Dependabot.
 - Standard documentation layout shared by every STTPS repository: architecture, configuration, deployment, decision records (ADRs) and release and rollback runbooks, indexed in `docs/README.md`.
 
-[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/saadmaz/Stopwash-POS/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/saadmaz/Stopwash-POS/releases/tag/v0.1.0

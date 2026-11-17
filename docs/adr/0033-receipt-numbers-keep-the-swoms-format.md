@@ -1,5 +1,8 @@
 # ADR-0033: Receipt numbers keep the SWOMS format (supersedes the format in ADR-0014)
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

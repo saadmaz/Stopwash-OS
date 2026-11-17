@@ -1,5 +1,8 @@
 # Parity: SWOMS 2.5 → Stopwash POS
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 Source of truth for the old system: `SWOMS2.5.html` (10,594 lines) in `Stopwash-POS-HTML`, plus its README, SYSTEM_SUMMARY and attendance notes.
 Every row below is a feature, screen, field, calculation or edge case found in the old app. Nothing is dropped silently. A row that is intentionally changed says so in **Notes** and links to a decision in `docs/adr/`.
 

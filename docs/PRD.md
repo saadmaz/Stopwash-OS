@@ -1,5 +1,8 @@
 # Stopwash POS: Product Requirements
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 ## 1. Background
 Stopwash runs a car wash in Katubedda, Sri Lanka, on SWOMS 2.5, a single HTML file backed by an open Firestore path with shared passcodes. It works, but:
 - anyone with the file (or the public repo) can read and write all data;

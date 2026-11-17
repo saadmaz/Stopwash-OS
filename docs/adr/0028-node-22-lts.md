@@ -1,5 +1,8 @@
 # ADR-0028: Node 22 LTS
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

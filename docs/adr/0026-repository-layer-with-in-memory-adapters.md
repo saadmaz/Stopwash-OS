@@ -1,5 +1,8 @@
 # ADR-0026: Repository layer with in-memory adapters (supersedes the Firestore-first parts of ADR-0007/ADR-0020)
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

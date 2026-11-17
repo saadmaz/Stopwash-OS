@@ -1,5 +1,8 @@
 # ADR-0034: Manager approvals are verified outside the write transaction
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

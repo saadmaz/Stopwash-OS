@@ -2,6 +2,25 @@
 
 > How STOPWASH POS is packaged and taken to production. Part of the [project documentation](README.md).
 
+## Environments
+
+| Environment | Branch | Image | Deploys |
+| --- | --- | --- | --- |
+| `development` | `develop` | `ghcr.io/saadmaz/stopwash-pos-api:development` | Automatically on every merge into `develop` |
+| `production` | `main` | `ghcr.io/saadmaz/stopwash-pos-api:latest` | Automatically when `develop` is promoted to `main` by a release pull request |
+
+The Deploy workflow builds the API image and publishes it to GitHub Packages, tagged per environment. Each environment is a GitHub Environment with its own variables (`APP_URL` and host settings) and secrets, so one workflow serves both. Production accepts deployments from `main` only; development from `develop` only.
+
+### Setting up development
+
+Point the development host at the `development` image tag. No variable is needed; development images publish on every push to `develop`.
+
+### Promotion
+
+1. Feature branches merge into `develop` and deploy to development.
+2. When development is verified, open a release pull request from `develop` into `main` (see [runbooks/release.md](runbooks/release.md)).
+3. Merging it deploys to production.
+
 ## Status
 
 Production hosting is not live yet. The API refuses to start with `NODE_ENV=production` until Firebase is wired up; the outstanding work is listed under [Owner actions](PROGRESS.md#owner-actions).

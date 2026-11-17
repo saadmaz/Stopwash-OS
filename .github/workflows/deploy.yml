@@ -1,0 +1,85 @@
+# Publishes the API container image to GitHub Packages (ghcr.io) for each
+# environment: develop -> development, main and release tags -> production.
+# The image is the deployable artefact; hosting pulls the tag for its
+# environment (see docs/DEPLOYMENT.md).
+name: Deploy
+
+on:
+  push:
+    branches: [main, develop]
+    tags: ['v*']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/stopwash-pos-api
+
+jobs:
+  deploy:
+    name: ${{ github.ref_name == 'develop' && 'Development' || 'Production' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    environment:
+      name: ${{ github.ref_name == 'develop' && 'development' || 'production' }}
+      url: ${{ vars.APP_URL }}
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v5
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Sign in to GitHub Packages
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=raw,value=development,enable=${{ github.ref_name == 'develop' }}
+            type=raw,value=latest,enable=${{ github.ref_name == 'main' }}
+            type=semver,pattern={{version}}
+            type=sha,prefix=sha-
+          labels: |
+            org.opencontainers.image.title=STOPWASH POS API
+            org.opencontainers.image.description=Point-of-sale and operations API for the STOPWASH vehicle-care network
+            org.opencontainers.image.vendor=STOPWASH PVT LTD
+            org.opencontainers.image.licenses=LicenseRef-Proprietary
+
+      - name: Build and publish
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test the published image
+        run: |
+          docker run -d --name api -p 8080:8080 \
+            -e NODE_ENV=development -e DATA_BACKEND=memory -e DEV_SEED=false \
+            -e FIREBASE_PROJECT_ID=demo-stopwash -e LOG_LEVEL=info \
+            "${{ env.IMAGE }}:sha-${GITHUB_SHA::7}"
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8080/health; then exit 0; fi
+            sleep 1
+          done
+          docker logs api
+          exit 1

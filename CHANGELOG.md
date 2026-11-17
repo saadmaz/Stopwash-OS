@@ -8,6 +8,11 @@ Versions below `1.0.0` are pre-production. The step-by-step build log is in [doc
 
 ## [Unreleased]
 
+### Added
+
+- Development and production environments: `develop` deploys to development and `main` to production, through one Deploy workflow and GitHub Environments with per-environment settings.
+- API container image published to GitHub Packages for each environment.
+
 ## [0.1.0] - 2026-11-16
 
 First pre-production release. Feature-complete on the in-memory backend; production requires the Firebase integration listed under [Owner actions](docs/PROGRESS.md#owner-actions).

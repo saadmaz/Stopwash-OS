@@ -1,5 +1,8 @@
 # ADR-0039: Figma tokens mirror tokens.css, not tokens.ts
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

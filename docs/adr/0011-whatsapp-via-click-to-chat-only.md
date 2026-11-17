@@ -1,5 +1,8 @@
 # ADR-0011: WhatsApp via click-to-chat only
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

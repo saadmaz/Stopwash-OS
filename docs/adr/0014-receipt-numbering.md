@@ -1,5 +1,8 @@
 # ADR-0014: Receipt numbering
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Partially superseded by [ADR-0033](0033-receipt-numbers-keep-the-swoms-format.md) | 2026-11-15 |

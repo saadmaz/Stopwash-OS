@@ -147,9 +147,14 @@ pnpm test:e2e
 
 ## Deployment
 
-The API ships as a multi-stage, non-root container with a `/health` check, and the web app as a static PWA. Production is not live yet: the API refuses to start in production until Firebase is configured.
+| Environment | Branch | Image |
+| --- | --- | --- |
+| Development | `develop` | `ghcr.io/saadmaz/stopwash-pos-api:development` |
+| Production | `main` | `ghcr.io/saadmaz/stopwash-pos-api:latest` |
 
-Setup, secrets and post-deployment checks are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). To release or roll back, follow the [runbooks](docs/runbooks/README.md).
+The Deploy workflow builds the API image and publishes it to GitHub Packages, tagged per environment. Work merges into `develop` and deploys to development; a release pull request from `develop` into `main` deploys to production.
+
+Environments, setup, secrets and post-deployment checks are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). To release or roll back, follow the [runbooks](docs/runbooks/README.md).
 
 ## Documentation
 

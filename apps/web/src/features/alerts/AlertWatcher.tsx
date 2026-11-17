@@ -10,7 +10,7 @@ const POLL_MS = 30_000;
 
 /**
  * Raises a toast for each new manager alert (variance, low stock, equipment fault).
- * Polls until Firestore listeners replace it (D-032). "Got it" acknowledges for this person only.
+ * Polls until Firestore listeners replace it (ADR-0032). "Got it" acknowledges for this person only.
  */
 export function AlertWatcher() {
   const { can } = useSession();

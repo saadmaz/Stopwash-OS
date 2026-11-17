@@ -1,36 +1,97 @@
-# Stopwash POS
+<div align="center">
 
-Point-of-sale and operations system for the STOPWASH car wash in Katubedda, Sri Lanka. It covers counter orders, the live queue, checkout, shifts and cash reconciliation, approvals, staff, attendance, leave and payroll, reports, the owner dashboard, B2B invoices, the TV board, the customer display and loyalty. It runs in English, Sinhala and Tamil.
+# STOPWASH POS
 
-Status and next steps: [docs/PROGRESS.md](docs/PROGRESS.md), including the **Needs Saad** list.
+**Point-of-sale and operations platform for the STOPWASH vehicle-care network.**
 
-## Layout
+Counter orders, the live queue, checkout, shifts and cash reconciliation, staff and payroll, reports and loyalty, in English, Sinhala and Tamil.
 
-| Path | What it is |
+![Status](https://img.shields.io/badge/status-pre--production-374151?style=flat-square&labelColor=111827)
+[![CI](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml/badge.svg)](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-v0.1.0-374151?style=flat-square&labelColor=111827)](https://github.com/saadmaz/Stopwash-POS/releases)
+![License](https://img.shields.io/badge/license-proprietary-374151?style=flat-square&labelColor=111827)
+
+[**Project status**](docs/PROGRESS.md) · [Documentation](docs/README.md) · [Report a bug](https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml) · [Request a change](https://github.com/saadmaz/Stopwash-POS/issues/new?template=feature_request.yml)
+
+</div>
+
+---
+
+## Contents
+
+- [About](#about)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Project structure](#project-structure)
+- [Quality checks](#quality-checks)
+- [Deployment](#deployment)
+- [Documentation](#documentation)
+- [Releases and versioning](#releases-and-versioning)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
+
+## About
+
+STOPWASH POS runs the STOPWASH outlet in Katubedda, Sri Lanka, and is built to scale across the network. Progress, owner actions and known issues are tracked in [docs/PROGRESS.md](docs/PROGRESS.md).
+
+| | |
 | --- | --- |
-| `apps/web` | React 18 + Vite PWA (counter tablets, back office, `/tv`, `/display`) |
-| `apps/api` | Fastify API. All pricing, money and permission checks happen here. |
-| `packages/shared` | Types, zod schemas, money (integer LKR cents), dates (Asia/Colombo), RBAC, pricing, payroll |
-| `packages/ui` | Design tokens and accessible components (Radix + Tailwind v4) |
-| `firebase/` | Firestore/Storage rules and emulator config, waiting for the Firebase setup |
-| `docs/` | PRD, SWOMS parity, architecture, data model, decisions, progress |
+| **Organisation** | STOPWASH PVT LTD |
+| **Status** | Pre-production: feature-complete on the in-memory backend, Firebase integration pending |
+| **Contact** | [hello@stopwash.lk](mailto:hello@stopwash.lk) |
+| **Maintainer** | [Saad Mazhar](https://github.com/saadmaz) |
 
-## Run it locally
+## Features
 
-You need Node 22 and pnpm 9 (`corepack enable` picks up the pinned version).
+- **Counter:** New Order with live server-side pricing, plate and customer typeahead, and a loyalty indicator.
+- **Queue:** status flow, edits, cancellations and refunds, a wall TV board (`/tv`) and a customer-facing display (`/display`).
+- **Checkout:** cash, card and split payments, discounts with manager override, loyalty redemption, receipts and PDFs.
+- **Shifts and cash:** opening checklist and cash count, cash-outs with approvals, close and reconciliation with signed handover.
+- **Accounts:** approvals and queries, B2B invoices with settlements, voids and PDF.
+- **People:** per-employee PINs on registered devices, attendance and leave, incentives, deductions, bonuses and payroll runs with salary slips.
+- **Reporting:** daily reports, CSV and PDF exports, and an owner dashboard with sales, retention and an hourly heatmap.
+- **Resilience:** an offline order outbox, live manager alerts and audit-logged, append-only financial records.
+- **Languages:** English, Sinhala and Tamil throughout.
+
+## Architecture
+
+A pnpm monorepo: a React PWA (`apps/web`) talks to a Fastify API (`apps/api`) that enforces every pricing, money and permission rule. Shared types, schemas, money and RBAC logic live in `packages/shared`, and design tokens and components in `packages/ui`. Storage sits behind repository interfaces with in-memory adapters today and Firestore adapters next.
+
+The full picture, with diagrams, is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Significant decisions are recorded as [ADRs](docs/adr/README.md).
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Web | React 18, Vite, PWA, Radix and Tailwind CSS v4 (`packages/ui`) |
+| API | Fastify, Zod, signed JWT (development) or Firebase custom tokens |
+| Shared | TypeScript domain package: money in integer LKR cents, Asia/Colombo dates, RBAC, pricing, payroll |
+| Data | Repository layer; in-memory adapters now, Cloud Firestore next |
+| Packaging | Multi-stage, non-root Docker image for the API |
+| Tooling | pnpm workspaces, Vitest, Playwright, ESLint, Prettier |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 22
+- pnpm 9 (`corepack enable` picks up the pinned version)
+
+### Install and run
 
 ```sh
+git clone https://github.com/saadmaz/Stopwash-POS.git
+cd Stopwash-POS
 pnpm install
-pnpm --filter @stopwash/api dev     # http://localhost:8080 (in-memory data + dev seed)
+pnpm --filter @stopwash/api dev     # http://localhost:8080, in-memory data with the dev seed
 pnpm --filter @stopwash/web dev     # http://localhost:5173
 ```
 
-The API reads `apps/api/.env` if it exists (copy `.env.example` and set your own `AUTH_DEV_SECRET`). Without it, the defaults run in memory with the dev seed. Data resets on every restart.
-
-The first time you open the app:
-
-1. Register the device: id `dev-counter`, secret `dev-counter-secret-change-me`.
-2. Pick a staff member and enter their PIN.
+On first open, register the device (id `dev-counter`, secret `dev-counter-secret-change-me`), then pick a staff member. Development PINs exist only in the in-memory seed, which production refuses to load:
 
 | Dev user | Role | PIN |
 | --- | --- | --- |
@@ -40,59 +101,84 @@ The first time you open the app:
 | Kasun Perera | cashier (supervisor) | 4826 |
 | Tharindu Bandara | cashier | 3517 |
 
-These PINs exist only in the in-memory dev seed. Production refuses to start with `DEV_SEED` on.
+### Scripts
 
-Extra screens: `/tv` is the wall queue board and `/display` is the customer-facing second screen. Both open from links on the Queue and New Order screens.
-
-## Checks
-
-```sh
-pnpm typecheck
-pnpm lint
-pnpm format:check
-pnpm test          # unit and API tests (no emulator needed)
-pnpm e2e           # Playwright: full shift day; starts the API and web itself
-pnpm build
-```
-
-The first time you run `pnpm e2e`, install the browser with `pnpm --filter @stopwash/web exec playwright install chromium`.
-
-`pnpm test:rules` runs the Firestore rules tests. It needs the Firebase emulator, so it is kept out of `pnpm test` and CI until Firebase is set up.
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start the API and web app together |
+| `pnpm build` | Build every package |
+| `pnpm lint` | Lint with ESLint |
+| `pnpm typecheck` | Type-check every package |
+| `pnpm format` / `format:check` | Format with Prettier, or check without writing |
+| `pnpm test` | Unit and API tests |
+| `pnpm test:e2e` | Playwright: a full shift day; starts the API and web itself |
+| `pnpm test:rules` | Firestore rules tests (needs the emulator) |
 
 ## Configuration
 
-| Variable | Where | Purpose |
-| --- | --- | --- |
-| `DATA_BACKEND` | api | `memory` (default) or `firestore` (adapter is a stub until Firebase is wired) |
-| `AUTH_ISSUER` | api | `dev` (signed JWT, development only) or `firebase` |
-| `AUTH_DEV_SECRET` | api | 32+ random characters for dev tokens |
-| `DEV_SEED` | api | load demo staff/catalog in memory (refused in production) |
-| `CORS_ORIGINS` | api | comma-separated web origins |
-| `PIN_MAX_ATTEMPTS`, `PIN_LOCKOUT_MINUTES` | api | PIN lockout policy |
-| `VITE_API_URL` | web | API base URL (`apps/web/.env.local`) |
+The API is configured by environment variables in `apps/api/.env` (data backend, auth issuer, dev seed, CORS and PIN lockout policy); the web app needs only `VITE_API_URL`. Business settings such as prices, thresholds, payroll rules and alert numbers are managed in the app under **Settings**.
 
-Business settings (prices, thresholds, receipt footer, business profile, loyalty, payroll rules, WhatsApp alert numbers) live in the app under **Settings**, not in env files.
+Every variable, where it is set and which are secret: [docs/CONFIGURATION.md](docs/CONFIGURATION.md).
 
-## Conventions
+## Project structure
 
-- Money is integer LKR cents. Times are stored in UTC, and business days are Asia/Colombo dates.
-- Every record carries `brandId` and `locationId`. Writes take an `Idempotency-Key`.
-- Financial records are append-only. Corrections are reversing entries, and every change is audit-logged.
-- One conventional commit per change. Never commit `.env` files or keys.
-
-## Docs
-
-- [Product requirements](docs/PRD.md)
-- [Parity with SWOMS 2.5](docs/PARITY.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Data model](docs/DATA_MODEL.md)
-- [Decisions](docs/DECISIONS.md)
-- [Translation review notes](docs/i18n-review.md)
-
-## API container
-
-```sh
-docker build -f apps/api/Dockerfile -t stopwash-api .
+```
+.
+├── .github/              # CI, issue and pull request templates
+├── apps/
+│   ├── api/              # Fastify API: pricing, money, permissions, persistence
+│   └── web/              # React PWA: counter tablets, back office, /tv, /display
+├── packages/
+│   ├── shared/           # Types, schemas, money, dates, RBAC, pricing, payroll
+│   └── ui/               # Design tokens and accessible components
+├── firebase/             # Firestore and Storage rules, indexes and rules tests
+├── docker/               # Local emulator setup
+└── docs/                 # Architecture, configuration, deployment, ADRs, runbooks and product docs
 ```
 
-This is a multi-stage image with production dependencies only. It runs as the non-root `node` user, listens on port 8080 and has a `/health` healthcheck. All configuration comes from environment variables at run time. In production (`NODE_ENV=production`) the API refuses to start until Firebase is wired: it needs `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase` and `DEV_SEED=false` (see **Needs Saad** in PROGRESS). CI builds the image and smoke-tests `/health`.
+## Quality checks
+
+Every push and pull request to `main` runs the [CI workflow](.github/workflows/ci.yml): lint, formatting, type check, unit and API tests and a build, followed by a Playwright end-to-end shift day and an API container smoke test. Run the same checks locally before opening a pull request:
+
+```sh
+pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build
+pnpm test:e2e
+```
+
+## Deployment
+
+The API ships as a multi-stage, non-root container with a `/health` check, and the web app as a static PWA. Production is not live yet: the API refuses to start in production until Firebase is configured.
+
+Setup, secrets and post-deployment checks are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). To release or roll back, follow the [runbooks](docs/runbooks/README.md).
+
+## Documentation
+
+All documentation lives in [`docs/`](docs/README.md), using the same layout in every STTPS repository.
+
+| Document | Covers |
+| --- | --- |
+| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the system is built and how data flows |
+| [CONFIGURATION.md](docs/CONFIGURATION.md) | Environment variables and configuration files |
+| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Hosting, the delivery pipeline and first-time setup |
+| [adr/](docs/adr/README.md) | Architecture decision records |
+| [runbooks/](docs/runbooks/README.md) | Release and rollback procedures |
+
+Product and reference documents for this project are listed in the [documentation index](docs/README.md).
+
+## Releases and versioning
+
+The project follows [Semantic Versioning](https://semver.org). Each release is tagged `vX.Y.Z` and published on the [Releases](https://github.com/saadmaz/Stopwash-POS/releases) page. Versions below `1.0.0` are pre-production. Notable changes are recorded in [CHANGELOG.md](CHANGELOG.md), and the release procedure is in [docs/runbooks/release.md](docs/runbooks/release.md).
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the branching model, commit conventions and pull request checklist. All participants are expected to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Please do not report security issues in public issues. See [SECURITY.md](SECURITY.md) for how to report a vulnerability privately.
+
+## License
+
+Copyright © 2026 STOPWASH PVT LTD. All rights reserved.
+
+This is proprietary software. The source is publicly visible, but no permission is granted to use, copy, modify or distribute it without prior written consent. See [LICENSE](LICENSE).

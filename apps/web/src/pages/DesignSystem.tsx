@@ -1,4 +1,4 @@
-// Internal reference page for designers and developers (English only, see D-029).
+// Internal reference page for designers and developers (English only, see ADR-0029).
 import {
   AddOnStepper,
   Badge,

@@ -44,7 +44,7 @@ export async function authRoutes(app: FastifyInstance): Promise<void> {
     });
   });
 
-  /** Owner/manager/accounts email sign-in is Firebase Auth's job (see D-031). */
+  /** Owner/manager/accounts email sign-in is Firebase Auth's job (see ADR-0031). */
   app.post('/auth/email', strict, async () => {
     throw new NotImplementedError(
       'Email sign-in uses Firebase Auth: wire up when Firebase is configured. In dev, sign in with a PIN.',

@@ -91,7 +91,7 @@ export interface CloseResult {
 
 /**
  * Closes a shift. `handover` and `override` are employees already verified outside the
- * transaction (D-034); this function enforces when each is required.
+ * transaction (ADR-0034); this function enforces when each is required.
  */
 export async function closeShift(
   tx: Repositories,

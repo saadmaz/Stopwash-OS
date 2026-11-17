@@ -1,15 +1,23 @@
 {
   "name": "stopwash-pos",
-  "private": true,
   "version": "0.1.0",
-  "description": "Point-of-sale and operations system for STOPWASH car wash",
-  "author": "Saad Mazhar",
+  "description": "Point-of-sale and operations platform for STOPWASH: orders, queue, checkout, shifts, payroll and reports in English, Sinhala and Tamil.",
+  "homepage": "https://github.com/saadmaz/Stopwash-POS#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saadmaz/Stopwash-POS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saadmaz/Stopwash-POS/issues"
+  },
+  "author": "Saad Mazhar (https://github.com/saadmaz)",
   "license": "UNLICENSED",
-  "type": "module",
+  "private": true,
   "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=22"
   },
+  "type": "module",
   "scripts": {
     "dev": "pnpm -r --parallel --filter ./apps/* dev",
     "build": "pnpm -r build",
@@ -19,7 +27,7 @@
     "format:check": "prettier --check .",
     "test": "pnpm -r --filter \"!@stopwash/firebase\" test",
     "test:rules": "pnpm --filter @stopwash/firebase test",
-    "e2e": "pnpm --filter @stopwash/web e2e",
+    "test:e2e": "pnpm --filter @stopwash/web e2e",
     "emulators": "docker compose up emulators"
   },
   "devDependencies": {

@@ -10,7 +10,7 @@ export const LANGUAGES = [
 ] as const;
 export type LanguageCode = (typeof LANGUAGES)[number]['code'];
 
-/** English ships in the main bundle; Sinhala and Tamil load on first use (D-037). */
+/** English ships in the main bundle; Sinhala and Tamil load on first use (ADR-0037). */
 export const resources = { en: { translation: en } };
 
 const lazyLocales: BackendModule = {

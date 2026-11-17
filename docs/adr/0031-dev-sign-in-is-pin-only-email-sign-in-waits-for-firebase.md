@@ -1,5 +1,8 @@
 # ADR-0031: Dev sign-in is PIN-only; email sign-in waits for Firebase Auth
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

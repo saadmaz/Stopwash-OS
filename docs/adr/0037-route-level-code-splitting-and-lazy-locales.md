@@ -1,5 +1,8 @@
 # ADR-0037: Route-level code splitting and lazy locales
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

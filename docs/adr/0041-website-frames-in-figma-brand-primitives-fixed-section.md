@@ -1,5 +1,8 @@
 # ADR-0041: Website frames in Figma: brand primitives, fixed section themes, raw overlays
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

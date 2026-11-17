@@ -1,5 +1,8 @@
 # ADR-0024: Business day = calendar day in Asia/Colombo
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

@@ -1,5 +1,8 @@
 # Project status
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 The current state of STOPWASH POS: what is built, what is next, and the full build log.
 
 ## Summary (build complete, 2026-11-15)

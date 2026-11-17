@@ -1,5 +1,8 @@
 # Data model (Firestore)
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 Conventions:
 - Money fields end in `Cents` and are integers (LKR × 100).
 - Timestamps are Firestore `Timestamp` (UTC). `businessDate` is `YYYY-MM-DD` in Asia/Colombo.

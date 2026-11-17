@@ -4,7 +4,7 @@
 
 <img src=".github/assets/banner.svg" alt="STOPWASH POS: Point-of-sale and operations platform for the STOPWASH vehicle-care network." width="100%">
 
-<br/><br/>
+<br/>
 
 <p><strong>Counter orders, the live queue, checkout, shifts and cash reconciliation, staff and payroll, reports and loyalty, in English, Sinhala and Tamil.</strong></p>
 
@@ -14,14 +14,14 @@
 <a href="https://github.com/saadmaz/Stopwash-POS/commits/develop"><img alt="Last commit" src="https://img.shields.io/github/last-commit/saadmaz/Stopwash-POS/develop?style=flat-square&labelColor=111827&color=374151"></a>
 <img alt="License" src="https://img.shields.io/badge/license-proprietary-374151?style=flat-square&labelColor=111827">
 
-<br/><br/>
+<br/>
 
 <a href="https://github.com/saadmaz/Stopwash-POS/pkgs/container/stopwash-pos-api"><img alt="Container image" src="https://img.shields.io/badge/Container%20image-0b1728?style=for-the-badge&logo=docker&logoColor=white"></a>
 <a href="docs/README.md"><img alt="Documentation" src="https://img.shields.io/badge/Documentation-0b1728?style=for-the-badge&logo=readthedocs&logoColor=white"></a>
 <a href="https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml"><img alt="Report a bug" src="https://img.shields.io/badge/Report%20a%20bug-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
 <a href="https://github.com/saadmaz/Stopwash-POS/issues/new?template=feature_request.yml"><img alt="Request a change" src="https://img.shields.io/badge/Request%20a%20change-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
 
-<br/><br/>
+<br/>
 
 <a href="#about">About</a> ·
 <a href="#features">Features</a> ·
@@ -59,7 +59,7 @@
 
 STOPWASH POS runs the STOPWASH outlet in Katubedda, Sri Lanka, and is built to scale across the network. Progress, owner actions and known issues are tracked in [docs/PROGRESS.md](docs/PROGRESS.md).
 
-| | |
+| At a glance | |
 | --- | --- |
 | **Organisation** | STOPWASH PVT LTD |
 | **Status** | Pre-production: feature-complete on the in-memory backend, Firebase integration pending |

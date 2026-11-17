@@ -1,5 +1,8 @@
 # Architecture
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 ## System context
 
 ```mermaid

@@ -1,5 +1,8 @@
 # Translation review (Sinhala / Tamil)
 
+<!-- nav -->
+<sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
+
 Source language: English (`apps/web/src/i18n/locales/en.json`).
 
 - Keys under `legacy.*` are copied unchanged from SWOMS 2.5, so staff already know them.

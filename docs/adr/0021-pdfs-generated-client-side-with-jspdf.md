@@ -1,5 +1,8 @@
 # ADR-0021: PDFs generated client-side with jsPDF (vector text)
 
+<!-- nav -->
+<sub><a href="../../README.md">Project README</a> · <a href="../README.md">Documentation index</a></sub>
+
 | Status | Date |
 | --- | --- |
 | Accepted | 2026-11-15 |

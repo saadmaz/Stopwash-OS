@@ -8,7 +8,7 @@ Counter orders, the live queue, checkout, shifts and cash reconciliation, staff 
 
 ![Status](https://img.shields.io/badge/status-pre--production-374151?style=flat-square&labelColor=111827)
 [![CI](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml/badge.svg)](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-v0.1.0-374151?style=flat-square&labelColor=111827)](https://github.com/saadmaz/Stopwash-POS/releases)
+[![Version](https://img.shields.io/badge/version-v0.2.0-374151?style=flat-square&labelColor=111827)](https://github.com/saadmaz/Stopwash-POS/releases)
 ![License](https://img.shields.io/badge/license-proprietary-374151?style=flat-square&labelColor=111827)
 
 [**Project status**](docs/PROGRESS.md) · [Documentation](docs/README.md) · [Report a bug](https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml) · [Request a change](https://github.com/saadmaz/Stopwash-POS/issues/new?template=feature_request.yml)

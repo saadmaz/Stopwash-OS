@@ -1,6 +1,6 @@
 {
   "name": "@stopwash/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "STOPWASH design tokens and accessible UI components",
   "license": "UNLICENSED",
   "private": true,

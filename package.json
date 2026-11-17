@@ -1,6 +1,6 @@
 {
   "name": "stopwash-pos",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Point-of-sale and operations platform for STOPWASH: orders, queue, checkout, shifts, payroll and reports in English, Sinhala and Tamil.",
   "homepage": "https://github.com/saadmaz/Stopwash-POS#readme",
   "repository": {

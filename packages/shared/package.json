@@ -1,6 +1,6 @@
 {
   "name": "@stopwash/shared",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared types, schemas, money, dates, RBAC, pricing and payroll logic for STOPWASH POS",
   "license": "UNLICENSED",
   "private": true,

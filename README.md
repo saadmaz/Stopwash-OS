@@ -8,7 +8,7 @@ Counter orders, the live queue, checkout, shifts and cash reconciliation, staff 
 
 ![Status](https://img.shields.io/badge/status-pre--production-374151?style=flat-square&labelColor=111827)
 [![CI](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml/badge.svg)](https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/badge/version-v0.1.0-374151?style=flat-square&labelColor=111827)](https://github.com/saadmaz/Stopwash-POS/releases)
+[![Version](https://img.shields.io/badge/version-v0.2.0-374151?style=flat-square&labelColor=111827)](https://github.com/saadmaz/Stopwash-POS/releases)
 ![License](https://img.shields.io/badge/license-proprietary-374151?style=flat-square&labelColor=111827)
 
 [**Project status**](docs/PROGRESS.md) · [Documentation](docs/README.md) · [Report a bug](https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml) · [Request a change](https://github.com/saadmaz/Stopwash-POS/issues/new?template=feature_request.yml)
@@ -147,9 +147,14 @@ pnpm test:e2e
 
 ## Deployment
 
-The API ships as a multi-stage, non-root container with a `/health` check, and the web app as a static PWA. Production is not live yet: the API refuses to start in production until Firebase is configured.
+| Environment | Branch | Image |
+| --- | --- | --- |
+| Development | `develop` | `ghcr.io/saadmaz/stopwash-pos-api:development` |
+| Production | `main` | `ghcr.io/saadmaz/stopwash-pos-api:latest` |
 
-Setup, secrets and post-deployment checks are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). To release or roll back, follow the [runbooks](docs/runbooks/README.md).
+The Deploy workflow builds the API image and publishes it to GitHub Packages, tagged per environment. Work merges into `develop` and deploys to development; a release pull request from `develop` into `main` deploys to production.
+
+Environments, setup, secrets and post-deployment checks are in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). To release or roll back, follow the [runbooks](docs/runbooks/README.md).
 
 ## Documentation
 

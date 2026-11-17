@@ -11,6 +11,8 @@ Versions below `1.0.0` are pre-production. The step-by-step build log is in [doc
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-17
+
 ### Changed
 
 - Redesigned README with a brand banner, live release, CI and deployment badges, action buttons, feature grid, diagrams and collapsible panels.
@@ -47,6 +49,7 @@ First pre-production release. Feature-complete on the in-memory backend; product
 - Project governance: proprietary licence, security policy, contribution guidelines, code of conduct, issue forms, pull request template, CODEOWNERS and Dependabot.
 - Standard documentation layout shared by every STTPS repository: architecture, configuration, deployment, decision records (ADRs) and release and rollback runbooks, indexed in `docs/README.md`.
 
-[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/saadmaz/Stopwash-POS/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/saadmaz/Stopwash-POS/releases/tag/v0.1.0

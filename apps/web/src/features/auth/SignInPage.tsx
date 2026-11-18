@@ -3,7 +3,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { ArrowLeft, MonitorSmartphone } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LanguageSwitcher, ThemeToggle, Wordmark } from '@/app/AppShell';
+import { LanguageSwitcher, ThemeToggle } from '@/app/AppShell';
+import { Logo } from '@/app/Logo';
 import { api, ApiError, errorKey } from '@/lib/api';
 import { useSession, type SessionUser } from '@/lib/session';
 import { loadDevice, saveDevice, type DeviceCredentials } from './device';
@@ -162,7 +163,7 @@ export function SignInPage() {
   return (
     <div className="flex min-h-dvh flex-col bg-bg text-fg">
       <header className="flex items-center justify-between p-4">
-        <Wordmark wash="text-leaf dark:text-lime" />
+        <Logo className="text-ink dark:text-lime" />
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />

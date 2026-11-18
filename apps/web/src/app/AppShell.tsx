@@ -9,24 +9,10 @@ import { useSession } from '@/lib/session';
 import { AlertWatcher } from '@/features/alerts/AlertWatcher';
 import { OutboxStatus } from '@/features/outbox/OutboxStatus';
 import { useTheme, type ThemePref } from '@/lib/theme';
+import { Logo } from './Logo';
 import { NAV, NAV_GROUPS } from './nav';
 import { CommandPalette, openCommandPalette } from './CommandPalette';
 import { SHORTCUTS, shortcutLabel } from '@/lib/hotkeys';
-
-export function Wordmark({ className, wash = 'text-lime' }: { className?: string; wash?: string }) {
-  return (
-    <span
-      className={cn('inline-flex items-center gap-2 font-display text-lg font-bold', className)}
-    >
-      <span className="grid size-8 place-items-center rounded-lg bg-lime text-xs font-black text-ink">
-        SW
-      </span>
-      <span>
-        STOP<span className={wash}>WASH</span>
-      </span>
-    </span>
-  );
-}
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const { can } = useSession();
@@ -134,7 +120,7 @@ export function AppShell() {
         {t('app.skipToContent')}
       </a>
       <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col gap-6 overflow-y-auto bg-navy p-4 lg:flex">
-        <Wordmark className="px-2 text-white" />
+        <Logo className="ml-2 text-lime" />
         <NavList />
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
@@ -148,7 +134,7 @@ export function AppShell() {
           >
             <Menu aria-hidden />
           </Button>
-          <Wordmark className="lg:hidden" wash="text-leaf dark:text-lime" />
+          <Logo className="h-6 text-ink lg:hidden dark:text-lime" />
           <Button
             variant="outline"
             size="sm"
@@ -204,7 +190,7 @@ export function AppShell() {
         hideTitle
         className="bg-navy p-4"
       >
-        <Wordmark className="mb-6 px-2 text-white" />
+        <Logo className="mb-6 ml-2 text-lime" />
         <NavList onNavigate={() => setMenuOpen(false)} />
       </Sheet>
     </div>

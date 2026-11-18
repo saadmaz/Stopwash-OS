@@ -1,5 +1,6 @@
 import { formatLKR, type Invoice, type Settings } from '@stopwash/shared';
 import { brand } from '@stopwash/ui';
+import { drawBrandMark } from '@/lib/pdfBrand';
 
 /** A4 invoice with vector text (SWOMS used a blurry html2canvas screenshot). */
 export async function invoicePdf(
@@ -12,11 +13,12 @@ export async function invoicePdf(
   const L = 15;
   const R = 195;
   doc.setFillColor(brand.navy).rect(0, 0, 210, 34, 'F');
+  const HL = L + drawBrandMark(doc, L, 8, 16) + 5;
   doc
     .setTextColor('#FFFFFF')
     .setFont('helvetica', 'bold')
     .setFontSize(16)
-    .text(business.name, L, 14);
+    .text(business.name, HL, 14);
   doc.setFont('helvetica', 'normal').setFontSize(8);
   [
     business.address,
@@ -25,7 +27,7 @@ export async function invoicePdf(
     business.taxId ? `Tax ID ${business.taxId}` : null,
   ]
     .filter((x): x is string => !!x)
-    .forEach((line, i) => doc.text(line, L, 20 + i * 4));
+    .forEach((line, i) => doc.text(line, HL, 20 + i * 4));
   doc
     .setFont('helvetica', 'bold')
     .setFontSize(20)

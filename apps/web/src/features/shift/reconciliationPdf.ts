@@ -7,6 +7,7 @@ import {
   type ShiftClose,
 } from '@stopwash/shared';
 import { brand } from '@stopwash/ui';
+import { drawBrandMark } from '@/lib/pdfBrand';
 import { formatColombo } from '@/features/receipt/receipt';
 
 export interface ShiftReport {
@@ -31,6 +32,7 @@ export async function reconciliationPdf(r: ShiftReport, generatedAt = new Date()
   let y = 0;
 
   doc.setFillColor(brand.navy).rect(0, 0, 210, 28, 'F');
+  drawBrandMark(doc, L, 7, 14);
   doc
     .setTextColor('#FFFFFF')
     .setFont('helvetica', 'bold')

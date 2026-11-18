@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQueue } from '@/features/queue/useQueue';
 import { cn } from '@stopwash/ui';
+import { Logo } from '@/app/Logo';
 
 const COLUMNS: Array<{ status: OrderStatus; accent: string }> = [
   { status: 'QUEUED', accent: 'border-steel' },
@@ -63,9 +64,7 @@ export function TvBoardPage() {
   return (
     <div className="flex h-dvh flex-col gap-6 bg-ink p-8 text-white">
       <header className="flex items-center gap-6">
-        <p className="font-display text-5xl font-bold tracking-tight">
-          STOP<span className="text-lime">WASH</span>
-        </p>
+        <Logo className="h-12 text-lime" />
         <p className="text-2xl text-white/70">{t('tv.subtitle')}</p>
         <span className="ml-auto font-display text-5xl font-bold tabular">{clock}</span>
         <button

@@ -3,7 +3,7 @@
  * Keep in sync with tokens.css.
  */
 export const brand = {
-  lime: '#B6FF00',
+  lime: '#B2E04C',
   navy: '#0B1728',
   ink: '#050A12',
   paper: '#F5F6F2',

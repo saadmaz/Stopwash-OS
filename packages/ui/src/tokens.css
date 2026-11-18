@@ -1,6 +1,6 @@
 /*
  * STOPWASH design tokens. Brand palette from stopwash.lk:
- * lime #B6FF00 · navy #0B1728 · ink #050A12 · paper #F5F6F2 · steel #A6ADB8 · leaf #4A7300
+ * lime #B2E04C · navy #0B1728 · ink #050A12 · paper #F5F6F2 · steel #A6ADB8 · leaf #4A7300
  *
  * Components use semantic tokens only (bg-surface, text-fg-muted, bg-primary …), never raw brand hex.
  * Theme: the app always sets <html data-theme="light|dark"> ("system" is resolved in JS).
@@ -10,7 +10,7 @@
 
 @theme inline {
   /* brand (raw, for illustrations and charts) */
-  --color-lime: #b6ff00;
+  --color-lime: #b2e04c;
   --color-navy: #0b1728;
   --color-ink: #050a12;
   --color-paper: #f5f6f2;
@@ -118,8 +118,8 @@
   --sw-border-strong: rgb(5 10 18 / 0.22);
   --sw-input: rgb(5 10 18 / 0.18);
   --sw-ring: #0b1728;
-  --sw-primary: #b6ff00;
-  --sw-primary-hover: #a3e600;
+  --sw-primary: #b2e04c;
+  --sw-primary-hover: #a0ca44;
   --sw-primary-fg: #050a12;
   --sw-accent: #0b1728;
   --sw-accent-fg: #ffffff;
@@ -154,13 +154,13 @@
   --sw-border: rgb(255 255 255 / 0.1);
   --sw-border-strong: rgb(255 255 255 / 0.22);
   --sw-input: rgb(255 255 255 / 0.2);
-  --sw-ring: #b6ff00;
-  --sw-primary: #b6ff00;
-  --sw-primary-hover: #c8ff3d;
+  --sw-ring: #b2e04c;
+  --sw-primary: #b2e04c;
+  --sw-primary-hover: #c0e86a;
   --sw-primary-fg: #050a12;
   --sw-accent: #f5f6f2;
   --sw-accent-fg: #050a12;
-  --sw-link: #b6ff00;
+  --sw-link: #b2e04c;
   --sw-success: #4cc76f;
   --sw-success-subtle: rgb(76 199 111 / 0.14);
   --sw-success-fg: #8fe3a6;

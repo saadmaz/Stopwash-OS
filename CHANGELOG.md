@@ -31,6 +31,12 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Receipts, invoices, salary slips and the daily revenue and reconciliation reports carry the official STOPWASH mark in their header instead of an "SW" placeholder.
+- The wall TV board and the customer display show the official logo instead of a text wordmark.
+- Brand lime matches the Figma design system and the website: `#B2E04C` (was `#B6FF00`), with hover `#A0CA44` (light) and `#C0E86A` (dark).
+
 ## [0.3.0] - 2026-11-18
 
 ### Changed

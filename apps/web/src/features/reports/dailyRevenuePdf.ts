@@ -1,5 +1,6 @@
 import { formatLKR, type Settings } from '@stopwash/shared';
 import { brand } from '@stopwash/ui';
+import { drawBrandMark } from '@/lib/pdfBrand';
 
 export interface DailyReport {
   date: string;
@@ -41,12 +42,13 @@ export async function dailyRevenuePdf(r: DailyReport): Promise<Blob> {
   const L = 15;
   const R = 195;
   doc.setFillColor(brand.navy).rect(0, 0, 210, 26, 'F');
+  const HL = L + drawBrandMark(doc, L, 6, 14) + 5;
   doc
     .setTextColor('#FFFFFF')
     .setFont('helvetica', 'bold')
     .setFontSize(14)
-    .text(r.business.name, L, 12);
-  doc.setFontSize(10).setFont('helvetica', 'normal').text('Daily Service Revenue Report', L, 19);
+    .text(r.business.name, HL, 12);
+  doc.setFontSize(10).setFont('helvetica', 'normal').text('Daily Service Revenue Report', HL, 19);
   doc.text(`Date: ${r.date}`, R, 19, { align: 'right' });
   let y = 36;
   const head = () => {

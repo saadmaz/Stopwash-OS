@@ -32,6 +32,7 @@ import {
 } from '@stopwash/ui';
 import { Bike, Car, CarFront, Search, Truck, WifiOff } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
+import { Logo } from '@/app/Logo';
 
 const SEMANTIC = [
   'bg',
@@ -117,9 +118,8 @@ export function DesignSystemPage() {
       </Section>
 
       <Section title="Type">
-        <p className="font-display text-display font-bold">
-          STOP<span className="text-link">WASH</span>
-        </p>
+        <Logo className="h-16 text-ink dark:text-lime" />
+        <p className="font-display text-display font-bold">Display · Space Grotesk</p>
         <p className="font-display text-4xl font-bold">Heading 1 · Space Grotesk</p>
         <p className="font-display text-2xl font-bold">Heading 2</p>
         <p className="font-display text-xl font-semibold">Heading 3</p>

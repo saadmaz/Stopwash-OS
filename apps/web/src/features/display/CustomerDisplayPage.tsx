@@ -2,6 +2,7 @@ import { formatLKR } from '@stopwash/shared';
 import { CheckCircle2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useDisplayState, type DisplayState } from './channel';
+import { Logo } from '@/app/Logo';
 
 export function DisplayView({ state }: { state: DisplayState }) {
   const { t } = useTranslation();
@@ -48,9 +49,7 @@ export function DisplayView({ state }: { state: DisplayState }) {
   }
   return (
     <div className="flex flex-col items-center gap-4 text-center">
-      <p className="font-display text-8xl font-bold tracking-tight">
-        STOP<span className="text-lime">WASH</span>
-      </p>
+      <Logo className="h-24 text-lime" />
       <p className="text-3xl text-white/70">{t('display.welcome')}</p>
     </div>
   );

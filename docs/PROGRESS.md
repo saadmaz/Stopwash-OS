@@ -200,11 +200,11 @@ Each line: step · what changed · commit. A commit can't contain its own hash, 
   - Rules unit tests (`pnpm test:rules`, needs the emulator).
   - The real project config, service account and deploy.
 - **Production env:** `NODE_ENV=production`, `DATA_BACKEND=firestore`, `AUTH_ISSUER=firebase`, `DEV_SEED=false`, `CORS_ORIGINS` for the real web origin, and `VITE_API_URL` for the web build. The API refuses to start in production without these.
-- **Figma follow-ups:** staff names, phone numbers, figures and the Lanka Logistics / Colombo Cabs customers in the POS frames are sample data. Real logo files and photography are still needed (the site has four photos; the rest are placeholders). Sinhala labels use Yaldevi because Figma has no Noto Sans Sinhala. Dark mode is wired through the Color variables, but only the Design System preview was checked in Dark.
+- **Figma follow-ups:** staff names, phone numbers, figures and the Lanka Logistics / Colombo Cabs customers in the POS frames are sample data. The official logo is in place (Figma `Site/Logo`, the POS and the website); real photography is still needed (the site has four photos; the rest are placeholders). Sinhala labels use Yaldevi because Figma has no Noto Sans Sinhala. Dark mode is wired through the Color variables, but only the Design System preview was checked in Dark.
 - **Rotate the old secrets.** The legacy `Stopwash-POS-HTML` system exposed its Firebase config, staff passcodes and alert number. Retire that Firebase project and change every passcode before go-live.
 - **Business logo upload** (PARITY IN4) waits on Firebase Storage. Name, address, tax ID and bank details already work.
 - Native-speaker review of the Sinhala/Tamil strings (`docs/I18N-REVIEW.md`).
-- Real logo files and photography (the website itself still uses a text wordmark and placeholder images).
+- Real photography (the website still uses placeholder images). The official logo is done: see saadmaz/Stopwash-Website › `brand/`.
 
 ## Known issues
 - Without `AUTH_DEV_SECRET`, the API picks a random signing secret at start, so a restart signs everyone out (a warning is logged).

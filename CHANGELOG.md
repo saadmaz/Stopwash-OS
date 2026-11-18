@@ -31,6 +31,8 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-18
+
 ### Changed
 
 - The official STOPWASH logo replaces the text wordmark in the sidebar, mobile header, menu and sign-in screen: lime on navy and in dark mode, ink on light surfaces.
@@ -86,7 +88,8 @@ First pre-production release. Feature-complete on the in-memory backend; product
 - Project governance: proprietary licence, security policy, contribution guidelines, code of conduct, issue forms, pull request template, CODEOWNERS and Dependabot.
 - Standard documentation layout shared by every STTPS repository: architecture, configuration, deployment, decision records (ADRs) and release and rollback runbooks, indexed in `docs/README.md`.
 
-[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.3...HEAD
+[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.3...v0.3.0
 [0.2.3]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.0...v0.2.1

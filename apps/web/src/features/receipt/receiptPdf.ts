@@ -1,4 +1,5 @@
 import { brand } from '@stopwash/ui';
+import { drawBrandMark } from '@/lib/pdfBrand';
 import type { ReceiptModel, ReceiptRow } from './receipt';
 
 /** 80 mm thermal-receipt-width PDF with vector text (sharp when printed, small file). */
@@ -17,15 +18,10 @@ export async function receiptPdf(m: ReceiptModel): Promise<Blob> {
   // Brand header block (navy with lime mark, as on stopwash.lk)
   doc.setFillColor(brand.navy);
   doc.rect(0, 0, width, 18, 'F');
-  doc.setFillColor(brand.lime);
-  doc.roundedRect(left, 5, 8, 8, 1.5, 1.5, 'F');
-  doc
-    .setTextColor(brand.ink)
-    .setFont('helvetica', 'bold')
-    .setFontSize(7)
-    .text('SW', left + 4, 10.2, { align: 'center' });
+  drawBrandMark(doc, left, 4.5, 9);
   doc
     .setTextColor('#FFFFFF')
+    .setFont('helvetica', 'bold')
     .setFontSize(11)
     .text(m.title, left + 11, 10.5);
   y = 24;

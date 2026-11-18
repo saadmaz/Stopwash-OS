@@ -1,5 +1,6 @@
 import { formatLKR, type PayslipLine, type Settings } from '@stopwash/shared';
 import { brand } from '@stopwash/ui';
+import { drawBrandMark } from '@/lib/pdfBrand';
 
 const MONTHS = [
   'January',
@@ -33,14 +34,10 @@ export async function salarySlipPdf(
   const L = 15;
   const R = 195;
   doc.setFillColor(brand.navy).rect(0, 0, 210, 30, 'F');
-  doc.setFillColor(brand.lime).roundedRect(L, 9, 12, 12, 2, 2, 'F');
-  doc
-    .setTextColor(brand.ink)
-    .setFont('helvetica', 'bold')
-    .setFontSize(10)
-    .text('SW', L + 6, 16.8, { align: 'center' });
+  drawBrandMark(doc, L, 8, 14);
   doc
     .setTextColor('#FFFFFF')
+    .setFont('helvetica', 'bold')
     .setFontSize(15)
     .text('Salary Slip', L + 17, 15);
   doc

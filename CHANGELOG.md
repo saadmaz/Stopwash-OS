@@ -31,6 +31,11 @@
 
 ## [Unreleased]
 
+### Changed
+
+- The official STOPWASH logo replaces the text wordmark in the sidebar, mobile header, menu and sign-in screen: lime on navy and in dark mode, ink on light surfaces.
+- New favicons and home-screen icons from the logo mark, with a web app manifest, so the POS installs with the real icon on tablets and phones.
+
 ## [0.2.3] - 2026-11-18
 
 ### Changed

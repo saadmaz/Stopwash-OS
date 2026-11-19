@@ -26,7 +26,7 @@ export interface AuthTokenIssuer {
 }
 
 const ISSUER = 'stopwash-api';
-const AUDIENCE = 'stopwash-pos';
+const AUDIENCE = 'stopwash-os';
 
 export class DevJwtIssuer implements AuthTokenIssuer {
   readonly kind = 'dev' as const;

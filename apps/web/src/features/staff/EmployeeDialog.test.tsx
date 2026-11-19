@@ -53,7 +53,7 @@ describe('EmployeeDialog', () => {
 
   it('only owners can offer manager access', async () => {
     renderAs('manager');
-    await userEvent.click(screen.getByRole('combobox', { name: /POS access/ }));
+    await userEvent.click(screen.getByRole('combobox', { name: /OS access/ }));
     expect(screen.queryByRole('option', { name: 'Manager' })).not.toBeInTheDocument();
   });
 });

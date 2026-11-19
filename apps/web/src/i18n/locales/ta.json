@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "STOPWASH POS",
+    "name": "STOPWASH OS",
     "skipToContent": "உள்ளடக்கத்திற்குச் செல்லவும்"
   },
   "nav": {
@@ -430,7 +430,7 @@
     "code": "குறியீடு",
     "name": "முழுப் பெயர்",
     "jobTitle": "பணிப் பெயர்",
-    "access": "POS அணுகல்",
+    "access": "OS அணுகல்",
     "accessHint": "யார் POS இல் உள்நுழையலாம், எந்தப் பாத்திரத்துடன்.",
     "noAccess": "அணுகல் இல்லை",
     "salary": "மாத அடிப்படை சம்பளம்",

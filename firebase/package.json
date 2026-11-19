@@ -1,7 +1,7 @@
 {
   "name": "@stopwash/firebase",
   "version": "0.2.2",
-  "description": "Firestore and Storage security rules, indexes and rules tests for STOPWASH POS",
+  "description": "Firestore and Storage security rules, indexes and rules tests for STOPWASH OS",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",

@@ -3,14 +3,14 @@
 <!-- nav -->
 <sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
 
-> How STOPWASH POS is packaged and taken to production. Part of the [project documentation](README.md).
+> How STOPWASH OS is packaged and taken to production. Part of the [project documentation](README.md).
 
 ## Environments
 
 | Environment | Branch | Image | Deploys |
 | --- | --- | --- | --- |
-| `development` | `develop` | `ghcr.io/saadmaz/stopwash-pos-api:development` | Automatically on every merge into `develop` |
-| `production` | `main` | `ghcr.io/saadmaz/stopwash-pos-api:latest` | Automatically when `develop` is promoted to `main` by a release pull request |
+| `development` | `develop` | `ghcr.io/saadmaz/stopwash-os-api:development` | Automatically on every merge into `develop` |
+| `production` | `main` | `ghcr.io/saadmaz/stopwash-os-api:latest` | Automatically when `develop` is promoted to `main` by a release pull request |
 
 The Deploy workflow builds the API image and publishes it to GitHub Packages, tagged per environment. Each environment is a GitHub Environment with its own variables (`APP_URL` and host settings) and secrets, so one workflow serves both. Production accepts deployments from `main` only; development from `develop` only.
 

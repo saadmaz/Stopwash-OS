@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src=".github/assets/changelog.svg" alt="STOPWASH POS: Changelog" width="100%">
+<img src=".github/assets/changelog.svg" alt="STOPWASH OS: Changelog" width="100%">
 
 <br/>
 
@@ -21,15 +21,19 @@
 
 <div align="center">
 
-<a href="https://github.com/saadmaz/Stopwash-POS/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/saadmaz/Stopwash-POS?include_prereleases&style=flat-square&label=latest%20release&labelColor=111827&color=b2e04c"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/compare/main...develop"><img alt="Changes waiting for release" src="https://img.shields.io/github/commits-difference/saadmaz/Stopwash-POS?base=main&head=develop&style=flat-square&label=unreleased%20commits&labelColor=111827&color=374151"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/saadmaz/Stopwash-OS?include_prereleases&style=flat-square&label=latest%20release&labelColor=111827&color=b2e04c"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/compare/main...develop"><img alt="Changes waiting for release" src="https://img.shields.io/github/commits-difference/saadmaz/Stopwash-OS?base=main&head=develop&style=flat-square&label=unreleased%20commits&labelColor=111827&color=374151"></a>
 
 </div>
 
 > [!NOTE]
-> The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Each version links to its full comparison at the bottom of this page, and to its [release notes](https://github.com/saadmaz/Stopwash-POS/releases).
+> The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Each version links to its full comparison at the bottom of this page, and to its [release notes](https://github.com/saadmaz/Stopwash-OS/releases).
 
 ## [Unreleased]
+
+### Changed
+
+- Renamed from STOPWASH POS to **STOPWASH OS**: the repository (`Stopwash-OS`), package names, the app name and page title, and the API image, now `ghcr.io/saadmaz/stopwash-os-api`. Signed-in devices sign in again once, because the session token audience is now `stopwash-os`.
 
 ## [0.3.1] - 2026-11-18
 
@@ -96,11 +100,11 @@ First pre-production release. Feature-complete on the in-memory backend; product
 - Project governance: proprietary licence, security policy, contribution guidelines, code of conduct, issue forms, pull request template, CODEOWNERS and Dependabot.
 - Standard documentation layout shared by every STTPS repository: architecture, configuration, deployment, decision records (ADRs) and release and rollback runbooks, indexed in `docs/README.md`.
 
-[Unreleased]: https://github.com/saadmaz/Stopwash-POS/compare/v0.3.1...HEAD
-[0.3.1]: https://github.com/saadmaz/Stopwash-POS/compare/v0.3.0...v0.3.1
-[0.3.0]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.3...v0.3.0
-[0.2.3]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.2...v0.2.3
-[0.2.2]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.1...v0.2.2
-[0.2.1]: https://github.com/saadmaz/Stopwash-POS/compare/v0.2.0...v0.2.1
-[0.2.0]: https://github.com/saadmaz/Stopwash-POS/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/saadmaz/Stopwash-POS/releases/tag/v0.1.0
+[Unreleased]: https://github.com/saadmaz/Stopwash-OS/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/saadmaz/Stopwash-OS/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/saadmaz/Stopwash-OS/compare/v0.2.3...v0.3.0
+[0.2.3]: https://github.com/saadmaz/Stopwash-OS/compare/v0.2.2...v0.2.3
+[0.2.2]: https://github.com/saadmaz/Stopwash-OS/compare/v0.2.1...v0.2.2
+[0.2.1]: https://github.com/saadmaz/Stopwash-OS/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/saadmaz/Stopwash-OS/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/saadmaz/Stopwash-OS/releases/tag/v0.1.0

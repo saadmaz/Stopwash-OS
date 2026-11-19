@@ -1,4 +1,4 @@
-# Stopwash POS: Product Requirements
+# Stopwash OS: Product Requirements
 
 <!-- nav -->
 <sub><a href="../README.md">Project README</a> · <a href="README.md">Documentation index</a></sub>
@@ -10,7 +10,7 @@ Stopwash runs a car wash in Katubedda, Sri Lanka, on SWOMS 2.5, a single HTML fi
 - prices, targets and WhatsApp numbers are hardcoded;
 - it needs a constant internet connection.
 
-Stopwash POS replaces it with a secure, multi-brand-ready, offline-tolerant POS and operations system. Every SWOMS feature carries over (see `PARITY.md`), plus the premium features listed below.
+Stopwash OS replaces it with a secure, multi-brand-ready, offline-tolerant POS and operations system. Every SWOMS feature carries over (see `PARITY.md`), plus the premium features listed below.
 
 ## 2. Users
 | Persona | Role | Device | Top jobs |

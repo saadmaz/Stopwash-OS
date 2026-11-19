@@ -2,11 +2,11 @@
 
 <div align="center">
 
-<img src=".github/assets/contributing.svg" alt="STOPWASH POS: Contributing" width="100%">
+<img src=".github/assets/contributing.svg" alt="STOPWASH OS: Contributing" width="100%">
 
 <br/>
 
-<p><strong>Thanks for helping build STOPWASH POS. This guide is the single source of truth for how work is planned, built, reviewed and released.</strong></p>
+<p><strong>Thanks for helping build STOPWASH OS. This guide is the single source of truth for how work is planned, built, reviewed and released.</strong></p>
 
 <a href="README.md"><img alt="README" src="https://img.shields.io/badge/README-374151?style=for-the-badge&labelColor=111827"></a>
 <a href="CONTRIBUTING.md"><img alt="Contributing" src="https://img.shields.io/badge/Contributing-b2e04c?style=for-the-badge&labelColor=111827"></a>

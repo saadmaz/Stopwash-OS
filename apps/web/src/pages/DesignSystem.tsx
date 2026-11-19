@@ -94,7 +94,7 @@ export function DesignSystemPage() {
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 pb-20">
       <header>
-        <p className="text-sm font-semibold tracking-widest text-link uppercase">STOPWASH POS</p>
+        <p className="text-sm font-semibold tracking-widest text-link uppercase">STOPWASH OS</p>
         <h1 className="font-display text-4xl font-bold">Design system</h1>
         <p className="mt-2 max-w-2xl text-fg-muted">
           Tokens and components from <code>packages/ui</code>. Switch theme in the top bar to check

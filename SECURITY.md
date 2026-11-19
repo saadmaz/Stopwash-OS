@@ -2,11 +2,11 @@
 
 <div align="center">
 
-<img src=".github/assets/security.svg" alt="STOPWASH POS: Security Policy" width="100%">
+<img src=".github/assets/security.svg" alt="STOPWASH OS: Security Policy" width="100%">
 
 <br/>
 
-<p><strong>We take the security of STOPWASH POS and the people who use it seriously. Thank you for helping keep them safe.</strong></p>
+<p><strong>We take the security of STOPWASH OS and the people who use it seriously. Thank you for helping keep them safe.</strong></p>
 
 <a href="README.md"><img alt="README" src="https://img.shields.io/badge/README-374151?style=for-the-badge&labelColor=111827"></a>
 <a href="CONTRIBUTING.md"><img alt="Contributing" src="https://img.shields.io/badge/Contributing-374151?style=for-the-badge&labelColor=111827"></a>
@@ -26,7 +26,7 @@
 
 | | |
 | --- | --- |
-| **Email** | [hello@stopwash.lk](mailto:hello@stopwash.lk?subject=Security%20report) with the subject line `Security report` or GitHub's [private vulnerability reporting](https://github.com/saadmaz/Stopwash-POS/security/advisories/new) |
+| **Email** | [hello@stopwash.lk](mailto:hello@stopwash.lk?subject=Security%20report) with the subject line `Security report` or GitHub's [private vulnerability reporting](https://github.com/saadmaz/Stopwash-OS/security/advisories/new) |
 | **Include** | What the issue is and its impact · the affected URL, screen, endpoint or file · steps to reproduce or a proof of concept · any suggested fix |
 | **Language** | English |
 

@@ -19,7 +19,7 @@ permissions:
   packages: write
 
 env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/stopwash-pos-api
+  IMAGE: ghcr.io/${{ github.repository_owner }}/stopwash-os-api
 
 jobs:
   deploy:
@@ -55,7 +55,7 @@ jobs:
             type=semver,pattern={{version}}
             type=sha,prefix=sha-
           labels: |
-            org.opencontainers.image.title=STOPWASH POS API
+            org.opencontainers.image.title=STOPWASH OS API
             org.opencontainers.image.description=Point-of-sale and operations API for the STOPWASH vehicle-care network
             org.opencontainers.image.vendor=STOPWASH PVT LTD
             org.opencontainers.image.licenses=LicenseRef-Proprietary

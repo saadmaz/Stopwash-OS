@@ -2,24 +2,24 @@
 
 <div align="center">
 
-<img src=".github/assets/banner.svg" alt="STOPWASH POS: Point-of-sale and operations platform for the STOPWASH vehicle-care network." width="100%">
+<img src=".github/assets/banner.svg" alt="STOPWASH OS: Operations system for the STOPWASH vehicle-care network." width="100%">
 
 <br/>
 
 <p><strong>Counter orders, the live queue, checkout, shifts and cash reconciliation, staff and payroll, reports and loyalty, in English, Sinhala and Tamil.</strong></p>
 
-<a href="https://github.com/saadmaz/Stopwash-POS/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/saadmaz/Stopwash-POS?include_prereleases&style=flat-square&label=release&labelColor=111827&color=b2e04c"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/saadmaz/Stopwash-POS/actions/workflows/ci.yml/badge.svg?branch=develop"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/deployments"><img alt="Production deployment" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-POS/production?style=flat-square&label=production&labelColor=111827&logo=github"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/commits/develop"><img alt="Last commit" src="https://img.shields.io/github/last-commit/saadmaz/Stopwash-POS/develop?style=flat-square&labelColor=111827&color=374151"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/releases"><img alt="Latest release" src="https://img.shields.io/github/v/release/saadmaz/Stopwash-OS?include_prereleases&style=flat-square&label=release&labelColor=111827&color=b2e04c"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/saadmaz/Stopwash-OS/actions/workflows/ci.yml/badge.svg?branch=develop"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/deployments"><img alt="Production deployment" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-OS/production?style=flat-square&label=production&labelColor=111827&logo=github"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/commits/develop"><img alt="Last commit" src="https://img.shields.io/github/last-commit/saadmaz/Stopwash-OS/develop?style=flat-square&labelColor=111827&color=374151"></a>
 <img alt="License" src="https://img.shields.io/badge/license-proprietary-374151?style=flat-square&labelColor=111827">
 
 <br/>
 
-<a href="https://github.com/saadmaz/Stopwash-POS/pkgs/container/stopwash-pos-api"><img alt="Container image" src="https://img.shields.io/badge/Container%20image-0b1728?style=for-the-badge&logo=docker&logoColor=white"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/pkgs/container/stopwash-os-api"><img alt="Container image" src="https://img.shields.io/badge/Container%20image-0b1728?style=for-the-badge&logo=docker&logoColor=white"></a>
 <a href="docs/README.md"><img alt="Documentation" src="https://img.shields.io/badge/Documentation-0b1728?style=for-the-badge&logo=readthedocs&logoColor=white"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/issues/new?template=bug_report.yml"><img alt="Report a bug" src="https://img.shields.io/badge/Report%20a%20bug-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
-<a href="https://github.com/saadmaz/Stopwash-POS/issues/new?template=feature_request.yml"><img alt="Request a change" src="https://img.shields.io/badge/Request%20a%20change-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/issues/new?template=bug_report.yml"><img alt="Report a bug" src="https://img.shields.io/badge/Report%20a%20bug-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
+<a href="https://github.com/saadmaz/Stopwash-OS/issues/new?template=feature_request.yml"><img alt="Request a change" src="https://img.shields.io/badge/Request%20a%20change-0b1728?style=for-the-badge&logo=github&logoColor=white"></a>
 
 <br/>
 
@@ -57,7 +57,7 @@
 
 ## About
 
-STOPWASH POS runs the STOPWASH outlet in Katubedda, Sri Lanka, and is built to scale across the network. Progress, owner actions and known issues are tracked in [docs/PROGRESS.md](docs/PROGRESS.md).
+STOPWASH OS runs the STOPWASH outlet in Katubedda, Sri Lanka, and is built to scale across the network. Progress, owner actions and known issues are tracked in [docs/PROGRESS.md](docs/PROGRESS.md).
 
 | At a glance | |
 | --- | --- |
@@ -154,8 +154,8 @@ flowchart LR
 ### Install and run
 
 ```sh
-git clone https://github.com/saadmaz/Stopwash-POS.git
-cd Stopwash-POS
+git clone https://github.com/saadmaz/Stopwash-OS.git
+cd Stopwash-OS
 pnpm install
 pnpm --filter @stopwash/api dev     # http://localhost:8080, in-memory data with the dev seed
 pnpm --filter @stopwash/web dev     # http://localhost:5173
@@ -254,8 +254,8 @@ pnpm test:e2e
 
 | Environment | Branch | Image | Status |
 | --- | --- | --- | --- |
-| Development | `develop` | `ghcr.io/saadmaz/stopwash-pos-api:development` | <img alt="development" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-POS/development?style=flat-square&label=development&labelColor=111827"> |
-| Production | `main` | `ghcr.io/saadmaz/stopwash-pos-api:latest` | <img alt="production" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-POS/production?style=flat-square&label=production&labelColor=111827"> |
+| Development | `develop` | `ghcr.io/saadmaz/stopwash-os-api:development` | <img alt="development" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-OS/development?style=flat-square&label=development&labelColor=111827"> |
+| Production | `main` | `ghcr.io/saadmaz/stopwash-os-api:latest` | <img alt="production" src="https://img.shields.io/github/deployments/saadmaz/Stopwash-OS/production?style=flat-square&label=production&labelColor=111827"> |
 
 ```mermaid
 flowchart LR
@@ -289,9 +289,9 @@ Every STTPS repository uses the same documentation layout.
 
 ## Releases and versioning
 
-[![Latest release](https://img.shields.io/github/v/release/saadmaz/Stopwash-POS?include_prereleases&style=for-the-badge&label=latest%20release&labelColor=111827&color=b2e04c)](https://github.com/saadmaz/Stopwash-POS/releases)
+[![Latest release](https://img.shields.io/github/v/release/saadmaz/Stopwash-OS?include_prereleases&style=for-the-badge&label=latest%20release&labelColor=111827&color=b2e04c)](https://github.com/saadmaz/Stopwash-OS/releases)
 
-The project follows [Semantic Versioning](https://semver.org). Versions below `1.0.0` are pre-production. Every release is tagged `vX.Y.Z`, published on the [Releases](https://github.com/saadmaz/Stopwash-POS/releases) page with its notes, and recorded in [CHANGELOG.md](CHANGELOG.md). The procedure is in [docs/runbooks/release.md](docs/runbooks/release.md).
+The project follows [Semantic Versioning](https://semver.org). Versions below `1.0.0` are pre-production. Every release is tagged `vX.Y.Z`, published on the [Releases](https://github.com/saadmaz/Stopwash-OS/releases) page with its notes, and recorded in [CHANGELOG.md](CHANGELOG.md). The procedure is in [docs/runbooks/release.md](docs/runbooks/release.md).
 
 <p align="right"><a href="#readme-top">Back to top ↑</a></p>
 

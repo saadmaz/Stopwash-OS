@@ -1,7 +1,7 @@
 {
   "name": "@stopwash/web",
   "version": "0.2.2",
-  "description": "STOPWASH POS web app: counter tablets, back office, TV board and customer display (React PWA)",
+  "description": "STOPWASH OS web app: counter tablets, back office, TV board and customer display (React PWA)",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",
